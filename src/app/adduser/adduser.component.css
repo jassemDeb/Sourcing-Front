@@ -1,0 +1,73 @@
+/* Assuming you have a global styles.scss file or a component-specific styles file */
+
+/* Adjust the form container */
+
+
+body {
+    /*background-image: url('../../assets/img/bg.jpg');*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+
+}
+p {
+  text-align: center;
+  color: rgb(0, 0, 0);
+  padding: 10px; /* Add some padding for spacing */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 40px;
+  margin-top: 2%;
+  font-family: "Limerick Serial";
+}
+
+#additionalImage1 {
+  position: absolute; /* Adjust positioning as needed */
+  top: 2%;
+  right: 2%;
+  width: auto; /* Adjust the width */
+  height: auto; /* Maintain aspect ratio */
+  z-index: 1; /* Ensure it's placed above the background */
+}
+
+* {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.form-container {
+    height: auto;
+    width: 500px;
+    background-color: rgba(255, 255, 255, 0.13);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 50px 35px;
+    justify-content: center;
+
+}
+
+
+:host {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 100px 0px;
+}
+
+mat-form-field.mat-form-field input.mat-input-element {
+  color: white;
+}
+
+::ng-deep .mat-select-arrow {
+  right: 0 !important;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid;
+}
+
+

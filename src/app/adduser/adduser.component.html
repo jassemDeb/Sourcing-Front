@@ -1,0 +1,60 @@
+
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<div class="form-container" >
+  
+     <!-- Replace your existing form with this Angular Material form -->
+  <form [formGroup]="RegisterForm" (submit)="submit()">
+    
+    <p>You want to add new User ?</p>
+  
+    <mat-form-field class="form-field" appearance="outline"> 
+      <mat-label>Email</mat-label>
+      <input matInput type="text" formControlName="email"   required>
+    </mat-form-field>
+
+    
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password"  required>
+    </mat-form-field>
+    
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Fullname</mat-label>
+      <input matInput type="text" formControlName="fullname"  required>
+    </mat-form-field>
+    
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" formControlName="username"  required>
+    </mat-form-field>
+   
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Select the role of the user</mat-label>
+      <mat-select formControlName="roles" [(value)]="selected" required >
+        <mat-option>None</mat-option>
+        <mat-option value="Admin">Admin</mat-option>
+        <mat-option value="SuperAdmin">SuperAdmin</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Is this user is an admin?</mat-label>
+      <mat-select formControlName="isAdmin" [(value)]="selectedB" required >
+        <mat-option>None</mat-option>
+        <mat-option value=true>Yes</mat-option>
+        <mat-option value=false>No</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    
+    
+    
+    <button mat-raised-button color="primary" type="submit" >Add new user</button>
+
+  
+  </form>    
+  
+</div>

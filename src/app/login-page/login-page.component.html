@@ -1,0 +1,23 @@
+<!--
+    <video  autoplay muted loop playsInline id="videoBackground">
+    <source src="../../assets/video/bg.mp4" type="video/mp4">
+</video>
+-->
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+
+<img id="additionalImage" src="../../assets/img/sofiatech.png" alt="Additional Image">
+    <form>
+        <img id="additionalImage1" src="../../assets/img/logo-sf-2.png" alt="Additional Image 1">
+
+        <label for="email">Email</label>
+        <input type="text" placeholder="Email" id="email" name="email" [(ngModel)]="login_Object.email" required>
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" name="password" [(ngModel)]="login_Object.password" required>
+
+        <button (click)="onLogin()">Log In</button>
+               
+    </form>
