@@ -1,6 +1,6 @@
 import { Component , ViewEncapsulation, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../../api.service';
 import { FormGroup, FormControl, FormBuilder, Validators  } from '@angular/forms';
 
 

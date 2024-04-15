@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './login-page/login-page.component';
-import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { SuperAdminDashboardComponent } from './super-admin-dashboard/super-admin-dashboard.component';
-import { AdduserComponent } from './adduser/adduser.component';
+import { AdduserComponent } from './super-admin-dashboard/Users/adduser/adduser.component';
+import { UserlistComponent } from './super-admin-dashboard/Users/userlist/userlist.component';
 
 const routes: Routes = [
   {
@@ -15,16 +15,16 @@ const routes: Routes = [
     component: LoginPageComponent
   },
   {
-    path: "dashboard",
-    component: DashboardPageComponent
-  },
-  {
     path: "sasp",
-    component: SuperAdminDashboardComponent
+    component: SuperAdminDashboardComponent,
   },
   {
     path: "sasp/adduser",
     component: AdduserComponent
+  },
+  {
+    path: "sasp/userlist",
+    component: UserlistComponent
   }
 ];
 

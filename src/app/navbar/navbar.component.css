@@ -14,6 +14,7 @@
     align-items: center;
     padding: 0.938rem 0.938rem 0 0.938rem;
     width: 100%;
+    margin-bottom: 10%;
 }
 
 .logo{
@@ -38,7 +39,9 @@
 
 .btn-close{
     margin-left: auto;
+    margin-top: 10px;
     cursor: pointer;
+    top: 1.5rem;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
@@ -98,15 +101,68 @@
     
 }
 
-.active {
+.sidenav-nav-link:active {
     background-color: #fff;
-}
-
-.active .side-link-icon,
-.active .side-link-text {
     color: #000;
+    /* Add any additional styles to highlight the active navigation item */
+  }
+
+.menu-collapse-icon {
+    font-size: 25px;
+    width: 2rem;
+    min-width: 2rem;
+    margin: auto 0.5rem auto auto;
+    text-align: center;
+    color: #f3f3f3;
 }
 
+.sublevel-nav{
+    list-style: none;
+    margin-left: 10px;
+}
+.sublevel-nav-link{
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    color: #898989;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
 
+}
 
+.sublevel-link-icon {
+    font-size: 4px;
+    width: 2rem;
+    min-width: 2rem;
+    margin: 0 0.5rem;
+    text-align: center;
+}
 
+.sublevel-link-text{
+    margin-left: 0.8rem;
+    
+    font-size: 15px;
+}
+
+.sublevel-nav-link:hover {
+    color: #f3f3f3;
+}
+
+.sublevel-nav-link.active .sublevel-link-text {
+    color: #f3f3f3; /* Change text color for active link */
+  }
+  
+
+  #additionalImage1 {
+    position: absolute; /* Adjust positioning as needed */
+    top: 1%;
+    left: 1%;
+    width: auto; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 1; /* Ensure it's placed above the background */
+}
+
+.white-button {
+    color: white !important;
+}
