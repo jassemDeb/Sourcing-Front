@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component,ViewEncapsulation, Input } from '@angular/core';
 
 @Component({
   selector: 'app-body',
   templateUrl: './body.component.html',
-  styleUrls: ['./body.component.css']
+  styleUrls: ['./body.component.css'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class BodyComponent {
 

@@ -12,7 +12,12 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
-
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const MaterialComponents = [
   MatCardModule,
@@ -26,7 +31,13 @@ const MaterialComponents = [
   MatMenuModule,
   MatBadgeModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatDialogModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 
 

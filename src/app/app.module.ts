@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { BodyComponent } from './body/body.component';
 import { SublevelMenuComponent } from './navbar/sublevel-menu.component';
 import { UserlistComponent } from './super-admin-dashboard/Users/userlist/userlist.component';
+import { EdituserComponent } from './super-admin-dashboard/Users/userlist/edituser/edituser.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { UserlistComponent } from './super-admin-dashboard/Users/userlist/userli
     NavbarComponent,
     BodyComponent,
     SublevelMenuComponent,
-    UserlistComponent
+    UserlistComponent,
+    EdituserComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

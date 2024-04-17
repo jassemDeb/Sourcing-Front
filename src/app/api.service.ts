@@ -16,8 +16,6 @@ export class ApiService {
 
   register(credentials: any) {
     const token = localStorage.getItem('token');
-
-    
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -26,5 +24,37 @@ export class ApiService {
 
   login_check(credentials: any){
     return this.http.post(`${this.apiUrl}/login_check`, credentials);
+  }
+
+  getAllUsers(){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/users`,  { headers });
+  }
+
+  getUserById(id: number){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/users/${id}`, { headers });
+  }
+
+  deleteUserById(id: number){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete(`${this.apiUrl}/deleteUser/${id}`, { headers });
+  }
+
+  updateUser(id: number, credentials: any){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put(`${this.apiUrl}/update/${id}`, credentials, { headers })
   }
 }

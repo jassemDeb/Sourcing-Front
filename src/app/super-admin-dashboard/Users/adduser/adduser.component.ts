@@ -4,11 +4,12 @@ import { ApiService } from '../../../api.service';
 import { FormGroup, FormControl, FormBuilder, Validators  } from '@angular/forms';
 
 
+
 @Component({
   selector: 'app-adduser',
   templateUrl: './adduser.component.html',
   styleUrls: ['./adduser.component.css'],
-  encapsulation: ViewEncapsulation.None 
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class AdduserComponent implements OnInit {
   RegisterForm!: FormGroup;
@@ -62,6 +63,9 @@ export class AdduserComponent implements OnInit {
     }
     
   }
+
+
+  
 
 
 }
