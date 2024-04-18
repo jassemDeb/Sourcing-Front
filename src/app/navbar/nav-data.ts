@@ -26,7 +26,7 @@ export const navbarData: INavbarData[] = [
                 Label: 'Organizations List'
             },
             {
-                routerLink: '/sasp/adduser/dashboard',
+                routerLink: 'sasp/addorg',
                 Label: 'Add Organization'
             }
         ]

@@ -4,6 +4,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { SuperAdminDashboardComponent } from './super-admin-dashboard/super-admin-dashboard.component';
 import { AdduserComponent } from './super-admin-dashboard/Users/adduser/adduser.component';
 import { UserlistComponent } from './super-admin-dashboard/Users/userlist/userlist.component';
+import { AddOrgComponent } from './super-admin-dashboard/Organizations/add-org/add-org.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: "sasp/userlist",
     component: UserlistComponent
+  },
+
+  {
+    path: "sasp/addorg",
+    component: AddOrgComponent
   }
 ];
 

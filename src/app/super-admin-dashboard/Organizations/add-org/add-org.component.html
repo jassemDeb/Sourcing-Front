@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+<div class="form-container" >
+  
+     <!-- Replace your existing form with this Angular Material form -->
+  <form [formGroup]="RegisterForm" (submit)="submit()">
+    
+    <p>You want to add new Organization ?</p>
+  
+    
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name"  required>
+    </mat-form-field>
+    
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" required >
+        <mat-option>None</mat-option>
+        <mat-option value="Fournisseur">Fournisseur</mat-option>
+        <mat-option value="Acheteur">Acheteur</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Enabled</mat-label>
+      <mat-select formControlName="enabled" required >
+        <mat-option>None</mat-option>
+        <mat-option value=true>Yes</mat-option>
+        <mat-option value=false>No</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Created At</mat-label>
+        <input matInput [matDatepicker]="createdAtPicker" formControlName="created_at">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="createdAtPicker"></mat-datepicker-toggle>
+        <mat-datepicker #createdAtPicker></mat-datepicker>
+    </mat-form-field>
+    
+    
+    
+    
+    <button mat-raised-button color="primary" type="submit" >Add</button>
+
+  
+  </form>    
+  
+</div>

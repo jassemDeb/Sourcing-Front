@@ -22,6 +22,16 @@ export class ApiService {
    return this.http.post(`${this.apiUrl}/register`, credentials, { headers });
   }
 
+  addorg(credentials: any) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+   return this.http.post(`${this.apiUrl}/addorg`, credentials, { headers });
+  }
+
+
+
   login_check(credentials: any){
     return this.http.post(`${this.apiUrl}/login_check`, credentials);
   }

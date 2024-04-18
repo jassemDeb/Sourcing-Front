@@ -17,6 +17,8 @@ import { BodyComponent } from './body/body.component';
 import { SublevelMenuComponent } from './navbar/sublevel-menu.component';
 import { UserlistComponent } from './super-admin-dashboard/Users/userlist/userlist.component';
 import { EdituserComponent } from './super-admin-dashboard/Users/userlist/edituser/edituser.component';
+import { AddOrgComponent } from './super-admin-dashboard/Organizations/add-org/add-org.component';
+import { OrgListComponent } from './super-admin-dashboard/Organizations/org-list/org-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +29,9 @@ import { EdituserComponent } from './super-admin-dashboard/Users/userlist/editus
     BodyComponent,
     SublevelMenuComponent,
     UserlistComponent,
-    EdituserComponent
+    EdituserComponent,
+    AddOrgComponent,
+    OrgListComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
