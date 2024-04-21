@@ -67,4 +67,27 @@ export class ApiService {
     });
     return this.http.put(`${this.apiUrl}/update/${id}`, credentials, { headers })
   }
+
+  getAllOrgs(){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/orgs`,  { headers });
+  }
+
+  deleteOrgById(id: number){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete(`${this.apiUrl}/deleteOrg/${id}`, { headers });
+  }
+  updateOrg(id: number, credentials: any){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put(`${this.apiUrl}/updateOrg/${id}`, credentials, { headers })
+  }
 }

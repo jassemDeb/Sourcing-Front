@@ -1,0 +1,46 @@
+<div mat-dialog-title>
+    <h1>Edit User</h1>
+</div>
+<form [formGroup]="EditForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" formControlName="name"  required>
+              </mat-form-field>
+              
+              <mat-form-field class="form-field" appearance="outline">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type" required >
+                  <mat-option>None</mat-option>
+                  <mat-option value="Fournisseur">Fournisseur</mat-option>
+                  <mat-option value="Acheteur">Acheteur</mat-option>
+                </mat-select>
+              </mat-form-field>>
+        </div>
+        <div class="row">
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label>Enabled</mat-label>
+                <mat-select formControlName="enabled" required >
+                  <mat-option>None</mat-option>
+                  <mat-option value=true>Yes</mat-option>
+                  <mat-option value=false>No</mat-option>
+                </mat-select>
+              </mat-form-field>
+          
+              <mat-form-field appearance="outline">
+                  <mat-label>Created At</mat-label>
+                  <input matInput [matDatepicker]="createdAtPicker" formControlName="createdAt">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="createdAtPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #createdAtPicker></mat-datepicker>
+              </mat-form-field>
+        </div>
+        
+    </div>
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button class="save-button" type="submit">Save</button>
+    </div>
+</form>
+

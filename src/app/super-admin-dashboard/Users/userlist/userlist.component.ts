@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AdduserComponent } from '../adduser/adduser.component';
 import { EdituserComponent } from './edituser/edituser.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';

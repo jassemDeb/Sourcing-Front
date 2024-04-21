@@ -19,6 +19,7 @@ import { UserlistComponent } from './super-admin-dashboard/Users/userlist/userli
 import { EdituserComponent } from './super-admin-dashboard/Users/userlist/edituser/edituser.component';
 import { AddOrgComponent } from './super-admin-dashboard/Organizations/add-org/add-org.component';
 import { OrgListComponent } from './super-admin-dashboard/Organizations/org-list/org-list.component';
+import { EditorgComponent } from './super-admin-dashboard/Organizations/org-list/editorg/editorg.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { OrgListComponent } from './super-admin-dashboard/Organizations/org-list
     UserlistComponent,
     EdituserComponent,
     AddOrgComponent,
-    OrgListComponent
+    OrgListComponent,
+    EditorgComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
