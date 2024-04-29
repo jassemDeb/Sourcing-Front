@@ -20,6 +20,10 @@ import { EdituserComponent } from './super-admin-dashboard/Users/userlist/editus
 import { AddOrgComponent } from './super-admin-dashboard/Organizations/add-org/add-org.component';
 import { OrgListComponent } from './super-admin-dashboard/Organizations/org-list/org-list.component';
 import { EditorgComponent } from './super-admin-dashboard/Organizations/org-list/editorg/editorg.component';
+import { DashboardWidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/dashboard-widget.component';
+import { WidgetsConfigComponent } from './super-admin-dashboard/Widgets/widgets-config/widgets-config.component';
+import { AddwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/addwidget/addwidget.component';
+import { EditwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/editwidget/editwidget.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +37,11 @@ import { EditorgComponent } from './super-admin-dashboard/Organizations/org-list
     EdituserComponent,
     AddOrgComponent,
     OrgListComponent,
-    EditorgComponent
+    EditorgComponent,
+    DashboardWidgetComponent,
+    WidgetsConfigComponent,
+    AddwidgetComponent,
+    EditwidgetComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

@@ -1,0 +1,48 @@
+.main-body{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    max-width: 1348px;
+  }
+
+  .add-button{
+    background-color: #263238;
+    color: white !important;
+    text-decoration: none;
+    top: 7%;
+    left: 10%;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+
+  .add-button:hover {
+    background-color: rgb(192, 192, 192);
+    color: #000 !important;
+}
+
+.edit-btn {
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+mat-form-field {
+  width: 70%;
+}
+
+.action {
+  display: flex;
+  gap: 5px;
+}
+
+.mat-menu-panel {
+  max-height: none !important; /* Remove max-height to prevent scrolling */
+  width: 200px !important; /* Adjust width as needed */
+  font-size: 16px !important; /* Adjust font size as needed */
+}

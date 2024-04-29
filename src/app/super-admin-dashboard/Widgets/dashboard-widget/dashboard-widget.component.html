@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+
+<div class="main-body">
+    <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+
+    <button mat-button class="add-button" (click)="openAddForm()"> Add widget
+        <mat-icon>add</mat-icon>
+    </button>
+    
+
+
+
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+    
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="typewid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Widget </th>
+              <td mat-cell *matCellDef="let row"> {{row.typewid}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="typetrans">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Transaction </th>
+              <td mat-cell *matCellDef="let row"> {{row.typetrans}} </td>
+            </ng-container>
+            <ng-container matColumnDef="wid_visi">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Visibilité des Widgets </th>
+              <td mat-cell *matCellDef="let row"> {{row.wid_visi}} </td>
+            </ng-container>
+            <ng-container matColumnDef="is_default">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Est par default </th>
+              <td mat-cell *matCellDef="let row"> {{row.is_default}} </td>
+            </ng-container>
+  
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button color="primary" (click)="openEditForm(row)" >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteUser(row.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="moretrigger">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #moretrigger="matMenu" [hasBackdrop]="false">
+                  <button mat-menu-item (click)="closeMenu()">Close
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                  <button mat-menu-item (click)="$event.stopPropagation()">
+                    <mat-slide-toggle (change)="toggleDupliquer($event, row.id)" >Dupliquer</mat-slide-toggle>
+                  </button>
+                  
+              </mat-menu>
+            </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+    
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" role="pagination"></mat-paginator>
+      </div>
+</div>
+

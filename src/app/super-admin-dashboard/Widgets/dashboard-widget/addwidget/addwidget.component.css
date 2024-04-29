@@ -1,0 +1,25 @@
+.content{
+    padding-top: 10px;
+}
+
+.row{
+    display: flex;
+    gap: 10px;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+.save-button{
+    background-color: #263238;
+    color: white;
+}
+
+.action{
+    padding: 0px 25px 20px;
+}
+
+button{
+    flex: 1;
+}

@@ -1,0 +1,81 @@
+<div mat-dialog-title>
+    <h1>Add Widgets</h1>
+</div>
+<form [formGroup]="WidgetForm" (submit)="submit()" >
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Type d'organisation</mat-label>
+                <mat-select required  formControlName="typeorg" >
+                  <mat-option>None</mat-option>
+                  <mat-option value="Fournisseur">Fournisseur</mat-option>
+                  <mat-option value="Acheteur">Acheteur</mat-option>
+                </mat-select>
+              </mat-form-field>
+          
+              <mat-form-field  appearance="outline">
+                <mat-label>Type de transaction</mat-label>
+                <mat-select required  formControlName="typetrans">
+                  <mat-option>None</mat-option>
+                  <mat-option value="Précommande">Précommande</mat-option>
+                  <mat-option value="Commande">Commande</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Type de widget</mat-label>
+                <mat-select required  formControlName="typewid" >
+                  <mat-option>None</mat-option>
+                  <mat-option value="Indicateur">Indicateur</mat-option>
+                  <mat-option value="Liste">Liste</mat-option>
+                  <mat-option value="Graphique">Graphique</mat-option>
+                  <mat-option value="Charte">Charte Graphique</mat-option>
+                </mat-select>
+              </mat-form-field>
+          
+              <mat-form-field  appearance="outline">
+                <mat-label>Visibilité de widget</mat-label>
+                <mat-select required  formControlName="wid_visi">
+                  <mat-option>None</mat-option>
+                  <mat-option value="all">all</mat-option>
+                  <mat-option value="SAGC">SAGC</mat-option>
+                  <mat-option value="SAO">SAO</mat-option>
+                  <mat-option value="user">user</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Nom en francais</mat-label>
+                <input matInput type="text" formControlName="name_fr">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Nom en anglais</mat-label>
+                <input matInput type="text" formControlName="name_eng">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Description en francais</mat-label>
+                <input matInput type="text" formControlName="desc_fr">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Description en anglais</mat-label>
+                <input matInput type="text" formControlName="desc_eng">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Widget url</mat-label>
+                <input matInput type="text" formControlName="wid_url">
+            </mat-form-field>
+        </div>
+        
+    </div>
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Annuler</button>
+        <button mat-raised-button class="save-button" type="submit">Sauvegarder</button>
+    </div>
+</form>
+

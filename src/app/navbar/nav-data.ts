@@ -37,11 +37,11 @@ export const navbarData: INavbarData[] = [
         Label: 'Widgets',
         items: [
             {
-                routerLink: '/sasp/adduser/dashboard',
+                routerLink: 'sasp/widgets',
                 Label: 'Dashboard Widget'
             },
             {
-                routerLink: '/sasp/adduser/dashboard',
+                routerLink: 'sasp/widgets_config',
                 Label: 'Widgets Configuration'
             }
         ]

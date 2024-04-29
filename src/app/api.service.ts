@@ -83,6 +83,7 @@ export class ApiService {
     });
     return this.http.delete(`${this.apiUrl}/deleteOrg/${id}`, { headers });
   }
+
   updateOrg(id: number, credentials: any){
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -90,4 +91,55 @@ export class ApiService {
     });
     return this.http.put(`${this.apiUrl}/updateOrg/${id}`, credentials, { headers })
   }
+
+  addwidget(credentials: any) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+   return this.http.post(`${this.apiUrl}/addwidget`, credentials, { headers });
+  }
+
+  getAllWidgets(){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/widgets`,  { headers });
+  }
+
+  deleteWidgetById(id: number){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete(`${this.apiUrl}/deleteWidget/${id}`, { headers });
+  }
+
+  WidgetConfig(id: number){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/widgetconfig/${id}`, { headers });
+  }
+
+  updateWidget(id: number, credentials: any){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put(`${this.apiUrl}/updatewidget/${id}`, credentials, { headers })
+  }
+
+  WidgetById(id: number){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/widgetsById/${id}`, { headers });
+  }
+
+  
+
 }
