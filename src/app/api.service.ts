@@ -140,6 +140,15 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/widgetsById/${id}`, { headers });
   }
 
+  WidgetType(type: string){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/widgetbyType/${type}`, { headers });
+  }
+  
+
   
 
 }

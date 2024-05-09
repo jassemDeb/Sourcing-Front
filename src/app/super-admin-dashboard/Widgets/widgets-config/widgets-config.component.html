@@ -1,6 +1,56 @@
+
 <app-navbar></app-navbar>
 
-
 <div class="main-body">
+    
+  <mat-accordion class="example-headers-align">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Fournisseur
+        </mat-panel-title>
+        <mat-panel-description>
+          Configurations pour les widgets de Fournisseur
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
+      
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Widgets</mat-label>
+          <mat-select formControlName="widgets" [(value)]="selected" required >
+            <mat-option *ngFor="let widget of widgets" [value]="widget.id">
+              {{ widget.widget_type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="selected">
+          <form [formGroup]="ConfigForm" >
+
+            <p>Widget style informations</p>
+            <mat-form-field class="form-field" appearance="fill">
+              <mat-label>Nom en francais</mat-label>
+              <input matInput  formControlName="name_fr">
+            </mat-form-field>
+          
+            <mat-form-field class="form-field" appearance="fill">
+              <mat-label>Nom en anglais</mat-label>
+              <input matInput  formControlName="name_eng">
+            </mat-form-field>
+
+            <p>Widget style</p>
+            
+          </form>
+          
+          
+        </div>
+    
+      
+
+    </mat-expansion-panel>
+  
+    
+  
+  </mat-accordion>
+  
 </div>

@@ -1,0 +1,28 @@
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+
+/* Main body styles */
+.main-body {
+  position: relative; /* Ensure relative positioning */
+  margin: 250px auto 0;
+  max-width: 1348px;
+  padding: 20px; /* Add padding as needed */
+}
+
+p {
+  text-align: left;
+  color: rgb(43, 42, 42);
+  padding: 10px; /* Add some padding for spacing */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 15px;
+  margin-top: 2%;
+  font-weight: bold;
+}
+

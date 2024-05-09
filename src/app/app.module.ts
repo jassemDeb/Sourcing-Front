@@ -24,6 +24,7 @@ import { DashboardWidgetComponent } from './super-admin-dashboard/Widgets/dashbo
 import { WidgetsConfigComponent } from './super-admin-dashboard/Widgets/widgets-config/widgets-config.component';
 import { AddwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/addwidget/addwidget.component';
 import { EditwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/editwidget/editwidget.component';
+
 @NgModule({
   declarations: [
     AppComponent,
