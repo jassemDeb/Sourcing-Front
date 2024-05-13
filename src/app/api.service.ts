@@ -147,6 +147,23 @@ export class ApiService {
     });
     return this.http.get(`${this.apiUrl}/widgetbyType/${type}`, { headers });
   }
+
+
+  updateWidgetConfig(id: number, credentials: any){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put(`${this.apiUrl}/updatewidgetConfig/${id}`, credentials, { headers })
+  }
+
+  WidgetConfigByID(id: number){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/widgetconfigByID/${id}`, { headers });
+  }
   
 
   

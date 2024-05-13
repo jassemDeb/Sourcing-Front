@@ -26,3 +26,46 @@ p {
   font-weight: bold;
 }
 
+.buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.save-button{
+  background-color: #263238 !important;
+  color: white !important;
+}
+
+.save-button:hover{
+  background-color: #5c5b5b !important;
+  color: #ffffff !important;
+}
+
+.form-field-container {
+  display: flex;
+  align-items: center;
+}
+
+.color-picker-icon {
+  margin-left: 10px;
+}
+
+
+
+.color-picker-icon input {
+  border: 2px solid #ccc;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+}
+
+
+.mat-color-picker {
+  position: absolute;
+  z-index: 1000; 
+}
+
+

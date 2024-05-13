@@ -24,6 +24,10 @@ import { DashboardWidgetComponent } from './super-admin-dashboard/Widgets/dashbo
 import { WidgetsConfigComponent } from './super-admin-dashboard/Widgets/widgets-config/widgets-config.component';
 import { AddwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/addwidget/addwidget.component';
 import { EditwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/editwidget/editwidget.component';
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+import {ColorPickerModule} from 'ngx-color-picker';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 
 @NgModule({
   declarations: [
@@ -52,9 +56,12 @@ import { EditwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-w
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMatColorPickerModule,
+    ColorPickerModule,
+    FlexLayoutModule
   ],
-  providers: [ApiService],
+  providers: [ApiService, { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

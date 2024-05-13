@@ -1,10 +1,9 @@
-
 <app-navbar></app-navbar>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block" rel="stylesheet">
 
 <div class="main-body">
-    
   <mat-accordion class="example-headers-align">
-    <mat-expansion-panel>
+    <mat-expansion-panel #panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
           Fournisseur
@@ -15,42 +14,96 @@
       </mat-expansion-panel-header>
 
       
-        <mat-form-field class="form-field" appearance="fill">
-          <mat-label>Widgets</mat-label>
-          <mat-select formControlName="widgets" [(value)]="selected" required >
-            <mat-option *ngFor="let widget of widgets" [value]="widget.id">
-              {{ widget.widget_type }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Widgets</mat-label>
+        <mat-select [(value)]="selected" required (selectionChange)="onWidgetSelectionChange()">
+          <mat-option *ngFor="let widget of widgets" [value]="widget.id">
+            {{ widget.widget_type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <div *ngIf="selected">
-          <form [formGroup]="ConfigForm" >
+      <div *ngIf="selected" fxLayout="row">
 
-            <p>Widget style informations</p>
-            <mat-form-field class="form-field" appearance="fill">
-              <mat-label>Nom en francais</mat-label>
-              <input matInput  formControlName="name_fr">
+        <div fxFlex="50" fxLayoutAlign="center center">
+          <form [formGroup]="ConfigForm" (submit)="submit()">
+
+          <p>Widget style informations</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Nom en francais</mat-label>
+            <input matInput formControlName="name_fr">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Nom en anglais</mat-label>
+            <input matInput formControlName="name_eng">
+          </mat-form-field>
+
+          <p>Widget style</p>
+
+          <div class="form-field-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Background color</mat-label>
+              <input matInput formControlName="wid_style" [value]="color1" readonly>
             </mat-form-field>
-          
-            <mat-form-field class="form-field" appearance="fill">
-              <mat-label>Nom en anglais</mat-label>
-              <input matInput  formControlName="name_eng">
-            </mat-form-field>
 
-            <p>Widget style</p>
-            
-          </form>
+            <div class="color-picker-icon" (click)="toggleColorPanel()">
+              <input matInput [(colorPicker)]="color1" name="color1" [style.background]="color1 ? color1 : 'transparent'">
+            </div>
+          </div>
+
+          <mat-color-picker *ngIf="showColorPanel && color1" [color]="color1" (change)="onColorChange($event)"></mat-color-picker>
+
+
+        
+          <p>Widget display</p>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Largeur du widget</mat-label>
+            <input matInput formControlName="wid_width" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Hauteur du widget</mat-label>
+            <input matInput formControlName="wid_height">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Rank du widget</mat-label>
+            <input matInput formControlName="wid_rank">
+          </mat-form-field>
+
+          <div class="buttons">
+            <button mat-raised-button type="button" (click)="closePanelAndResetSelect(panel)">Annuler</button>
+          <button mat-raised-button class="save-button" type="submit">Sauvegarder</button>
+
+
+          </div>
+
           
-          
+        </form>
         </div>
-    
-      
+        
+        <div fxFlex="50" fxLayoutAlign="center center">
+          <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+            <mat-card-header>
+              <mat-card-title>List Title</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-list>
+                <mat-list-item>Item 1</mat-list-item>
+                <mat-list-item>Item 2</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>Item 3</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+        
+        
+      </div>
 
     </mat-expansion-panel>
-  
-    
-  
   </mat-accordion>
-  
 </div>
