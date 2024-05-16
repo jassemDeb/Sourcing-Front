@@ -35,10 +35,12 @@ export class LoginPageComponent implements OnDestroy {
           }
         });
 
-        if(response.role.includes('SuperAdmin')) {
-          this.router.navigateByUrl('/sasp');
+        if (response.role.includes('SuperAdmin')) {
+            this.router.navigateByUrl('/sasp');
+        } else if (response.role.includes('User')) {
+            this.router.navigateByUrl('/user');
         } else {
-          this.router.navigateByUrl('/dashboard');
+            this.router.navigateByUrl('/dashboard');
         }
 
         

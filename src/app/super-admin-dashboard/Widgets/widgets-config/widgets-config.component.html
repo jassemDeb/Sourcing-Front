@@ -16,8 +16,8 @@
       
       <mat-form-field appearance="fill">
         <mat-label>Widgets</mat-label>
-        <mat-select [(value)]="selected" required (selectionChange)="onWidgetSelectionChange()">
-          <mat-option *ngFor="let widget of widgets" [value]="widget.id">
+        <mat-select [(value)]="selected" required (selectionChange)="onWidgetSelectionChange(Fournisseur_widgets)">
+          <mat-option *ngFor="let widget of Fournisseur_widgets" [value]="widget.id">
             {{ widget.widget_type }}
           </mat-option>
         </mat-select>
@@ -85,22 +85,343 @@
         </div>
         
         <div fxFlex="50" fxLayoutAlign="center center">
-          <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
-            <mat-card-header>
-              <mat-card-title>List Title</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <mat-list>
-                <mat-list-item>Item 1</mat-list-item>
-                <mat-list-item>Item 2</mat-list-item>
-                <mat-divider></mat-divider>
-                <mat-list-item>Item 3</mat-list-item>
-              </mat-list>
-            </mat-card-content>
-          </mat-card>
+          <!-- Display list if widget type is "liste" -->
+          <ng-container *ngIf="selectedWidgetType === 'Liste'">
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>List Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item>Item 1</mat-list-item>
+                  <mat-list-item>Item 2</mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>Item 3</mat-list-item>
+                </mat-list>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+          <ng-container *ngIf="selectedWidgetType === 'Indicateur'">
+            
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>Indicator Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="spinner-container">
+                <mat-spinner></mat-spinner>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+          <ng-container *ngIf="selectedWidgetType === 'Charte' ">
+            
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>Graphic Chart Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="charte-container">
+                  <highcharts-chart
+                    [Highcharts]="Highcharts"
+
+                    [constructorType]="chartConstructor"
+                    [options]="chartOptions"
+                    [callbackFunction]="chartCallback"
+
+                    [(update)]="updateFlag"
+                    [oneToOne]="oneToOneFlag"
+                    [runOutsideAngular]="runOutsideAngular"
+
+                    style="width: 100%; height: 400px; display: block;"
+                  ></highcharts-chart>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
 
         </div>
+          
         
+      </div>
+
+    </mat-expansion-panel>
+    <mat-expansion-panel #panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Acheteur
+        </mat-panel-title>
+        <mat-panel-description>
+          Configurations pour les widgets de Acheteur
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Widgets</mat-label>
+        <mat-select [(value)]="selected" required (selectionChange)="onWidgetSelectionChange(Acheteur_widgets)">
+          <mat-option *ngFor="let widget of Acheteur_widgets" [value]="widget.id">
+            {{ widget.widget_type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="selected" fxLayout="row">
+
+        <div fxFlex="50" fxLayoutAlign="center center">
+          <form [formGroup]="ConfigForm" (submit)="submit()">
+
+          <p>Widget style informations</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Nom en francais</mat-label>
+            <input matInput formControlName="name_fr">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Nom en anglais</mat-label>
+            <input matInput formControlName="name_eng">
+          </mat-form-field>
+
+          <p>Widget style</p>
+
+          <div class="form-field-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Background color</mat-label>
+              <input matInput formControlName="wid_style" [value]="color1" readonly>
+            </mat-form-field>
+
+            <div class="color-picker-icon" (click)="toggleColorPanel()">
+              <input matInput [(colorPicker)]="color1" name="color1" [style.background]="color1 ? color1 : 'transparent'">
+            </div>
+          </div>
+
+          <mat-color-picker *ngIf="showColorPanel && color1" [color]="color1" (change)="onColorChange($event)"></mat-color-picker>
+
+
+        
+          <p>Widget display</p>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Largeur du widget</mat-label>
+            <input matInput formControlName="wid_width" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Hauteur du widget</mat-label>
+            <input matInput formControlName="wid_height">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Rank du widget</mat-label>
+            <input matInput formControlName="wid_rank">
+          </mat-form-field>
+
+          <div class="buttons">
+            <button mat-raised-button type="button" (click)="closePanelAndResetSelect(panel)">Annuler</button>
+          <button mat-raised-button class="save-button" type="submit">Sauvegarder</button>
+
+
+          </div>
+
+          
+        </form>
+        </div>
+        
+        <div fxFlex="50" fxLayoutAlign="center center">
+          <!-- Display list if widget type is "liste" -->
+          <ng-container *ngIf="selectedWidgetType === 'Liste'">
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>List Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item>Item 1</mat-list-item>
+                  <mat-list-item>Item 2</mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>Item 3</mat-list-item>
+                </mat-list>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+          <ng-container *ngIf="selectedWidgetType === 'Indicateur'">
+            
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>Indicator Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="spinner-container">
+                <mat-spinner></mat-spinner>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+          <ng-container *ngIf="selectedWidgetType === 'Charte' ">
+            
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>Graphic Chart Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="charte-container">
+                  <highcharts-chart
+                    [Highcharts]="Highcharts"
+
+                    [constructorType]="chartConstructor"
+                    [options]="chartOptions"
+                    [callbackFunction]="chartCallback"
+
+                    [(update)]="updateFlag"
+                    [oneToOne]="oneToOneFlag"
+                    [runOutsideAngular]="runOutsideAngular"
+
+                    style="width: 100%; height: 400px; display: block;"
+                  ></highcharts-chart>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+        </div>
+          
+        
+      </div>
+
+    </mat-expansion-panel>
+    <mat-expansion-panel #panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Prestataire
+        </mat-panel-title>
+        <mat-panel-description>
+          Configurations pour les widgets de Prestataire
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Widgets</mat-label>
+        <mat-select [(value)]="selected" required (selectionChange)="onWidgetSelectionChange(Prestaire_widgets)">
+          <mat-option *ngFor="let widget of Prestaire_widgets" [value]="widget.id">
+            {{ widget.widget_type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="selected" fxLayout="row">
+
+        <div fxFlex="50" fxLayoutAlign="center center">
+          <form [formGroup]="ConfigForm" (submit)="submit()">
+
+          <p>Widget style informations</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Nom en francais</mat-label>
+            <input matInput formControlName="name_fr">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Nom en anglais</mat-label>
+            <input matInput formControlName="name_eng">
+          </mat-form-field>
+
+          <p>Widget style</p>
+
+          <div class="form-field-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Background color</mat-label>
+              <input matInput formControlName="wid_style" [value]="color1" readonly>
+            </mat-form-field>
+
+            <div class="color-picker-icon" (click)="toggleColorPanel()">
+              <input matInput [(colorPicker)]="color1" name="color1" [style.background]="color1 ? color1 : 'transparent'">
+            </div>
+          </div>
+
+          <mat-color-picker *ngIf="showColorPanel && color1" [color]="color1" (change)="onColorChange($event)"></mat-color-picker>
+
+
+        
+          <p>Widget display</p>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Largeur du widget</mat-label>
+            <input matInput formControlName="wid_width" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Hauteur du widget</mat-label>
+            <input matInput formControlName="wid_height">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Rank du widget</mat-label>
+            <input matInput formControlName="wid_rank">
+          </mat-form-field>
+
+          <div class="buttons">
+            <button mat-raised-button type="button" (click)="closePanelAndResetSelect(panel)">Annuler</button>
+          <button mat-raised-button class="save-button" type="submit">Sauvegarder</button>
+
+
+          </div>
+
+          
+        </form>
+        </div>
+        
+        <div fxFlex="50" fxLayoutAlign="center center">
+          <!-- Display list if widget type is "liste" -->
+          <ng-container *ngIf="selectedWidgetType === 'Liste'">
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>List Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item>Item 1</mat-list-item>
+                  <mat-list-item>Item 2</mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>Item 3</mat-list-item>
+                </mat-list>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+          <ng-container *ngIf="selectedWidgetType === 'Indicateur'">
+            
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>Indicator Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="spinner-container">
+                <mat-spinner></mat-spinner>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+          <ng-container *ngIf="selectedWidgetType === 'Charte' ">
+            
+            <mat-card [style.background-color]="color1" [style.width]="widgetWidth" [style.height]="widgetHeight">
+              <mat-card-header>
+                <mat-card-title>Graphic Chart Title</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="charte-container">
+                  <highcharts-chart
+                    [Highcharts]="Highcharts"
+
+                    [constructorType]="chartConstructor"
+                    [options]="chartOptions"
+                    [callbackFunction]="chartCallback"
+
+                    [(update)]="updateFlag"
+                    [oneToOne]="oneToOneFlag"
+                    [runOutsideAngular]="runOutsideAngular"
+
+                    style="width: 100%; height: 400px; display: block;"
+                  ></highcharts-chart>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+        </div>
+          
         
       </div>
 

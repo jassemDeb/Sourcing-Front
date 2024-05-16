@@ -27,6 +27,8 @@ import { EditwidgetComponent } from './super-admin-dashboard/Widgets/dashboard-w
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import {ColorPickerModule} from 'ngx-color-picker';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 
 @NgModule({
@@ -46,7 +48,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     DashboardWidgetComponent,
     WidgetsConfigComponent,
     AddwidgetComponent,
-    EditwidgetComponent
+    EditwidgetComponent,
+    UserDashboardComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -59,7 +62,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     NgxMatColorPickerModule,
     ColorPickerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    HighchartsChartModule
   ],
   providers: [ApiService, { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }],
   bootstrap: [AppComponent]

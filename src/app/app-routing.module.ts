@@ -8,6 +8,7 @@ import { AddOrgComponent } from './super-admin-dashboard/Organizations/add-org/a
 import { OrgListComponent } from './super-admin-dashboard/Organizations/org-list/org-list.component';
 import { DashboardWidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/dashboard-widget.component';
 import { WidgetsConfigComponent } from './super-admin-dashboard/Widgets/widgets-config/widgets-config.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: "sasp/widgets_config",
     component: WidgetsConfigComponent
+  },
+  {
+    path: "user",
+    component: UserDashboardComponent
   }
 ];
 

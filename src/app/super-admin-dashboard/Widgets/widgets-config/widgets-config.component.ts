@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/api.service';
 import { FormGroup, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatSelect } from '@angular/material/select';
+import * as Highcharts from 'highcharts';
 
 
 
@@ -14,20 +15,47 @@ import { MatSelect } from '@angular/material/select';
 export class WidgetsConfigComponent implements OnInit {
 
   ConfigForm!: FormGroup;
-  widgets: any[] = [];
+  Fournisseur_widgets: any[] = [];
+  Acheteur_widgets: any[] = [];
+  Prestaire_widgets: any[] = [];
   selected: any;
+  selectedWidgetType : string = "";
   color1: string ='';
-  widgetWidth: string = '300px'; // Default width
-  widgetHeight: string = '200px'; // Default height
+  widgetWidth: string = '300px';
+  widgetHeight: string = '200px'; 
 
   showColorPanel: boolean = true;
 
   cardBackgroundColor: string = 'lightblue';
 
- 
+  //Chart variable 
+  Highcharts: typeof Highcharts = Highcharts;
 
+  chartConstructor: string = 'chart';
+
+  chartOptions: Highcharts.Options = {
+    title: {
+      text: 'My Chart'
+    },
+    series: [{
+      type: 'line',
+      data: [1, 2, 3]
+    }]
+  };
+  chartCallback: Highcharts.ChartCallbackFunction = function (chart) {
+  };
+
+  updateFlag: boolean = false;
+
+  oneToOneFlag: boolean = true;
+
+  runOutsideAngular: boolean = false;
+
+
+  //Constructor
   constructor(private apiService: ApiService, private fb: FormBuilder) { }
 
+  //Color Panel
   toggleColorPanel(): void {
     this.showColorPanel = !this.showColorPanel;
   }
@@ -63,9 +91,28 @@ export class WidgetsConfigComponent implements OnInit {
   
 
   ngOnInit(): void {
+   
     this.apiService.WidgetType('Fournisseur').subscribe(
       (response: any) => {
-        this.widgets = response;
+        this.Fournisseur_widgets = response;
+      },
+      (error: any) => {
+        alert('Error: ' + error.message);
+      }
+    );
+
+    this.apiService.WidgetType('Acheteur').subscribe(
+      (response: any) => {
+        this.Acheteur_widgets = response;
+      },
+      (error: any) => {
+        alert('Error: ' + error.message);
+      }
+    );
+
+    this.apiService.WidgetType('Prestataire').subscribe(
+      (response: any) => {
+        this.Prestaire_widgets = response;
       },
       (error: any) => {
         alert('Error: ' + error.message);
@@ -89,10 +136,14 @@ export class WidgetsConfigComponent implements OnInit {
     return JSON.stringify(formValues);
   }
 
-  onWidgetSelectionChange() {
+  onWidgetSelectionChange(widgets : any[]) {
     if (this.selected) {
-        console.log(this.selected);
+      const selectedWidget = widgets.find(widget=> widget.id === this.selected);
+     
+     if (selectedWidget){
+      console.log(this.selected);
         this.ConfigForm.reset();
+         this.selectedWidgetType = selectedWidget.widget_type;
        
         this.apiService.WidgetConfigByID(this.selected).subscribe(
             (response: any) => {
@@ -113,6 +164,9 @@ export class WidgetsConfigComponent implements OnInit {
                 alert('Error: ' + error.message);
             }
         );
+
+     }
+        
     }
 }
 

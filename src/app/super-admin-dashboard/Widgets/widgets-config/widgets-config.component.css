@@ -68,4 +68,20 @@ p {
   z-index: 1000; 
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 100%; 
+}
+
+.charte-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 100%; 
+  width: 100%;
+}
+
+
 

@@ -20,6 +20,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 const MaterialComponents = [
@@ -42,7 +43,8 @@ const MaterialComponents = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatSlideToggleModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatProgressSpinnerModule
   
 ];
 
