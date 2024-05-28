@@ -1,0 +1,38 @@
+<div class="navbar-container">
+    <mat-toolbar class="toolbar">
+        <img id="additionalImage2" *ngIf="!collapsed"  src="../../assets/img/logo-sf-2.png" alt="Additional Image 1" >
+        <span class="spacer"></span>
+        <button mat-button class="white-button1" (click)="onLogout()">Log out</button>
+    </mat-toolbar>
+    <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : '' ">
+        <div class="logo-container">
+            <button mat-icon-button *ngIf="!collapsed" class="white-button" (click)="toggleCollapse()"><mat-icon>menu</mat-icon></button>
+            <div class="logo-text" *ngIf="collapsed">
+                <img id="additionalImage3" *ngIf="collapsed" (click)="toggleCollapse()" src="../../assets/img/logo-sf-2.png" alt="Additional Image 1">
+            </div>
+            
+            <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+                <i class="fal fa-times close-icon"></i>
+            </button>
+        </div>
+        <ul class="sidenav-nav">
+            <li class="side-nav-item" *ngFor="let data of navData">
+                <a class="sidenav-nav-link" (click) = "handleClick(data)"
+                   *ngIf="data.items && data.items.length > 0" >
+                    <mat-icon class="side-link-icon">{{data.icon}}</mat-icon>
+                    <span class="sidenav-link-text" *ngIf="collapsed">{{data.Label}}</span>
+                    <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
+                        [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down' "></i>
+                </a>
+                <a href="" class="sidenav-nav-link"
+                    *ngIf="!data.items || (data.items && data.items.length === 0)"
+                    (click)="redirectTo(data.routerLink, $event)">
+                    <mat-icon class="side-link-icon">{{data.icon}}</mat-icon>
+                    <span class="sidenav-link-text" *ngIf="collapsed">{{data.Label}}</span>
+                </a>
+
+            </li>
+        </ul>
+    </div>
+    
+</div>

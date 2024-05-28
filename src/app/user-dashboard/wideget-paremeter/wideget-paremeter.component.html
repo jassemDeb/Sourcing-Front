@@ -1,0 +1,9 @@
+<app-navbar-user></app-navbar-user>
+
+
+<div class="main-body">
+    <div *ngFor="let widgetconfig of widgetconfigs">
+        <app-widget-card [widgetconfig]="widgetconfig"></app-widget-card>
+    </div>
+</div>
+

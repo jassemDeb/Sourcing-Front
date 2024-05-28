@@ -9,6 +9,9 @@ import { OrgListComponent } from './super-admin-dashboard/Organizations/org-list
 import { DashboardWidgetComponent } from './super-admin-dashboard/Widgets/dashboard-widget/dashboard-widget.component';
 import { WidgetsConfigComponent } from './super-admin-dashboard/Widgets/widgets-config/widgets-config.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { DashboardComponent } from './user-dashboard/dashboard/dashboard.component';
+import { WidegetParemeterComponent } from './user-dashboard/wideget-paremeter/wideget-paremeter.component';
+import { WidgetCardComponent } from './user-dashboard/wideget-paremeter/widget-card/widget-card.component';
 
 const routes: Routes = [
   {
@@ -52,6 +55,18 @@ const routes: Routes = [
   {
     path: "user",
     component: UserDashboardComponent
+  },
+  {
+    path: "user/dashborad",
+    component: DashboardComponent
+  },
+  {
+    path: "user/widget_paremeter",
+    component: WidegetParemeterComponent
+  },
+  {
+    path: "user/widget_paremeter/widget",
+    component: WidgetCardComponent
   }
 ];
 

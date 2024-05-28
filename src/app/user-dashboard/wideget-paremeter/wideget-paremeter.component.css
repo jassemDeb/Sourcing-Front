@@ -1,0 +1,6 @@
+.main-body {
+    position: relative; /* Ensure relative positioning */
+    margin: 250px auto 0;
+    max-width: 1348px;
+    padding: 20px; /* Add padding as needed */
+  }

@@ -1,0 +1,205 @@
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Adjust z-index as needed */
+}
+
+.sidenav {
+    background: #263238;
+    transition: all .5s ease;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 5rem;
+    height: 100vh;
+}
+
+.logo-container{
+    display: flex;
+    align-items: center;
+    padding: 0.938rem 0.938rem 0 0.938rem;
+    width: 100%;
+    margin-bottom: 10%;
+}
+
+.logo{
+    background: #fff;
+    text-align: center;
+    width: 3rem;
+    min-width: 3rem;
+    border-radius: 0.313rem;
+    padding: 0.313rem;
+    font-size: 24px;
+    font-weight: 900;
+    cursor: pointer;
+    border: none;
+}
+
+.logo-text{
+    margin-left: 1.5rem;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.btn-close{
+    margin-left: auto;
+    margin-top: 10px;
+    cursor: pointer;
+    top: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+}
+
+.fa-times {
+    color: #fff;
+    font-size: 24px;
+}
+
+.sidenav-collapsed{
+    width: 16.5625rem;
+}
+
+.sidenav-nav{
+    list-style: none;
+    padding: 0.938rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 3.65rem);
+    cursor: pointer;
+}
+
+.side-nav-item{
+    width: 100%;
+    margin-bottom: 0.625rem;
+}
+
+.sidenav-nav-link{
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    color: #f3f3f3;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
+}
+
+.side-link-icon{
+    font-size: 30px;
+    width: 2rem;
+    min-width: 2rem;
+    margin: 0 0.5rem;
+    text-align: center;
+}
+.sidenav-link-text{
+    margin-left: 1.5rem;
+}
+
+.sidenav-nav-link:hover{
+    background-color: #fff;
+    color: #000;
+    
+}
+
+.sidenav-nav-link:active {
+    background-color: #fff;
+    color: #000;
+    /* Add any additional styles to highlight the active navigation item */
+  }
+
+.menu-collapse-icon {
+    font-size: 25px;
+    width: 2rem;
+    min-width: 2rem;
+    margin: auto 0.5rem auto auto;
+    text-align: center;
+    color: #f3f3f3;
+}
+
+.sublevel-nav{
+    list-style: none;
+    margin-left: 10px;
+}
+.sublevel-nav-link{
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    color: #898989;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
+
+}
+
+.sublevel-link-icon {
+    font-size: 4px;
+    width: 2rem;
+    min-width: 2rem;
+    margin: 0 0.5rem;
+    text-align: center;
+}
+
+.sublevel-link-text{
+    margin-left: 0.8rem;
+    
+    font-size: 15px;
+}
+
+.sublevel-nav-link:hover {
+    color: #f3f3f3;
+}
+
+.sublevel-nav-link.active .sublevel-link-text {
+    color: #f3f3f3; /* Change text color for active link */
+  }
+  
+
+  #additionalImage3 {
+    position: absolute; /* Adjust positioning as needed */
+    top: 1%;
+    left: 1%;
+    width: 200px; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 1; /* Ensure it's placed above the background */
+}
+
+.white-button {
+    color: white !important;
+}
+
+.mat-toolbar {
+    background-color: var(--custom-primary);
+    height: 80px;
+  }
+
+  #additionalImage2 {
+    position: absolute; /* Adjust positioning as needed */
+    width: 200px; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 1; /* Ensure it's placed above the background */
+}
+.spacer {
+    flex: 1;
+  }
+
+.white-button1 {
+    background-color: white;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
+    font-size: 16px;
+    padding: 12px 24px;
+}
+
+.white-button1:hover {
+    background-color: rgb(192, 192, 192);
+    color: #000;
+}
+

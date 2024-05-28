@@ -29,6 +29,10 @@ import {ColorPickerModule} from 'ngx-color-picker';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { NavbarUserComponent } from './navbar-user/navbar-user.component';
+import { WidegetParemeterComponent } from './user-dashboard/wideget-paremeter/wideget-paremeter.component';
+import { DashboardComponent } from './user-dashboard/dashboard/dashboard.component';
+import { WidgetCardComponent } from './user-dashboard/wideget-paremeter/widget-card/widget-card.component';
 
 
 @NgModule({
@@ -49,7 +53,11 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
     WidgetsConfigComponent,
     AddwidgetComponent,
     EditwidgetComponent,
-    UserDashboardComponent
+    UserDashboardComponent,
+    NavbarUserComponent,
+    WidegetParemeterComponent,
+    DashboardComponent,
+    WidgetCardComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

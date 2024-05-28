@@ -48,9 +48,14 @@ export class AdduserComponent implements OnInit {
       alert('You must complete all the fields')
     } else {
       this.apiService.register(formDataAsJson).subscribe((response:any)=>{
-        if(response.message=="Registered Successfully and Email is sended"){
-          alert("User added succefully");
-          console.log(formDataAsJson);
+        if(response.message=="Registered successfully"){
+          this.apiService.createDashConfig(response.userId).subscribe((response:any)=>{
+            alert("User added succefully");
+            console.log(formDataAsJson);
+          }, (error :any)=>{
+            console.log('Error: ' + error.message);
+          })
+          
   
         } else {
           alert(response.message);

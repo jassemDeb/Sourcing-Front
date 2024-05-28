@@ -59,6 +59,14 @@
                 <mat-datepicker #updatedAtPicker></mat-datepicker>
             </mat-form-field>
         </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Organization</mat-label>
+                <mat-select required formControlName="organization" [(value)]="selectedOrgId" (selectionChange)="onOrgSelect($event)">
+                  <mat-option *ngFor="let org of organizations" [value]="org.id">{{ org.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
     </div>
     <div mat-dialog-actions class="action">
         <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>

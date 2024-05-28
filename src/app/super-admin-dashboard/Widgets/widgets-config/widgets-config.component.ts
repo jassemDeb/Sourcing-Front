@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
-import { FormGroup, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
-import { MatExpansionPanel } from '@angular/material/expansion';
-import { MatSelect } from '@angular/material/select';
 import * as Highcharts from 'highcharts';
-
-
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { WidgetDetails } from 'src/app/models/widget-details.model';  // Ensure the path is correct
 
 @Component({
   selector: 'app-widgets-config',
@@ -13,163 +11,123 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./widgets-config.component.css']
 })
 export class WidgetsConfigComponent implements OnInit {
-
   ConfigForm!: FormGroup;
-  Fournisseur_widgets: any[] = [];
-  Acheteur_widgets: any[] = [];
-  Prestaire_widgets: any[] = [];
+  widgets: { [key: string]: any[] } = {
+    Fournisseur: [],
+    Acheteur: [],
+    Prestaire: []
+  };
   selected: any;
-  selectedWidgetType : string = "";
-  color1: string ='';
-  widgetWidth: string = '300px';
-  widgetHeight: string = '200px'; 
+  selectedWidgetType: string = '';
+  widgetWidth: string = '300px';  // Default width
+  widgetHeight: string = '200px';  // Default height
+  backgroundColor: string = '';
+  textColor: string = '';
+  showBackgroundColorPanel: boolean = false;
+  showTextColorPanel: boolean = false;
 
-  showColorPanel: boolean = true;
-
-  cardBackgroundColor: string = 'lightblue';
-
-  //Chart variable 
   Highcharts: typeof Highcharts = Highcharts;
-
   chartConstructor: string = 'chart';
-
   chartOptions: Highcharts.Options = {
-    title: {
-      text: 'My Chart'
-    },
-    series: [{
-      type: 'line',
-      data: [1, 2, 3]
-    }]
+    title: { text: 'My Chart' },
+    series: [{ type: 'line', data: [1, 2, 3] }]
   };
-  chartCallback: Highcharts.ChartCallbackFunction = function (chart) {
-  };
-
+  chartCallback: Highcharts.ChartCallbackFunction = function (chart) { };
   updateFlag: boolean = false;
-
   oneToOneFlag: boolean = true;
-
   runOutsideAngular: boolean = false;
 
+  listItems: string[] = ['Item 1', 'Item 2', 'Item 3'];
 
-  //Constructor
   constructor(private apiService: ApiService, private fb: FormBuilder) { }
 
-  //Color Panel
-  toggleColorPanel(): void {
-    this.showColorPanel = !this.showColorPanel;
-  }
-
-  onColorChange(event: any): void {
-    console.log('Color changed:', event);
-    this.color1 = event.target.value; 
-  }
-
-  resetColor() {
-    this.color1 = ''; 
-  }
-  
-  changeWidth(newWidth: string) {
-    this.widgetWidth = newWidth;
-    if (newWidth && newWidth.trim() !== '') {
-      this.widgetWidth = newWidth.trim() + 'px';
-    } else {
-      this.widgetWidth = '200px'; 
-    }
-  }
-  
-  changeHeight(newHeight: string) {
-    if (newHeight && newHeight.trim() !== '') {
-      this.widgetHeight = newHeight.trim() + 'px';
-    } else {
-      this.widgetHeight = '200px'; 
-    }
-  }
-  
-  
-  
-  
-
   ngOnInit(): void {
-   
-    this.apiService.WidgetType('Fournisseur').subscribe(
-      (response: any) => {
-        this.Fournisseur_widgets = response;
-      },
-      (error: any) => {
-        alert('Error: ' + error.message);
-      }
-    );
-
-    this.apiService.WidgetType('Acheteur').subscribe(
-      (response: any) => {
-        this.Acheteur_widgets = response;
-      },
-      (error: any) => {
-        alert('Error: ' + error.message);
-      }
-    );
-
-    this.apiService.WidgetType('Prestataire').subscribe(
-      (response: any) => {
-        this.Prestaire_widgets = response;
-      },
-      (error: any) => {
-        alert('Error: ' + error.message);
-      }
-    );
-    
-
+    this.loadWidgets();
     this.ConfigForm = this.fb.group({
       name_fr: '',
       name_eng: '',
-      wid_style: '',
+      backgroundColor: '',
+      textColor: '',
+      textFont: '',
+      textSize: '',
       wid_width: '',
       wid_height: '',
       wid_rank: ''
     });
-
   }
 
-  formGroupToJson(): string {
-    const formValues = this.ConfigForm.value;
-    return JSON.stringify(formValues);
+  updateChartOptions(): void {
+    this.chartOptions = {
+      ...this.chartOptions,
+      title: {
+        ...this.chartOptions.title,
+        style: {
+          color: this.ConfigForm.get('textColor')?.value || '#333',
+          fontSize: this.ConfigForm.get('textSize')?.value || '12px',
+          fontFamily: this.ConfigForm.get('textFont')?.value || 'Arial'
+        }
+      },
+      xAxis: {
+        labels: {
+          style: this.getTextStyles()
+        }
+      },
+      yAxis: {
+        labels: {
+          style: this.getTextStyles()
+        }
+      }
+    };
+  
+    // If your chart component uses a change detection method or input, ensure you trigger it here
+    this.updateFlag = true; // Example flag to re-render the chart
+  }
+  
+
+  loadWidgets(): void {
+    this.loadWidgetType('Fournisseur', (response: any) => this.widgets['Fournisseur'] = response);
+    this.loadWidgetType('Acheteur', (response: any) => this.widgets['Acheteur'] = response);
+    this.loadWidgetType('Prestataire', (response: any) => this.widgets['Prestataire'] = response);
   }
 
-  onWidgetSelectionChange(widgets : any[]) {
-    if (this.selected) {
-      const selectedWidget = widgets.find(widget=> widget.id === this.selected);
-     
-     if (selectedWidget){
-      console.log(this.selected);
-        this.ConfigForm.reset();
-         this.selectedWidgetType = selectedWidget.widget_type;
-       
-        this.apiService.WidgetConfigByID(this.selected).subscribe(
-            (response: any) => {
-                console.log(response); 
-                this.ConfigForm.patchValue({
-                    name_fr: response.name_fr,
-                    name_eng: response.name_eng,
-                    wid_style: this.colorStringToHex(response.wid_style),
-                    wid_width: response.wid_width,
-                    wid_height: response.wid_height,
-                    wid_rank: response.wid_rank
-                });
-                this.color1 = this.colorStringToHex(response.wid_style);
-                this.changeHeight(response.wid_height);
-                this.changeWidth(response.wid_width);
-            },
-            (error: any) => {
-                alert('Error: ' + error.message);
-            }
-        );
+  loadWidgetType(type: string, callback: (response: any) => void): void {
+    this.apiService.WidgetType(type).subscribe(
+      response => callback(response),
+      error => console.error(`Error loading ${type} widgets:`, error)
+    );
+  }
 
-     }
-        
-    }
-}
+  getWidgets(type: string): any[] {
+    return this.widgets[type] || [];
+  }
 
+  toggleBackgroundColorPanel(): void {
+    this.showBackgroundColorPanel = !this.showBackgroundColorPanel;
+  }
+
+  onBackgroundColorChange(event: any): void {
+    this.backgroundColor = event;
+    this.ConfigForm.get('backgroundColor')?.setValue(event);
+  }
+
+  toggleTextColorPanel(): void {
+    this.showTextColorPanel = !this.showTextColorPanel;
+  }
+
+  onTextColorChange(event: any): void {
+    this.textColor = event;
+    this.ConfigForm.get('textColor')?.setValue(event);
+  }
+
+  updateWidgetStyle(): void {
+    const backgroundColor = this.ConfigForm.get('backgroundColor')?.value || "";
+    const textColor = this.ConfigForm.get('textColor')?.value || "";
+    const textFont = this.ConfigForm.get('textFont')?.value || "";
+    const textSize = this.ConfigForm.get('textSize')?.value || "";
+  
+    const widStyle = [{ backgroundColor }, { textColor }, { textFont }, { textSize }];
+    this.ConfigForm.patchValue({ wid_style: widStyle });
+  }
 
   colorStringToHex(colorString: string): string {
     colorString = colorString.trim().toLowerCase();
@@ -188,64 +146,170 @@ export class WidgetsConfigComponent implements OnInit {
     return "#000000";
 }
 
+getTextStyles(): any {
+  return {
+    'color': this.ConfigForm.get('textColor')?.value || '#000',  // Default to black if undefined
+    'font-family': this.ConfigForm.get('textFont')?.value || 'Arial',  // Default font
+    'font-size': this.ConfigForm.get('textSize')?.value || 'medium'  // Default size
+  };
+}
 
 
-submit() {
-  const formDataAsJson = JSON.parse(this.formGroupToJson());
   
-  if (typeof formDataAsJson === 'object' && 'wid_style' in formDataAsJson) {
-    formDataAsJson.wid_style = this.color1;
-    
-    console.log(this.selected);
-    console.log(formDataAsJson);
-    
-    if (!this.ConfigForm.valid) {
-      alert('You must complete all the fields');
-    } else {
-      this.apiService.updateWidgetConfig(this.selected, formDataAsJson).subscribe((response: any) => {
-        if (response.message == "Widget updated") {
-          alert("Widget updated successfully");
-          
-        } else {
-          alert(response.message);
-        }
-        this.reloadData();
+
+onWidgetSelectionChange(widgets: any[]): void {
+  const selectedWidget = widgets.find(widget => widget.id === this.selected);
+  if (selectedWidget) {
+    this.selectedWidgetType = selectedWidget.widget_type;
+    this.apiService.WidgetConfigByID(this.selected!).subscribe(
+      (response: any) => {
+        console.log(response)
+        const backgroundColor = response.wid_style?.find((style: any) => style.backgroundColor)?.backgroundColor || '';
+        const textColor = response.wid_style?.find((style: any) => style.textColor)?.textColor || '';
+        const textFont = response.wid_style?.find((style: any) => style.textFont)?.textFont || '';
+        const textSize = response.wid_style?.find((style: any) => style.textSize)?.textSize || '';
+
+        // Set the form values directly
+        this.ConfigForm.patchValue({
+          name_fr: response.name_fr,
+          name_eng: response.name_eng,
+          backgroundColor: backgroundColor,
+          textColor: textColor,
+          textFont: textFont,
+          textSize: textSize,
+          wid_width: response.wid_width.replace('px', ''), // remove 'px' for consistency
+          wid_height: response.wid_height.replace('px', ''),
+          wid_rank: response.wid_rank
+        });
+
+        // Manually update the color values in the color picker inputs
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
+        this.widgetWidth = response.wid_width || '300px';  // maintaining the full value for internal use
+        this.widgetHeight = response.wid_height || '200px';  // maintaining the full value for internal use
+        this.updateChartOptions();
       },
-      (error: any) => {
-        alert('Error: ' + error.message);
-      });
-    }
-  } else {
-    console.error('Invalid form data');
+      error => console.error('Error fetching widget details:', error)
+    );
   }
 }
-reloadData() {
-  this.apiService.WidgetConfigByID(this.selected).subscribe(
-    (response: any) => {
-      console.log(response); 
-      this.ConfigForm.patchValue({
-        name_fr: response.name_fr,
-        name_eng: response.name_eng,
-        wid_style: this.colorStringToHex(response.wid_style),
-        wid_width: response.wid_width,
-        wid_height: response.wid_height,
-        wid_rank: response.wid_rank
-      });
-      this.color1 = this.colorStringToHex(response.wid_style);
-      this.changeHeight(response.wid_height);
-      this.changeWidth(response.wid_width);
-    },
-    (error: any) => {
-      alert('Error: ' + error.message);
+
+
+
+
+  
+
+
+  formGroupToJson(): string {
+    const formValues = this.ConfigForm.value;
+    return JSON.stringify(formValues);
+  }
+
+  submit() {
+    const formDataAsJson = JSON.parse(this.formGroupToJson());
+    console.log('formDataAsJson:', formDataAsJson);
+    
+    if (typeof formDataAsJson === 'object') {
+      const widStyleArray = [
+        { backgroundColor: this.backgroundColor || '' },
+        { textColor: this.textColor || '' },
+        { textFont: formDataAsJson.textFont || '' },
+        { textSize: formDataAsJson.textSize || '' }
+      ];
+
+      // Ensure 'px' is appended only if not already there
+      const formattedWidth = formDataAsJson.wid_width && !formDataAsJson.wid_width.endsWith('px') ? `${formDataAsJson.wid_width}px` : formDataAsJson.wid_width || '';
+      const formattedHeight = formDataAsJson.wid_height && !formDataAsJson.wid_height.endsWith('px') ? `${formDataAsJson.wid_height}px` : formDataAsJson.wid_height || '';
+
+      const formDataWithWidStyle = {
+        ...formDataAsJson,
+        wid_style: widStyleArray,
+        wid_width: formattedWidth, // update width
+        wid_height: formattedHeight // update height
+      };
+  
+      console.log('formDataWithWidStyle:', formDataWithWidStyle);
+  
+      if (!this.ConfigForm.valid) {
+        alert('You must complete all the fields');
+      } else {
+        this.apiService.updateWidgetConfig(this.selected, formDataWithWidStyle).subscribe((response: any) => {
+          if (response.message === "Widget updated") {
+            alert("Widget updated successfully");
+          } else {
+            alert(response.message);
+          }
+          this.reloadData();
+        },
+        (error: any) => {
+          alert('Error: ' + error.message);
+        });
+      }
+    } else {
+      console.error('Invalid form data');
     }
-  );
-}
-
-closePanelAndResetSelect(panel: MatExpansionPanel) {
-  panel.close();  
-  this.selected = null;
-}
+  }
 
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  reloadData(): void {
+    if (this.selected !== null) {
+      this.apiService.WidgetConfigByID(this.selected).subscribe(
+        (response: any) => {  // Assuming response structure is correctly mapped to any
+          // Extract and set style attributes
+          const backgroundColor = response.wid_style?.find((style: any) => style.backgroundColor)?.backgroundColor || '';
+          const textColor = response.wid_style?.find((style: any) => style.textColor)?.textColor || '';
+          const textFont = response.wid_style?.find((style: any) => style.textFont)?.textFont || '';
+          const textSize = response.wid_style?.find((style: any) => style.textSize)?.textSize || '';
+  
+          // Set the form values directly
+          this.ConfigForm.patchValue({
+            name_fr: response.name_fr,
+            name_eng: response.name_eng,
+            backgroundColor: backgroundColor,
+            textColor: textColor,
+            textFont: textFont,
+            textSize: textSize,
+            wid_width: response.wid_width.replace('px', ''),  // Ensure 'px' is removed for form consistency
+            wid_height: response.wid_height.replace('px', ''),
+            wid_rank: response.wid_rank
+          });
+  
+          // Update UI elements directly
+          this.backgroundColor = backgroundColor;
+          this.textColor = textColor;
+  
+          // Update size display with 'px' suffix for UI consistency
+          this.widgetWidth = response.wid_width || '300px';
+          this.widgetHeight = response.wid_height || '200px';
+          this.updateChartOptions();
+        },
+        error => {
+          console.error('Error fetching widget details:', error);
+          alert('Error: ' + error.message);
+        }
+      );
+    }
+  }
+  
+
+  closePanelAndResetSelect(panel: MatExpansionPanel): void {
+    console.log("Attempting to close panel and reset selection");
+    panel.close();
+    this.selected = null;
+    this.ConfigForm.reset();
+    console.log("Panel closed, selection cleared, form reset");
+  }
+  
+  
+  
   
 }

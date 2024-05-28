@@ -1,12 +1,14 @@
 // api.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { WidgetDetails } from './models/widget-details.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:8000/api'; 
+  private apiUrl = 'http://127.0.0.1:8000/api'; 
 
   constructor(private http: HttpClient) {}
 
@@ -74,6 +76,14 @@ export class ApiService {
       'Authorization': `Bearer ${token}`
     });
     return this.http.get(`${this.apiUrl}/orgs`,  { headers });
+  }
+
+  getAllOrgsByName(){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/orgsByName`,  { headers });
   }
 
   deleteOrgById(id: number){
@@ -149,23 +159,97 @@ export class ApiService {
   }
 
 
-  updateWidgetConfig(id: number, credentials: any){
+  // Method to fetch widget configuration by ID
+  WidgetConfigByID(id: number): Observable<WidgetDetails> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put(`${this.apiUrl}/updatewidgetConfig/${id}`, credentials, { headers })
+    return this.http.get<WidgetDetails>(`${this.apiUrl}/widgetconfigByID/${id}`, { headers });
   }
 
-  WidgetConfigByID(id: number){
+  // Method to update widget configuration
+  updateWidgetConfig(id: number, widget: WidgetDetails): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get(`${this.apiUrl}/widgetconfigByID/${id}`, { headers });
+    return this.http.put(`${this.apiUrl}/updatewidgetConfig/${id}`, widget, { headers });
   }
   
+    // Method to assign user to organization
+    assignUserToOrganization( id_user: number, id_org: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+    
+      // The second parameter is the request body. If you don't have a body to send, you can send an empty object.
+      return this.http.put(`${this.apiUrl}/assignUserToOrg/${id_user}/${id_org}`, {}, { headers: headers });
+    }
 
+    getOrgForUser(id: number){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/usersOrg/${id}`, { headers });
+    }
+
+    getDashConfigByUser(id: number){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/get_dashByUser/${id}`, { headers: headers });
+    }
+
+    createDashConfig(id: number){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.post(`${this.apiUrl}/create_dash/${id}`, {}, { headers: headers });
+    }
+
+    updateDashConfig(id_dash: number, id_org: any, id_org_type: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.put(`${this.apiUrl}/update_dash/${id_dash}/${id_org}/${id_org_type}`, {}, { headers: headers });
+    }
+
+    getUserByUsername(username: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/userByUsername/${username}`, { headers: headers });
+    }
+
+    getOrgByUser(id: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/getOrgForUser/${id}`, { headers: headers });
+    }
+
+    getWidgetByOrg(id: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/widgetconfigByOrgID/${id}`, { headers: headers });
+    }
   
 
 }

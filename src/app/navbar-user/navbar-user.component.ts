@@ -10,11 +10,11 @@ interface SideNavToggle {
 }
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  selector: 'app-navbar-user',
+  templateUrl: './navbar-user.component.html',
+  styleUrls: ['./navbar-user.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarUserComponent implements OnInit {
 
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   collapsed = true ;
@@ -56,7 +56,8 @@ export class NavbarComponent implements OnInit {
     this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
   }
 
-  redirectTo(route: string): void {
+  redirectTo(route: string, event: MouseEvent): void {
+    event.preventDefault();
     this.router.navigate([route]);
   }
 
