@@ -134,6 +134,14 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/widgetconfig/${id}`, { headers });
   }
 
+  WidgetConfigByDashConfig(id: any){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/widgetconfigbydashconfig/${id}`, { headers });
+  }
+
   updateWidget(id: number, credentials: any){
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -197,7 +205,7 @@ export class ApiService {
       return this.http.get(`${this.apiUrl}/usersOrg/${id}`, { headers });
     }
 
-    getDashConfigByUser(id: number){
+    getDashConfigByUser(id: any){
       const token = localStorage.getItem('token');
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',  // Assuming you need to send JSON
@@ -249,6 +257,33 @@ export class ApiService {
         'Authorization': `Bearer ${token}`
       });
       return this.http.get(`${this.apiUrl}/widgetconfigByOrgID/${id}`, { headers: headers });
+    }
+
+    getDefaultWidgetByOrg(id: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/widgetconfigDefault/${id}`, { headers: headers });
+    }
+
+    getDashWidgetByDashConfig(id: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/dashwidget/${id}`, { headers: headers });
+    }
+
+    createWidget(credentials: any){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',  // Assuming you need to send JSON
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.post(`${this.apiUrl}/addwidgetbyconfig`,credentials, { headers: headers });
     }
   
 

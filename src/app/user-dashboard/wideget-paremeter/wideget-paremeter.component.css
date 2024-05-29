@@ -1,6 +1,39 @@
 .main-body {
     position: relative; /* Ensure relative positioning */
-    margin: 250px auto 0;
+    margin: 200px auto 0;
+    margin-left: 350px;
     max-width: 1348px;
     padding: 20px; /* Add padding as needed */
   }
+
+  mat-grid-tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Increased padding for visual spacing between cards */
+    border: 2px solid #333; /* Darker border for better visibility */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    border-radius: 10px; /* Rounded corners for a modern look */
+  }
+
+  mat-grid-list {
+    width: calc(100% - 10px); /* Adjust width to ensure it fits within parent taking account borders */
+    margin: 5px; /* Optional: ensures some space around the grid list if needed */
+  }
+
+  .add-widget-button {
+    margin-top: 100px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: #263238; /* Red color for visibility */
+    color: white;
+    border-radius: 50%; /* Circle shape */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Shadow for depth */
+    z-index: 1000; /* Make sure it's above other elements */
+}
+
+.add-widget-button mat-icon {
+    width: 24px;
+    height: 24px;
+}

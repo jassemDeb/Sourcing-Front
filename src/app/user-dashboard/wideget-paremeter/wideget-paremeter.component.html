@@ -1,9 +1,27 @@
 <app-navbar-user></app-navbar-user>
 
-
-<div class="main-body">
-    <div *ngFor="let widgetconfig of widgetconfigs">
-        <app-widget-card [widgetconfig]="widgetconfig"></app-widget-card>
-    </div>
+<div>
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="add-widget-button">
+    <mat-icon>add</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <ng-container *ngIf="menuItems.length > 0; else noItems">
+      <button mat-menu-item *ngFor="let item of menuItems" (click)="onMenuItemClick(item.id)">
+        {{ item.name_fr }}
+      </button>
+    </ng-container>
+    <ng-template #noItems>
+      <button mat-menu-item disabled>No options available</button>
+    </ng-template>
+  </mat-menu>
 </div>
 
+<div class="main-body">
+  <div>
+    <mat-grid-list cols="3" rowHeight="300px" gutterSize="20px">
+      <mat-grid-tile *ngFor="let widgetconfig of widgetconfigs">
+        <app-widget-card [widgetconfig]="widgetconfig"></app-widget-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>
