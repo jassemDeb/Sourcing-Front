@@ -1,0 +1,79 @@
+.main-body {
+    position: relative; /* Ensure relative positioning */
+    margin: 150px auto 0;
+    margin-left: 350px;
+    max-width: 1348px;
+    padding: 20px; /* Add padding as needed */
+  }
+
+/* Styles for the form itself */
+form {
+    border: 2px solid rgb(66, 66, 66);
+    padding: 20px;
+    margin-left: 50px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 1300px; /* Adjust based on your preference */
+    background: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds shadow for better visibility */
+}
+
+/* Flexbox container for form fields to align them side by side */
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Distributes space between the fields */
+    margin-bottom: 20px; /* Adds space below each row */
+}
+
+.form-row1 {
+    display: flex;
+    justify-content: space-between; /* Distributes space between the fields */
+    margin-bottom: 20px; /* Adds space below each row */
+    margin-top: 50px;
+}
+
+/* Style for individual form fields to control width */
+.form-field {
+    flex: 1; /* Each field takes equal space */
+    margin-right: 16px; /* Adds space between fields */
+}
+
+.form-field:last-child {
+    margin-right: 0; /* Removes margin from the last field in a row */
+}
+
+/* Style for the buttons at the bottom of the form */
+.buttons {
+    display: flex;
+    justify-content: center; /* Center-aligns buttons */
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px; /* Space above the button row */
+}
+
+/* Specific styles for conditional sections to add more visual distinction */
+.conditional-section {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.back-icon {
+    cursor: pointer;
+    position: absolute;
+    color: white;  /* White color for the icon */
+    font-size: 50px;  /* Larger icon size */
+    background-color: #263238;
+    transform: scale(1.5);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column; /* Stack fields vertically on small screens */
+    }
+
+    .form-field {
+        margin-right: 0;
+        margin-bottom: 10px; /* Space below each field when stacked */
+    }
+}

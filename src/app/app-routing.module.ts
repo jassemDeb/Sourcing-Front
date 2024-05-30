@@ -12,6 +12,7 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { DashboardComponent } from './user-dashboard/dashboard/dashboard.component';
 import { WidegetParemeterComponent } from './user-dashboard/wideget-paremeter/wideget-paremeter.component';
 import { WidgetCardComponent } from './user-dashboard/wideget-paremeter/widget-card/widget-card.component';
+import { EditWidgetComponent } from './user-dashboard/wideget-paremeter/edit-widget/edit-widget.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
   {
     path: "user/widget_paremeter/widget",
     component: WidgetCardComponent
+  }, 
+  {
+    path: "user/widget_paremeter/editwidget/:id",
+    component: EditWidgetComponent
   }
 ];
 

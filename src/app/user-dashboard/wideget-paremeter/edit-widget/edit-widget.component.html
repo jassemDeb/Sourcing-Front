@@ -1,0 +1,126 @@
+<app-navbar-user></app-navbar-user>
+
+<div class="main-body">
+    <form [formGroup]="ConfigForm" (ngSubmit)="saveWidgetConfig()">
+
+        <div class="back-icon" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </div>
+        <!-- Basic widget information fields -->
+        <div class="form-row1">
+            <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Nom en français</mat-label>
+                <input matInput formControlName="name_fr">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Nom en anglais</mat-label>
+                <input matInput formControlName="name_eng">
+            </mat-form-field>
+        </div>
+
+        <div class="form-row">
+            <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Widget Width</mat-label>
+                <input matInput formControlName="wid_width">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Widget Height</mat-label>
+                <input matInput formControlName="wid_height">
+            </mat-form-field>
+        </div>
+
+        <div formGroupName="wid_style">
+            <div class="form-row">
+                <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>Background Color</mat-label>
+                    <input matInput formControlName="backgroundColor">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>Text Color</mat-label>
+                    <input matInput formControlName="textColor">
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>Text Font</mat-label>
+                    <mat-select formControlName="textFont">
+                        <mat-option value="Arial">Arial</mat-option>
+                        <mat-option value="Verdana">Verdana</mat-option>
+                        <mat-option value="Helvetica">Helvetica</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>Text Size</mat-label>
+                    <mat-select formControlName="textSize">
+                        <mat-option value="small">Small</mat-option>
+                        <mat-option value="medium">Medium</mat-option>
+                        <mat-option value="large">Large</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Conditional sections -->
+            <div *ngIf="selectedWidgetType === 'Liste'" formArrayName="listItems" class="conditional-section">
+                <div *ngFor="let item of listItems.controls; let i = index" [formGroupName]="i" class="form-row">
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>List Item</mat-label>
+                        <input matInput formControlName="name">
+                    </mat-form-field>
+                    <button mat-button color="warn" type="button" (click)="listItems.removeAt(i)">Remove</button>
+                </div>
+                <button mat-button type="button" (click)="addListItem()">Add Item</button>
+            </div>
+
+            <div *ngIf="selectedWidgetType === 'Indicateur'" class="conditional-section">
+                <mat-form-field appearance="fill">
+                    <mat-label>Indicator Percentage</mat-label>
+                    <input matInput formControlName="indicatorPercentage">
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="selectedWidgetType === 'Charte'" formGroupName="chartOptions" class="conditional-section">
+                <div class="form-row">
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Chart Type</mat-label>
+                        <mat-select formControlName="chartType">
+                            <mat-option value="line">Line</mat-option>
+                            <mat-option value="bar">Bar</mat-option>
+                            <mat-option value="pie">Pie</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="form-field">
+                        <mat-label>Chart Title</mat-label>
+                        <input matInput formControlName="title">
+                    </mat-form-field>
+                </div>
+
+                <div formArrayName="series">
+                    <div *ngFor="let serie of series.controls; let i = index" [formGroupName]="i" class="form-row">
+                        <mat-form-field appearance="fill" class="form-field">
+                            <mat-label>Series Name</mat-label>
+                            <input matInput formControlName="name">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="form-field">
+                            <mat-label>Series Data</mat-label>
+                            <input matInput formControlName="data">
+                        </mat-form-field>
+                        <button mat-button style="background-color: red; color: white;" type="button" (click)="series.removeAt(i)">Remove Data</button>
+
+                    </div>
+                    <button mat-button style="background-color: green; color: white;" type="button" (click)="addSeries()">Add Data</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            <button mat-raised-button color="primary" type="submit">Save Changes</button>
+        </div>
+        
+    </form>
+</div>

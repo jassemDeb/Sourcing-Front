@@ -168,7 +168,7 @@ export class ApiService {
 
 
   // Method to fetch widget configuration by ID
-  WidgetConfigByID(id: number): Observable<WidgetDetails> {
+  WidgetConfigByID(id: any): Observable<WidgetDetails> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

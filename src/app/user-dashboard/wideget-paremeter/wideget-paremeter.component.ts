@@ -204,8 +204,8 @@ export class WidegetParemeterComponent implements OnInit {
         this.dashconfigid = dashConfigId;
 
         this.apiService.getDashWidgetByDashConfig(dashConfigId).subscribe((response: any) => {
-          if (response.dashboard_widget_id) {
-            const widgetId = response.dashboard_widget_id;
+          if (response.id) {
+            const widgetId = response.id;
             this.apiService.WidgetById(widgetId).subscribe((widgetDetails: any) => {
               const defaultConfig = this.defaultwidgetconfigs.find(config => config.id === itemId);
 

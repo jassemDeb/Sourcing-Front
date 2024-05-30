@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-widget-card',
@@ -10,16 +11,13 @@ export class WidgetCardComponent implements OnInit {
 
   @Input() widgetconfig: any;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     console.log("Widget data received in child component:", this.widgetconfig);
   }
 
-  editWidget(widget: any) {
-    console.log('Editing widget:', widget.id);
-    // Implement your logic to handle edit
-  }
+
 
   deleteWidget(widgetId: number) {
     console.log('Deleting widget:', widgetId);
@@ -30,5 +28,9 @@ export class WidgetCardComponent implements OnInit {
         window.location.reload();
       }
     })
+  }
+
+  editWidget(): void {
+    this.router.navigate(['user/widget_paremeter/editwidget', this.widgetconfig.id]);  // Assuming `id` is the identifier of the widget
   }
 }
