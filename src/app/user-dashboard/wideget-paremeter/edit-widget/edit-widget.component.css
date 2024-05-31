@@ -60,11 +60,19 @@ form {
 .back-icon {
     cursor: pointer;
     position: absolute;
+    height: 30px;  /* Fixed height */
+    width: 70px;  /* Increased width */
     color: white;  /* White color for the icon */
-    font-size: 50px;  /* Larger icon size */
-    background-color: #263238;
-    transform: scale(1.5);
+    font-size: 30px;  /* Large icon size to fill the height */
+    background-color: #263238;  /* Background color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;  /* Padding on sides to extend clickable area */
+    border-radius: 5px;  /* Optional: rounded corners for aesthetics */
+    margin-bottom: 50px;
 }
+
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 600px) {

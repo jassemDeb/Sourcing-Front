@@ -10,6 +10,7 @@ interface JwtPayload {
 }
 
 interface Widget {
+  id: number,
   typeorg: string;
   typetrans: string;
   typewid: string;
@@ -203,13 +204,17 @@ export class WidegetParemeterComponent implements OnInit {
         const dashConfigId = response.dashboardConfigurations[0].id;
         this.dashconfigid = dashConfigId;
 
+       if (dashConfigId){
+            
         this.apiService.getDashWidgetByDashConfig(dashConfigId).subscribe((response: any) => {
-          if (response.id) {
-            const widgetId = response.id;
+          console.log('Error '+response[0].id)
+          if (response[0].id) {
+            const widgetId = response[0].id;
             this.apiService.WidgetById(widgetId).subscribe((widgetDetails: any) => {
               const defaultConfig = this.defaultwidgetconfigs.find(config => config.id === itemId);
 
               this.NewWidget = {
+                id: itemId || defaultConfig?.id,
                 typeorg: widgetDetails.typeorg || defaultConfig?.typeorg,
                 typetrans: widgetDetails.typetrans || defaultConfig?.typetrans,
                 typewid: widgetDetails.typewid || defaultConfig?.typewid,
@@ -227,12 +232,14 @@ export class WidegetParemeterComponent implements OnInit {
               };
               console.log('New Widget Prepared:', this.NewWidget);
               this.createWidget(this.NewWidget);
-              window.location.reload();
+              
             }, error => console.error('Failed to load widget details:', error));
           } else {
             console.error('No Dashboard Widget ID found');
           }
         }, error => console.error('Failed to get dashboard widget by config:', error));
+        }
+
       } else {
         console.error('No Dashboard Configuration ID found');
       }
@@ -243,6 +250,7 @@ export class WidegetParemeterComponent implements OnInit {
   createWidget(widgetData: any): void {
     this.apiService.createWidget(widgetData).subscribe(response => {
       console.log('Widget successfully created:', response);
+      window.location.reload();
     }, error => {
       console.error('Error creating widget:', error);
       alert('Failed to create widget: ' + error.message);

@@ -24,6 +24,7 @@ export class EditWidgetComponent implements OnInit {
       name_eng: [''],
       wid_width: [''],
       wid_height: [''],
+      wid_rank: [''], 
       wid_style: this.fb.group({
         backgroundColor: [''],
         textColor: [''],
@@ -77,6 +78,7 @@ export class EditWidgetComponent implements OnInit {
           name_eng: data.name_eng,
           wid_width: data.wid_width,
           wid_height: data.wid_height,
+          wid_rank: data.wid_rank,
           wid_style: style
         });
       } else {
@@ -107,8 +109,54 @@ export class EditWidgetComponent implements OnInit {
   }
 
   saveWidgetConfig(): void {
+    if (!this.ConfigForm.valid) {
+      alert('You must complete all the fields');
+      return;
+    }
     const formData = this.ConfigForm.value;
-    console.log('Saving widget data:', formData);
+    const widStyle = formData.wid_style;
+
+    const widStyleArray = [
+      { backgroundColor: widStyle.backgroundColor || '' },
+      { textColor: widStyle.textColor || '' },
+      { textFont: widStyle.textFont || '' },
+      { textSize: widStyle.textSize || '' },
+      { indicatorPercentage: widStyle.indicatorPercentage || '' },
+      ...widStyle.listItems.map((item: { name: string }) => ({ listItemName: item.name })),
+      ...widStyle.chartOptions.series.map((serie: { name: string, data: any[] }) => ({
+        chartType: widStyle.chartOptions.chartType,
+        seriesName: serie.name,
+        seriesData: serie.data,
+        chartTitle: widStyle.chartOptions.title,
+        xAxisTitle: widStyle.chartOptions.xAxisTitle,
+        yAxisTitle: widStyle.chartOptions.yAxisTitle,
+        legendEnabled: widStyle.chartOptions.legendEnabled
+      }))
+    ];
+
+    const formattedWidth = formData.wid_width && !formData.wid_width.endsWith('px') ? `${formData.wid_width}px` : formData.wid_width || '';
+    const formattedHeight = formData.wid_height && !formData.wid_height.endsWith('px') ? `${formData.wid_height}px` : formData.wid_height || '';
+
+    const formDataWithWidStyle = {
+      ...formData,
+      wid_style: widStyleArray,
+      wid_width: formattedWidth,
+      wid_height: formattedHeight
+    };
+    console.log('formDataWithWidStyle:', formDataWithWidStyle);
+    this.apiService.updateWidgetConfig(this.widgetId, formDataWithWidStyle).subscribe({
+      next: (response: any) => {
+        if (response.message === "Widget configuration updated") {
+          alert("Widget updated successfully");
+        } else {
+          alert(response.message);
+        }
+      },
+      error: (error: any) => {
+        console.error('Error updating widget:', error);
+        alert('Error: ' + error.message);
+      }
+    });
     // Uncomment the following line to enable API integration
     // this.apiService.updateWidgetData(formData).subscribe(
     //   response => console.log('Widget updated successfully:', response),

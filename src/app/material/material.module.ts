@@ -22,7 +22,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatGridListModule } from '@angular/material/grid-list';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const MaterialComponents = [
   MatCardModule,
@@ -46,7 +46,8 @@ const MaterialComponents = [
   MatSlideToggleModule,
   MatExpansionModule,
   MatProgressSpinnerModule,
-  MatGridListModule
+  MatGridListModule,
+  DragDropModule
   
 ];
 

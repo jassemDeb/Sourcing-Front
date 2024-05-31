@@ -1,1 +1,70 @@
-<p>dashboard works!</p>
+<app-navbar-user></app-navbar-user>
+    <button mat-icon-button [matMenuTriggerFor]="widgetMenu"class="add-widget-button"><mat-icon>add</mat-icon></button>
+    <mat-menu #widgetMenu="matMenu">
+      <button *ngFor="let widget of widgets" mat-menu-item (click)="addWidget(widget.id)">
+        {{ widget.nameFr }}
+      </button>
+    </mat-menu>
+<div class="main-body">
+
+    <div class="example-box" cdkDrag>
+        I can only be dragged using the handle
+      
+        <div class="example-handle" cdkDragHandle>
+          <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+        </div>
+      </div>
+      
+
+
+      <!-- dashboard.component.html -->
+
+  <ng-container *ngIf="widgetCreated">
+    <ng-container *ngIf="widgetType === 'Liste'">
+      <mat-card [style.background-color]="getStyleValue(widgetCreated.widStyle, 'backgroundColor')"
+                [style.width]="widgetCreated.widWidth" [style.height]="widgetCreated.widHeight">
+        <mat-card-header>
+          <mat-card-title [ngStyle]="getTextStyles(widgetCreated.widStyle)">List Title: {{ widgetCreated.nameFr }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item [ngStyle]="getTextStyles(widgetCreated.widStyle)">Item 1</mat-list-item>
+            <mat-list-item [ngStyle]="getTextStyles(widgetCreated.widStyle)">Item 2</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item [ngStyle]="getTextStyles(widgetCreated.widStyle)">Item 3</mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+    
+    <ng-container *ngIf="widgetType === 'Indicateur'">
+      <mat-card [style.background-color]="getStyleValue(widgetCreated.widStyle, 'backgroundColor')"
+                [style.width]="widgetCreated.widWidth" [style.height]="widgetCreated.widHeight">
+        <mat-card-header>
+          <mat-card-title [ngStyle]="getTextStyles(widgetCreated.widStyle)">Indicator Title: {{ widgetCreated.nameFr }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="spinner-container">
+          <mat-spinner></mat-spinner>
+          <div [ngStyle]="getTextStyles(widgetCreated.widStyle)">Loading...</div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+    <ng-container *ngIf="widgetType === 'Charte'">
+      <mat-card [style.background-color]="getStyleValue(widgetCreated.widStyle, 'backgroundColor')"
+                [style.width]="widgetCreated.widWidth" [style.height]="widgetCreated.widHeight">
+        <mat-card-header>
+          <mat-card-title [ngStyle]="getTextStyles(widgetCreated.widStyle)">Graphic Chart Title: {{ widgetCreated.nameFr }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="chart-container">
+          <!-- Placeholder for Highcharts or similar -->
+          <div [ngStyle]="getTextStyles(widgetCreated.widStyle)">Chart Placeholder</div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </ng-container>
+
+</div>
