@@ -126,7 +126,7 @@ export class ApiService {
     return this.http.delete(`${this.apiUrl}/deleteWidget/${id}`, { headers });
   }
 
-  WidgetConfig(id: number){
+  WidgetConfig(id: any){
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -177,7 +177,7 @@ export class ApiService {
   }
 
   // Method to update widget configuration
-  updateWidgetConfig(id: number, widget: WidgetDetails): Observable<any> {
+  updateWidgetConfig(id: any, widget: any): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -284,6 +284,14 @@ export class ApiService {
         'Authorization': `Bearer ${token}`
       });
       return this.http.post(`${this.apiUrl}/addwidgetbyconfig`,credentials, { headers: headers });
+    }
+
+    getAllWidgetsConfig(){
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get(`${this.apiUrl}/widgetsconfig`,  { headers });
     }
   
 

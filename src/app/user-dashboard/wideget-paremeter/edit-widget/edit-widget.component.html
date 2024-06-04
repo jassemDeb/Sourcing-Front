@@ -84,37 +84,39 @@
             </div>
 
             <div *ngIf="selectedWidgetType === 'Charte'" formGroupName="chartOptions" class="conditional-section">
-                <div class="form-row">
-                    <mat-form-field appearance="fill" class="form-field">
-                        <mat-label>Chart Type</mat-label>
-                        <mat-select formControlName="chartType">
-                            <mat-option value="line">Line</mat-option>
-                            <mat-option value="bar">Bar</mat-option>
-                            <mat-option value="pie">Pie</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="form-field">
-                        <mat-label>Chart Title</mat-label>
-                        <input matInput formControlName="title">
-                    </mat-form-field>
-                </div>
-
-                <div formArrayName="series">
-                    <div *ngFor="let serie of series.controls; let i = index" [formGroupName]="i" class="form-row">
-                        <mat-form-field appearance="fill" class="form-field">
-                            <mat-label>Series Name</mat-label>
-                            <input matInput formControlName="name">
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="form-field">
-                            <mat-label>Series Data</mat-label>
-                            <input matInput formControlName="data">
-                        </mat-form-field>
-                        <button mat-button style="background-color: red; color: white;" type="button" (click)="series.removeAt(i)">Remove Data</button>
-
+                <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>Chart Type</mat-label>
+                    <mat-select formControlName="chartType">
+                        <mat-option value="line">Line</mat-option>
+                        <mat-option value="area">Area</mat-option>
+                        <mat-option value="column">Column</mat-option>
+                        <mat-option value="bar">Bar</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>Chart Title</mat-label>
+                    <input matInput formControlName="title">
+                  </mat-form-field>
+                
+                  <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>X-Axis Title</mat-label>
+                    <input matInput formControlName="xAxisTitle">
+                  </mat-form-field>
+                
+                  <mat-form-field appearance="fill" class="form-field">
+                    <mat-label>Y-Axis Title</mat-label>
+                    <input matInput formControlName="yAxisTitle">
+                  </mat-form-field>
+                
+                  <div formArrayName="dataPoints">
+                    <div *ngFor="let point of dataPoints.controls; let i = index" [formGroupName]="i">
+                        <input matInput placeholder="X Coordinate" formControlName="x">
+                        <input matInput placeholder="Y Coordinate" formControlName="y">
+                        <button mat-button (click)="removeDataPoint(i)">Remove Point</button>
                     </div>
-                    <button mat-button style="background-color: green; color: white;" type="button" (click)="addSeries()">Add Data</button>
+                    <button mat-button type="button" (click)="addDataPoint($event)">Add Data Point</button>
                 </div>
+                  
             </div>
         </div>
 

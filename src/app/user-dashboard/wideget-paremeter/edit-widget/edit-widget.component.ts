@@ -3,6 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
 
+interface DataPoint {
+  x: number | null;
+  y: number | null;
+}
+
 @Component({
   selector: 'app-edit-widget',
   templateUrl: './edit-widget.component.html',
@@ -24,21 +29,20 @@ export class EditWidgetComponent implements OnInit {
       name_eng: [''],
       wid_width: [''],
       wid_height: [''],
-      wid_rank: [''], 
+      wid_rank: [''],
       wid_style: this.fb.group({
         backgroundColor: [''],
         textColor: [''],
         textFont: ['Arial'],
-        textSize: ['12px'],
+        textSize: ['medium'],
         indicatorPercentage: [''],
         listItems: this.fb.array([]),
         chartOptions: this.fb.group({
-          chartType: ['line'],
+          chartType: ['line', Validators.required],
           title: [''],
           xAxisTitle: [''],
           yAxisTitle: [''],
-          legendEnabled: [false],
-          series: this.fb.array([])
+          dataPoints: this.fb.array([])
         })
       })
     });
@@ -54,11 +58,11 @@ export class EditWidgetComponent implements OnInit {
     });
   }
 
-  loadWidgetDash(id : any): void {
+  loadWidgetDash(id: any): void {
     this.apiService.getDashWidgetByDashConfig(id).subscribe((response: any) => {
       console.log('API Response:', response);
       if (response && response.length > 0) {
-        this.selectedWidgetType = response[0].typewid;  
+        this.selectedWidgetType = response[0].typewid;
         console.log('Selected type:', this.selectedWidgetType);
       } else {
         console.error('No widgets found in the response or response is empty');
@@ -72,7 +76,7 @@ export class EditWidgetComponent implements OnInit {
     this.apiService.WidgetConfigByID(id).subscribe((data: any) => {
       console.log("API data received:", data);
       if (data) {
-        const style = data.wid_style.reduce((acc: any, curr: any) => ({...acc, ...curr}), {});
+        const style = data.wid_style.reduce((acc: any, curr: any) => ({ ...acc, ...curr }), {});
         this.ConfigForm.patchValue({
           name_fr: data.name_fr,
           name_eng: data.name_eng,
@@ -81,6 +85,15 @@ export class EditWidgetComponent implements OnInit {
           wid_rank: data.wid_rank,
           wid_style: style
         });
+        // Populate data points
+        if (style.chartOptions && style.chartOptions.dataPoints) {
+          const dataPoints = style.chartOptions.dataPoints.map((dp: any) => this.fb.group({
+            x: [dp.x, Validators.required],
+            y: [dp.y, Validators.required]
+          }));
+          const dataPointsFormArray = this.fb.array(dataPoints);
+          this.ConfigForm.setControl('wid_style.chartOptions.dataPoints', dataPointsFormArray);
+        }
       } else {
         console.error('Widget data is missing in the response');
       }
@@ -93,19 +106,24 @@ export class EditWidgetComponent implements OnInit {
     return this.ConfigForm.get('wid_style.listItems') as FormArray;
   }
 
-  get series(): FormArray {
-    return this.ConfigForm.get('wid_style.chartOptions.series') as FormArray;
+  get dataPoints(): FormArray {
+    return this.ConfigForm.get('wid_style.chartOptions.dataPoints') as FormArray;
   }
 
   addListItem(name: string = ''): void {
     this.listItems.push(this.fb.group({ name: [name, Validators.required] }));
   }
 
-  addSeries(name: string = '', data: any[] = []): void {
-    this.series.push(this.fb.group({
-      name: [name, Validators.required],
-      data: [data]
+  addDataPoint(event: Event): void {
+    event.preventDefault();
+    this.dataPoints.push(this.fb.group({
+      x: [null, Validators.required],
+      y: [null, Validators.required]
     }));
+  }
+
+  removeDataPoint(index: number): void {
+    this.dataPoints.removeAt(index);
   }
 
   saveWidgetConfig(): void {
@@ -113,38 +131,45 @@ export class EditWidgetComponent implements OnInit {
       alert('You must complete all the fields');
       return;
     }
+
     const formData = this.ConfigForm.value;
-    const widStyle = formData.wid_style;
+    const wid_style = formData.wid_style.chartOptions;
+
+    const dataPointsTransformed = wid_style.dataPoints.map((dp: DataPoint) => {
+      return [Number(dp.x), Number(dp.y)];
+    });
 
     const widStyleArray = [
-      { backgroundColor: widStyle.backgroundColor || '' },
-      { textColor: widStyle.textColor || '' },
-      { textFont: widStyle.textFont || '' },
-      { textSize: widStyle.textSize || '' },
-      { indicatorPercentage: widStyle.indicatorPercentage || '' },
-      ...widStyle.listItems.map((item: { name: string }) => ({ listItemName: item.name })),
-      ...widStyle.chartOptions.series.map((serie: { name: string, data: any[] }) => ({
-        chartType: widStyle.chartOptions.chartType,
-        seriesName: serie.name,
-        seriesData: serie.data,
-        chartTitle: widStyle.chartOptions.title,
-        xAxisTitle: widStyle.chartOptions.xAxisTitle,
-        yAxisTitle: widStyle.chartOptions.yAxisTitle,
-        legendEnabled: widStyle.chartOptions.legendEnabled
-      }))
+      { backgroundColor: formData.wid_style.backgroundColor || '' },
+      { textColor: formData.wid_style.textColor || '' },
+      { textFont: formData.wid_style.textFont || '' },
+      { textSize: formData.wid_style.textSize || '' },
+      { indicatorPercentage: parseFloat(formData.wid_style.indicatorPercentage) },
+      ...formData.wid_style.listItems.map((item: { name: string }) => ({ listItemName: item.name })),
+      {
+        chartType: wid_style.chartType,
+        seriesName: 'Data Points',
+        seriesData: dataPointsTransformed,
+        chartTitle: wid_style.title,
+        xAxisTitle: wid_style.xAxisTitle,
+        yAxisTitle: wid_style.yAxisTitle,
+        legendEnabled: true
+      }
     ];
 
     const formattedWidth = formData.wid_width && !formData.wid_width.endsWith('px') ? `${formData.wid_width}px` : formData.wid_width || '';
     const formattedHeight = formData.wid_height && !formData.wid_height.endsWith('px') ? `${formData.wid_height}px` : formData.wid_height || '';
 
-    const formDataWithWidStyle = {
+    const formDataWithUpdatedStyle = {
       ...formData,
       wid_style: widStyleArray,
       wid_width: formattedWidth,
       wid_height: formattedHeight
     };
-    console.log('formDataWithWidStyle:', formDataWithWidStyle);
-    this.apiService.updateWidgetConfig(this.widgetId, formDataWithWidStyle).subscribe({
+
+    console.log('formDataWithUpdatedStyle:', formDataWithUpdatedStyle);
+
+    this.apiService.updateWidgetConfig(this.widgetId, formDataWithUpdatedStyle).subscribe({
       next: (response: any) => {
         if (response.message === "Widget configuration updated") {
           alert("Widget updated successfully");
@@ -157,14 +182,9 @@ export class EditWidgetComponent implements OnInit {
         alert('Error: ' + error.message);
       }
     });
-    // Uncomment the following line to enable API integration
-    // this.apiService.updateWidgetData(formData).subscribe(
-    //   response => console.log('Widget updated successfully:', response),
-    //   error => console.error('Error updating widget:', error)
-    // );
   }
 
   goBack(): void {
-    this.router.navigate(['user/widget_paremeter']); // Adjust the route as necessary
+    this.router.navigate(['user/widget_parameter']);
   }
 }
