@@ -245,7 +245,7 @@ export class DashboardComponent implements OnInit {
       return;
     }
   
-    const defaultPosition = { x: 0, y: 0 }; // Set your default position here
+    const defaultPosition = { x: 200, y: 500 }; // Set your default position here
   
     const newWidget = {
       id: widgetId , 
@@ -269,18 +269,28 @@ export class DashboardComponent implements OnInit {
     };
     console.log(newWidget)
 
-    existingWidget.widStyle = newWidget.wid_style;
 
-    this.createdWidgets.push(existingWidget);
-    this.widgetCreated = existingWidget;
+
+    existingWidget.widStyle = newWidget.wid_style;
+  
+
+
+    console.log("pushed widgets: ",this.createdWidgets)
     this.widgetType = newWidget.typewid;
   
     this.apiService.createWidget(newWidget).subscribe(
       (response: any) => {
         console.log('Widget successfully created:', response);
         if (response.widgetId) {
-          this.newWidgetId = response.widgetId; // Save the new widget ID for future reference
+          this.newWidgetId = response.widgetId; 
           console.log('New Widget ID:', this.newWidgetId);
+          if(this.newWidgetId){
+            existingWidget.id = this.newWidgetId;
+            console.log('TO be pushed widget: ',existingWidget)
+            this.createdWidgets.push(existingWidget);
+            this.sortCreatedWidgets();
+          }
+          
         }
       },
       (error) => {
@@ -313,13 +323,12 @@ export class DashboardComponent implements OnInit {
     return styleObj ? styleObj[key] : '';
   }
 
-  onDragMoved(event: CdkDragMove ): void {
-    const { x, y } = event.pointerPosition;
-  }
+
 
   
   onDragEnded(event: CdkDragEnd, widget :any): void {
     const position = event.source.getFreeDragPosition();
+    this.widgetPositions[widget.id] = position;
     console.log(this.createdWidgets)
     if (!widget) {
       console.error('No widget found or newWidgetId is null');
@@ -385,16 +394,17 @@ loadDefaultWidgets(dashConfigId: any): void {
       console.log("API Response:", response);
       if (response && response.data && response.data.length > 0) {
         response.data.forEach((widget: any) => {
-          const hasPosition = widget.wid_style.some((style: any) => style.position);
-          console.log("Processing widget:", widget);
-          console.log("Has position:", hasPosition);
+          // Check if the widget has a position defined
+          const positionIndex = widget.wid_style.findIndex((style: any) => style.hasOwnProperty('position'));
+          if (positionIndex !== -1) {
+            // Extract the position from wid_style
 
-          if (hasPosition) {
+
+            // Fetch detailed widget information if necessary
             this.apiService.getDashWidgetByDashConfig(widget.id).subscribe({
               next: (detailsResponse: any) => {
-                console.log('Widget details fetched:', detailsResponse);
                 if (detailsResponse && detailsResponse.length > 0) {
-                  const detail = detailsResponse[0]; // Assuming the details are in an array
+                  const detail = detailsResponse[0];
                   const clonedWidget: Widget = {
                     id: widget.id,
                     nameFr: widget.name_fr,
@@ -415,8 +425,13 @@ loadDefaultWidgets(dashConfigId: any): void {
                       typeorg: detail.typeorg
                     }
                   };
+
+                  // Add widget to createdWidgets array
                   this.createdWidgets.push(clonedWidget);
-                  console.log("Widget added to createdWidgets:", clonedWidget);
+                  this.sortCreatedWidgets();
+                  const position = this.extractPosition(widget.wid_style);
+                  this.widgetPositions[widget.id] = position;
+                  console.log("Widget with position added to createdWidgets:", clonedWidget);
                 } else {
                   console.error('No widget details available for widget ID:', widget.id);
                 }
@@ -441,11 +456,14 @@ loadDefaultWidgets(dashConfigId: any): void {
 
 
 
+sortCreatedWidgets(): void {
+  this.createdWidgets.sort((a, b) => a.id - b.id);
+}
+
 
 
 
 }
-
 
 
 
