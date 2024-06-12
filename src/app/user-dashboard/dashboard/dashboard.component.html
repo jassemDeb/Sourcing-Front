@@ -1,14 +1,25 @@
 <app-navbar-user></app-navbar-user>
 
 <div class="app-main-container"> 
-    <button mat-icon-button [matMenuTriggerFor]="widgetMenu" class="add-widget-button">
-    <mat-icon>add</mat-icon>
+  <button mat-icon-button (click)="toggleEditMode()" class="edit-widget-button">
+    <mat-icon>{{ isEditMode ? 'close' : 'edit' }}</mat-icon>
   </button>
-  <mat-menu #widgetMenu="matMenu">
-    <button *ngFor="let widget of widgets" mat-menu-item (click)="addWidget(widget.id)">
-      {{ widget.nameFr }}
+
+  <!-- Edit Mode Toolbar -->
+  <div *ngIf="isEditMode" class="edit-mode-toolbar">
+    <button mat-icon-button [matMenuTriggerFor]="widgetMenu" class="add-widget-button">
+      <mat-icon>add</mat-icon>
     </button>
-  </mat-menu>
+    <button mat-icon-button (click)="deleteSelectedWidgets()" class="delete-widget-button">
+      <mat-icon>delete</mat-icon>
+    </button>
+  
+    <mat-menu #widgetMenu="matMenu">
+      <button *ngFor="let widget of widgets" mat-menu-item (click)="addWidget(widget.id)">
+        {{ widget.nameFr }}
+      </button>
+    </mat-menu>
+  </div>
 
   <div class="widget-container">
       <!-- Iterate over each createdWidget -->
@@ -38,6 +49,17 @@
               <mat-card-title [ngStyle]="getTextStyles(widget.widStyle)">
                 {{ widget.nameFr }}
               </mat-card-title>
+              <div *ngIf="isEditMode" class="widget-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-checkbox class="widget-checkbox" (change)="toggleWidgetCheck($event.checked, widget.id)"></mat-checkbox>
+                  <svg width="24px" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;">
+                    <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                  </svg>
+                  
+                </div>
+               
+              </div>
             </mat-card-header>
             <mat-card-content>
               <div class="value" [ngStyle]="getTextStyles(widget.widStyle)">
@@ -55,12 +77,6 @@
                 </span>
               </div>
             </mat-card-content>
-            <div class="drag-handle" cdkDragHandle>
-              <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
-                <path d="M0 0h24v24H0z" fill="none"></path>
-              </svg>
-            </div>
           </mat-card>
         </div>
         
@@ -71,6 +87,17 @@
               <mat-card-title [ngStyle]="getTextStyles(widget.widStyle)">
                 {{ widget.nameFr }}
               </mat-card-title>
+              <div *ngIf="isEditMode" class="widget-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-checkbox class="widget-checkbox" (change)="toggleWidgetCheck($event.checked, widget.id)"></mat-checkbox>
+                  <svg width="24px" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;">
+                    <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                  </svg>
+                  
+                </div>
+                
+              </div>
             </mat-card-header>
             <mat-card-content class="chart-container">
               <highcharts-chart
@@ -83,12 +110,6 @@
                 style="width: 100%; height: 100%; display: block;">
               </highcharts-chart>
             </mat-card-content>
-            <div class="drag-handle" cdkDragHandle>
-              <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
-                <path d="M0 0h24v24H0z" fill="none"></path>
-              </svg>
-            </div>
           </mat-card>
         </div>
         

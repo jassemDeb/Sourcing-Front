@@ -70,4 +70,9 @@ export class NavbarComponent implements OnInit {
     }
     item.expanded = !item.expanded;
   }
+
+  home(event : MouseEvent): void {
+    event.preventDefault();
+    this.router.navigate(['/sasp']);
+  }
 }

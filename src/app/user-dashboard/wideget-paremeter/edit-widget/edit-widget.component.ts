@@ -116,75 +116,112 @@ export class EditWidgetComponent implements OnInit {
 
   addDataPoint(event: Event): void {
     event.preventDefault();
+    const chartType = this.ConfigForm.get('wid_style.chartOptions.chartType')?.value || 'line';
+
+    // Determine default values for x based on chart type
+    let defaultXValue: number | string | null;
+    if (chartType === 'line' || chartType === 'area') {
+        defaultXValue = null;  // Assuming numeric x-axis (could set to 0 or another starter value)
+    } else {
+        defaultXValue = '';  // Assuming string x-axis for categories
+    }
+
     this.dataPoints.push(this.fb.group({
-      x: [null, Validators.required],
-      y: [null, Validators.required]
+        x: [defaultXValue, chartType === 'column' || chartType === 'bar' ? Validators.required : Validators.nullValidator],
+        y: [null, Validators.required]
     }));
-  }
+}
+
+
+
+  
 
   removeDataPoint(index: number): void {
     this.dataPoints.removeAt(index);
   }
 
+  
   saveWidgetConfig(): void {
     if (!this.ConfigForm.valid) {
-      alert('You must complete all the fields');
-      return;
+        alert('You must complete all the fields');
+        return;
     }
 
     const formData = this.ConfigForm.value;
     const wid_style = formData.wid_style.chartOptions;
-
-    const dataPointsTransformed = wid_style.dataPoints.map((dp: DataPoint) => {
-      return [Number(dp.x), Number(dp.y)];
+    const chartType = formData.wid_style.chartOptions.chartType;
+    const dataPointsTransformed = formData.wid_style.chartOptions.dataPoints.map((dp: DataPoint) => {
+        const xValue = chartType === 'column' || chartType === 'bar' ? dp.x?.toString() : Number(dp.x ?? 0);
+        return [xValue, Number(dp.y)];
     });
 
     const widStyleArray = [
-      { backgroundColor: formData.wid_style.backgroundColor || '' },
-      { textColor: formData.wid_style.textColor || '' },
-      { textFont: formData.wid_style.textFont || '' },
-      { textSize: formData.wid_style.textSize || '' },
-      { indicatorPercentage: parseFloat(formData.wid_style.indicatorPercentage) },
-      ...formData.wid_style.listItems.map((item: { name: string }) => ({ listItemName: item.name })),
-      {
-        chartType: wid_style.chartType,
-        seriesName: 'Data Points',
-        seriesData: dataPointsTransformed,
-        chartTitle: wid_style.title,
-        xAxisTitle: wid_style.xAxisTitle,
-        yAxisTitle: wid_style.yAxisTitle,
-        legendEnabled: true
-      }
+        { backgroundColor: formData.wid_style.backgroundColor || '' },
+        { textColor: formData.wid_style.textColor || '' },
+        { textFont: formData.wid_style.textFont || '' },
+        { textSize: formData.wid_style.textSize || '' },
+        { indicatorPercentage: parseFloat(formData.wid_style.indicatorPercentage) },
+        ...formData.wid_style.listItems.map((item: { name: string }) => ({ listItemName: item.name })),
+        {
+            chartType: wid_style.chartType,
+            seriesName: 'Data Points',
+            seriesData: dataPointsTransformed,
+            chartTitle: wid_style.title,
+            xAxisTitle: wid_style.xAxisTitle,
+            yAxisTitle: wid_style.yAxisTitle,
+            legendEnabled: true
+        }
     ];
 
     const formattedWidth = formData.wid_width && !formData.wid_width.endsWith('px') ? `${formData.wid_width}px` : formData.wid_width || '';
     const formattedHeight = formData.wid_height && !formData.wid_height.endsWith('px') ? `${formData.wid_height}px` : formData.wid_height || '';
 
     const formDataWithUpdatedStyle = {
-      ...formData,
-      wid_style: widStyleArray,
-      wid_width: formattedWidth,
-      wid_height: formattedHeight
+        ...formData,
+        wid_style: widStyleArray,
+        wid_width: formattedWidth,
+        wid_height: formattedHeight
     };
 
     console.log('formDataWithUpdatedStyle:', formDataWithUpdatedStyle);
 
     this.apiService.updateWidgetConfig(this.widgetId, formDataWithUpdatedStyle).subscribe({
-      next: (response: any) => {
-        if (response.message === "Widget configuration updated") {
-          alert("Widget updated successfully");
-        } else {
-          alert(response.message);
+        next: (response: any) => {
+            if (response.message === "Widget configuration updated") {
+                alert("Widget updated successfully");
+            } else {
+                alert(response.message);
+            }
+        },
+        error: (error: any) => {
+            console.error('Error updating widget:', error);
+            alert('Error: ' + error.message);
         }
-      },
-      error: (error: any) => {
-        console.error('Error updating widget:', error);
-        alert('Error: ' + error.message);
-      }
     });
-  }
+}
+
 
   goBack(): void {
-    this.router.navigate(['user/widget_parameter']);
+    this.router.navigate(['/user/widget_paremeter']);
   }
+
+  onChartTypeChange(chartType: string): void {
+    const newDataPoints = this.dataPoints.controls.map(control => {
+        const xValue = control.get('x')?.value;
+        const yValue = control.get('y')?.value;
+        // Handle conversion of x value based on new chart type
+        const newXValue = (chartType === 'column' || chartType === 'bar') ? (xValue?.toString() || '') : Number(xValue || 0);
+        return this.fb.group({
+            x: [newXValue, Validators.required],
+            y: [yValue, Validators.required]
+        });
+    });
+
+    // Reset the form array with converted data points
+    this.ConfigForm.setControl('wid_style.chartOptions.dataPoints', this.fb.array(newDataPoints));
+    this.ConfigForm.get('wid_style.chartOptions.chartType')?.setValue(chartType);
+}
+
+
+
 }

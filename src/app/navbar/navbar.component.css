@@ -203,3 +203,29 @@
     color: #000;
 }
 
+.home-icon{
+    display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    height: 3rem;
+    width: 3rem;
+    color: #f3f3f3;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.home-icon:hover{
+    background-color: #fff;
+    color: #000;
+    
+}
+
+.home-icon:active {
+    background-color: #fff;
+    color: #000;
+    /* Add any additional styles to highlight the active navigation item */
+  }
+

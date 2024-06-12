@@ -27,6 +27,14 @@ export class DashboardWidgetComponent implements OnInit {
 
   dataSource!: MatTableDataSource<any>;
 
+  selectedOrganizationType: string = '';
+  selectedWidgetType: string = '';
+  selectedWidgetVisibility: string = '';
+  selectedTransactionType: string = '';
+
+  isSearchPanelVisible: boolean = false;
+  filterMode: 'AND' | 'OR' = 'AND';
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
@@ -141,5 +149,55 @@ export class DashboardWidgetComponent implements OnInit {
     (error: any) => {
       alert('Error: ' + error.message);
     })
+  }
+
+  reloadPage(event: MouseEvent) : void {
+    window.location.reload();
+  }
+
+  applySearch() {
+    const filters = {
+      organizationType: this.selectedOrganizationType,
+      widgetType: this.selectedWidgetType,
+      widgetVisibility: this.selectedWidgetVisibility,
+      transactionType: this.selectedTransactionType
+    };
+
+    this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
+      const searchFilters = JSON.parse(filter);
+
+      if (this.filterMode === 'AND') {
+        return (!searchFilters.organizationType || data.organizationType === searchFilters.organizationType) &&
+               (!searchFilters.widgetType || data.typewid === searchFilters.widgetType) &&
+               (!searchFilters.widgetVisibility || data.wid_visi === searchFilters.widgetVisibility) &&
+               (!searchFilters.transactionType || data.typetrans === searchFilters.transactionType);
+      } else {
+        return (!searchFilters.organizationType || data.organizationType === searchFilters.organizationType) ||
+               (!searchFilters.widgetType || data.typewid === searchFilters.widgetType) ||
+               (!searchFilters.widgetVisibility || data.wid_visi === searchFilters.widgetVisibility) ||
+               (!searchFilters.transactionType || data.typetrans === searchFilters.transactionType);
+      }
+    };
+
+    this.dataSource.filter = JSON.stringify(filters);
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+  resetFilters() {
+    this.selectedOrganizationType = '';
+    this.selectedWidgetType = '';
+    this.selectedWidgetVisibility = '';
+    this.selectedTransactionType = '';
+    this.applySearch();
+  }
+
+  toggleSearchPanel() {
+    this.isSearchPanelVisible = !this.isSearchPanelVisible;
+  }
+
+  toggleFilterMode() {
+    this.filterMode = this.filterMode === 'AND' ? 'OR' : 'AND';
   }
 }

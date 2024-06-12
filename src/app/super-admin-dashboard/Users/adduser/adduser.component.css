@@ -40,7 +40,7 @@ p {
     background-color: rgba(255, 255, 255, 0.13);
     position: absolute;
     transform: translate(-50%, -50%);
-    top: 55%;
+    top: 57%;
     left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
@@ -82,4 +82,41 @@ mat-form-field.mat-form-field input.mat-input-element {
       width: 90%;
       padding: 30px 20px;
   }
+}
+
+.edit-mode-toolbar {
+  position: absolute;
+  top: 98px; /* Positioned below the edit button */
+  right: 660px;
+  width: 600px;
+  height : 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #455A64; /* Slightly lighter than button for contrast */
+  color: #f1f1f1;
+  border-radius: 8px; /* Rounded corners for the toolbar */
+  z-index: 990; /* Slightly below the edit button to create layer effect */
+  font-size: 8px;
+}
+
+.reload-btn{
+  background-color: #fc9803;
+  position: absolute;
+  top: 103px; 
+  right: 1284px;
+  height : 40px;
+  width: 40px;
+  color: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+}
+
+.reload-btn:hover{
+  background-color: #f1f1f1;
+  color: #fc9803;
+}
+.reload-btn:active{
+  background-color: #f1f1f1;
+  color: #fc9803;
 }

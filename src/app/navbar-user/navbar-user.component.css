@@ -91,6 +91,34 @@
     transition: all .3s ease;
 }
 
+.home-icon{
+    display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    height: 3rem;
+    width: 3rem;
+    color: #f3f3f3;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.user-icon{
+    display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    height: 3rem;
+    width: 3rem;
+    color: #f3f3f3;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all .3s ease;
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
 .side-link-icon{
     font-size: 30px;
     width: 2rem;
@@ -108,7 +136,31 @@
     
 }
 
+.home-icon:hover{
+    background-color: #fff;
+    color: #000;
+    
+}
+
+.user-icon:hover{
+    background-color: #fff;
+    color: #000;
+    
+}
+
 .sidenav-nav-link:active {
+    background-color: #fff;
+    color: #000;
+    /* Add any additional styles to highlight the active navigation item */
+  }
+
+  .home-icon:active {
+    background-color: #fff;
+    color: #000;
+    /* Add any additional styles to highlight the active navigation item */
+  }
+
+  .user-icon:active {
     background-color: #fff;
     color: #000;
     /* Add any additional styles to highlight the active navigation item */

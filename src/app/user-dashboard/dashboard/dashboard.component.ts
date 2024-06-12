@@ -52,7 +52,11 @@ interface WidgetDetailsResponse {
   }
 }
 
-
+interface DataPoint {
+  x?: number | string;
+  y: number;
+  name?: string;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -60,6 +64,8 @@ interface WidgetDetailsResponse {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  isEditMode: boolean = false; 
+  checkedWidgets: any[] = [];
   widgets: Widget[] = [];
   defaultWidgets: Widget[] = [];
   username: string | undefined;
@@ -141,15 +147,27 @@ export class DashboardComponent implements OnInit {
     }];
   }
 
+
+
+
+
+  
+  
+  
+  
+
   getStyleValue(styles: any[], key: string): string {
     const styleObj = styles.find(style => style.hasOwnProperty(key));
     return styleObj ? styleObj[key] : '';
   }
 
   getAxisCategories(styles: any[]): string[] {
-    const categories = styles.find(style => style.hasOwnProperty('categories'));
-    return categories ? categories.categories : ['Category 1', 'Category 2', 'Category 3'];
+    const categories = this.getStyleValue(styles, 'categories');
+    return categories ? JSON.parse(categories) : [];
   }
+  
+  
+  
 
   constructor(private apiService: ApiService) {}
 
@@ -209,34 +227,46 @@ export class DashboardComponent implements OnInit {
 
   fetchDashConfig(id: any) {
     this.apiService.getDashConfigByUser(id).subscribe((response: any) => {
-      this.dashConfigId = response.dashboardConfigurations[0].id;
-      console.log('Fetching dashboard configuration for ID:', id);
-      
-      if (this.dashConfigId) {
-        console.log('Dashboard Configuration ID found:', this.dashConfigId);
-        this.loadDefaultWidgets(this.dashConfigId);
-        this.apiService.WidgetConfigByDashConfig(this.dashConfigId).subscribe((response: any) => {
-          if (response.status && response.data.length > 0) {
-            this.widgets = response.data.map((config: any) => ({
-              id: config.id,
-              nameFr: config.name_fr,
-              nameEng: config.name_eng,
-              widStyle: config.wid_style,
-              widWidth: config.wid_width,
-              widHeight: config.wid_height,
-              widRank: config.wid_rank
-            }));
-            this.widgets.forEach(widget => this.fetchWidgetDetails(widget));
-          } else {
-            console.error('No widget configurations found or invalid response');
-          }
-        }, error => {
-          console.error('Error fetching widget configurations:', error);
-        });
+      if (response.dashboardConfigurations && response.dashboardConfigurations.length > 0) {
+        this.dashConfigId = response.dashboardConfigurations[0].id;
+        console.log('Fetching dashboard configuration for ID:', id);
+  
+        if (this.dashConfigId) {
+          console.log('Dashboard Configuration ID found:', this.dashConfigId);
+          this.loadDefaultWidgets(this.dashConfigId); // Assuming this should still be called
+          this.apiService.WidgetConfigByDashConfig(this.dashConfigId).subscribe((response: any) => {
+            if (response.status && response.data.length > 0) {
+              // Filter widgets to exclude those with a position in wid_style
+              const filteredWidgets = response.data.filter((widget: any) =>
+                !widget.wid_style.some((style: any) => style.hasOwnProperty('position'))
+              );
+  
+              // Map over the filtered widgets to format them
+              this.widgets = filteredWidgets.map((config: any) => ({
+                id: config.id,
+                nameFr: config.name_fr,
+                nameEng: config.name_eng,
+                widStyle: config.wid_style,
+                widWidth: config.wid_width,
+                widHeight: config.wid_height,
+                widRank: config.wid_rank
+              }));
+  
+              // Fetch details for each widget
+              this.widgets.forEach(widget => this.fetchWidgetDetails(widget));
+            } else {
+              console.error('No widget configurations found or invalid response');
+            }
+          }, error => {
+            console.error('Error fetching widget configurations:', error);
+          });
+        }
+      } else {
+        console.error('No dashboard configuration found for the provided ID');
       }
-    })
+    });
   }
-
+  
   addWidget(widgetId: number): void {
     const existingWidget = this.widgets.find(widget => widget.id === widgetId);
   
@@ -245,7 +275,7 @@ export class DashboardComponent implements OnInit {
       return;
     }
   
-    const defaultPosition = { x: 200, y: 500 }; // Set your default position here
+    const defaultPosition = { x: 300, y: 100 }; // Set your default position here
   
     const newWidget = {
       id: widgetId , 
@@ -288,6 +318,7 @@ export class DashboardComponent implements OnInit {
             existingWidget.id = this.newWidgetId;
             console.log('TO be pushed widget: ',existingWidget)
             this.createdWidgets.push(existingWidget);
+            this.widgetPositions[existingWidget.id] = defaultPosition;
             this.sortCreatedWidgets();
           }
           
@@ -460,6 +491,57 @@ sortCreatedWidgets(): void {
   this.createdWidgets.sort((a, b) => a.id - b.id);
 }
 
+
+toggleEditMode(): void {
+  this.isEditMode = !this.isEditMode;
+  console.log('Edit mode toggled:', this.isEditMode);
+}
+
+toggleWidgetCheck(isChecked: boolean, widgetId: number): void {
+  if (isChecked) {
+    // Add the widget ID to the array if it's checked and not already included
+    if (!this.checkedWidgets.includes(widgetId)) {
+      this.checkedWidgets.push(widgetId);
+    }
+  } else {
+    // Remove the widget ID from the array if it's unchecked
+    this.checkedWidgets = this.checkedWidgets.filter(id => id !== widgetId);
+  }
+  console.log(this.checkedWidgets); // Optionally log the current state for debugging
+}
+
+deleteSelectedWidgets(): void {
+  if (this.checkedWidgets.length === 0) {
+    alert('No widgets selected for deletion.');
+    return;
+  }
+
+  this.checkedWidgets.forEach(widgetId => {
+    this.apiService.deleteWidgetById(widgetId).subscribe({
+      next: (response: any) => {
+        if (response.message === "Dashboard Configuration Widget and associated Dashboard Widget deleted successfully") {
+          this.sortCreatedWidgets();
+          this.createdWidgets = this.createdWidgets.filter(widget => widget.id !== widgetId);
+          this.sortCreatedWidgets();
+          console.log('Widget deleted successfully:', widgetId);
+        } else {
+          console.error('Failed to delete widget:', widgetId);
+        }
+      },
+      error: (error) => {
+        console.error('Error deleting widget:', widgetId, error);
+      },
+      complete: () => {
+        // Check if this is the last widget being processed and handle accordingly
+        if (this.checkedWidgets.indexOf(widgetId) === this.checkedWidgets.length - 1) {
+          alert('Completed deletion attempts.');
+          // Clear checked widgets after processing all deletions
+          this.checkedWidgets = [];
+        }
+      }
+    });
+  });
+}
 
 
 

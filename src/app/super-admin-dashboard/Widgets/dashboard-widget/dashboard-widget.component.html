@@ -1,79 +1,133 @@
 <app-navbar></app-navbar>
-
-<div class="main-body">
-    <mat-form-field>
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-    </mat-form-field>
-
-    <button mat-button class="add-button" (click)="openAddForm()"> Add widget
-        <mat-icon>add</mat-icon>
-    </button>
-    
-
-
-
+<button class="reload-btn" (click)="reloadPage($event)">
+  <mat-icon>replay</mat-icon>
+</button>
+<div class="edit-mode-toolbar">
+  <p>Acceuil/<strong> Liste des widgets</strong></p>
+</div>
+<button mat-button class="add-button" (click)="openAddForm()">Ajouter
+  <mat-icon>add</mat-icon>
+</button>
+<button mat-button class="search-button" (click)="toggleSearchPanel()">
+  <mat-icon>search</mat-icon>
+</button>
+<div class="body">
+  <div class="search-panel" *ngIf="isSearchPanelVisible">
+    <div class="select-fields">
+      <!-- Type d'organisation -->
+      <!-- Type d'organisation -->
+      <mat-form-field appearance="fill">
+        <mat-label>Type d'organisation</mat-label>
+        <mat-select placeholder="Select one" name="organizationType" [(ngModel)]="selectedOrganizationType">
+          <mat-option value="Fournisseur">Fournisseur</mat-option>
+          <mat-option value="Acheteur">Acheteur</mat-option>
+          <mat-option value="Prestataire">Prestataire</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Type de widget -->
+      <mat-form-field appearance="fill">
+        <mat-label>Type de widget</mat-label>
+        <mat-select placeholder="Select one" name="widgetType" [(ngModel)]="selectedWidgetType">
+          <mat-option value="Indicateur">Indicateur</mat-option>
+          <mat-option value="Liste">Liste</mat-option>
+          <mat-option value="Graphique">Graphique</mat-option>
+          <mat-option value="Charte">Charte Graphique</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Visibilité du widget -->
+      <mat-form-field appearance="fill">
+        <mat-label>Visibilité du widget</mat-label>
+        <mat-select placeholder="Select one" name="widgetVisibility" [(ngModel)]="selectedWidgetVisibility">
+          <mat-option value="all">all</mat-option>
+          <mat-option value="is_requester">is_requester</mat-option>
+          <mat-option value="is_collaborator">is_collaborator</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Transaction type -->
+      <mat-form-field appearance="fill">
+        <mat-label>Transaction type</mat-label>
+        <mat-select placeholder="Select one" name="transactionType" [(ngModel)]="selectedTransactionType">
+          <mat-option value="Précommande">Précommande</mat-option>
+          <mat-option value="Commande">Commande</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-button class="toggle-button" (click)="toggleFilterMode()">
+        {{ filterMode }}
+      </button>
+    </div>
+    <div class="control-buttons">
+      <button mat-button class="search-button2" (click)="applySearch()">Rechercher
+        <mat-icon>search</mat-icon>
+      </button>
+      <button mat-button class="reinit-button" (click)="resetFilters()">Réinitialiser
+        <mat-icon>replay</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <div class="main-body">
     <div class="table-container">
-        <table mat-table [dataSource]="dataSource" matSort>
-    
-          <!-- ID Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-          </ng-container>
-          
-          <ng-container matColumnDef="typewid">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Widget </th>
-              <td mat-cell *matCellDef="let row"> {{row.typewid}} </td>
-            </ng-container>
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+        </ng-container>
   
-            <ng-container matColumnDef="typetrans">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Transaction </th>
-              <td mat-cell *matCellDef="let row"> {{row.typetrans}} </td>
-            </ng-container>
-            <ng-container matColumnDef="wid_visi">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Visibilité des Widgets </th>
-              <td mat-cell *matCellDef="let row"> {{row.wid_visi}} </td>
-            </ng-container>
-            <ng-container matColumnDef="is_default">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Est par default </th>
-              <td mat-cell *matCellDef="let row"> {{row.is_default}} </td>
-            </ng-container>
+        <ng-container matColumnDef="typewid">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Widget </th>
+          <td mat-cell *matCellDef="let row"> {{row.typewid}} </td>
+        </ng-container>
   
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-            <td mat-cell *matCellDef="let row">
-              <button mat-icon-button color="primary" (click)="openEditForm(row)" >
-                <mat-icon>edit</mat-icon>
+        <ng-container matColumnDef="typetrans">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Transaction </th>
+          <td mat-cell *matCellDef="let row"> {{row.typetrans}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="wid_visi">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Visibilité des Widgets </th>
+          <td mat-cell *matCellDef="let row"> {{row.wid_visi}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="is_default">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Est par default </th>
+          <td mat-cell *matCellDef="let row"> {{row.is_default}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button color="primary" (click)="openEditForm(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteUser(row.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="moretrigger">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #moretrigger="matMenu" [hasBackdrop]="false">
+              <button mat-menu-item (click)="closeMenu()">Close
+                <mat-icon>clear</mat-icon>
               </button>
-              <button mat-icon-button color="warn" (click)="deleteUser(row.id)">
-                <mat-icon>delete</mat-icon>
+              <button mat-menu-item (click)="$event.stopPropagation()">
+                <mat-slide-toggle (change)="toggleDupliquer($event, row.id)">Dupliquer</mat-slide-toggle>
               </button>
-              <button mat-icon-button [matMenuTriggerFor]="moretrigger">
-                <mat-icon>more_horiz</mat-icon>
-              </button>
-              <mat-menu #moretrigger="matMenu" [hasBackdrop]="false">
-                  <button mat-menu-item (click)="closeMenu()">Close
-                    <mat-icon>clear</mat-icon>
-                  </button>
-                  <button mat-menu-item (click)="$event.stopPropagation()">
-                    <mat-slide-toggle (change)="toggleDupliquer($event, row.id)" >Dupliquer</mat-slide-toggle>
-                  </button>
-                  
-              </mat-menu>
-            </td>
-          </ng-container>
-    
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    
-          <!-- Row shown when there is no matching data. -->
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-          </tr>
-        </table>
-    
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" role="pagination"></mat-paginator>
-      </div>
+            </mat-menu>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" role="pagination"></mat-paginator>
+    </div>
+  </div>
 </div>
 

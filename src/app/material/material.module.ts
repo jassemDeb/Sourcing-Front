@@ -23,7 +23,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MatDividerModule } from '@angular/material/divider';
 const MaterialComponents = [
   MatCardModule,
   MatInputModule,
@@ -47,7 +47,8 @@ const MaterialComponents = [
   MatExpansionModule,
   MatProgressSpinnerModule,
   MatGridListModule,
-  DragDropModule
+  DragDropModule,
+  MatDividerModule
   
 ];
 

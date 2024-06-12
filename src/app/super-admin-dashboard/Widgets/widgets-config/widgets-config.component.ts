@@ -310,6 +310,8 @@ onWidgetSelectionChange(widgets: any[]): void {
   }
   
   
-  
+  reloadPage(event: MouseEvent) : void {
+    window.location.reload();
+  }
   
 }

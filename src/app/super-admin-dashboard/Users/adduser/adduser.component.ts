@@ -70,7 +70,9 @@ export class AdduserComponent implements OnInit {
   }
 
 
-  
+  reloadPage(event: MouseEvent) : void {
+    window.location.reload();
+  }
 
 
 }

@@ -70,6 +70,9 @@ export class AddOrgComponent implements OnInit {
     }
     
   }
+  reloadPage(event: MouseEvent) : void {
+    window.location.reload();
+  }
 
   
 }

@@ -1,6 +1,10 @@
 <app-navbar></app-navbar>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block" rel="stylesheet">
-
+<button class="reload-btn" (click)="reloadPage($event)"><mat-icon>replay</mat-icon></button>
+<div class="edit-mode-toolbar">
+  
+  <h1>Acceuil/<strong > Liste des organizations</strong></h1>
+</div>
 <div class="main-body">
   <mat-accordion class="example-headers-align">
     <mat-expansion-panel *ngFor="let widgetType of ['Fournisseur', 'Acheteur', 'Prestataire']; let i = index" #panel>

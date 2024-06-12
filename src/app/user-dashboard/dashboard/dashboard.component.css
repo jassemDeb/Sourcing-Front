@@ -65,23 +65,97 @@
   right: 10px;
   cursor: move;
 }
-
-.add-widget-button {
-  margin-top: 100px;
+.edit-widget-button {
   position: absolute;
   right: 20px;
-  top: 20px;
-  background-color: #263238; /* Red color for visibility */
+  top: 90px;
+  background-color: #263238; /* Dark color for visibility */
   color: white;
   border-radius: 50%; /* Circle shape */
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Shadow for depth */
   z-index: 1000; /* Make sure it's above other elements */
 }
 
-.add-widget-button mat-icon {
+.edit-widget-button mat-icon {
   width: 24px;
   height: 24px;
 }
+
+.add-widget-button {
+  position: relative;  /* Ensures absolute positioning works for children */
+  background-color: #ffffff; /* White color for the button */
+  color: #263238; /* Dark color for the icon */
+  border-radius: 50%; /* Circle shape */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Shadow for depth */
+  margin-right: 20px; /* Space between buttons */
+  width: 40px; /* Button width */
+  height: 40px; /* Button height */
+  display: flex; /* Uses flexbox for centering content */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+}
+
+.add-widget-button mat-icon {
+  width: 21px; /* Icon width */
+  height: 21px; /* Icon height */
+  display: block; /* Ensures the icon is treated as a block-level element */
+  position: absolute; /* Absolute position relative to its nearest positioned parent */
+  top: 50%;  /* Center the icon vertically */
+  left: 50%; /* Center the icon horizontally */
+  transform: translate(-56%, -56%); /* Correct centering */
+  text-align: center; /* Center text inside the icon */
+}
+
+.add-widget-button:hover  {
+  background-color: #bdbdbd; /* White color for the button */
+  color: #ffffff; /* Dark color for the icon */
+}
+
+
+.delete-widget-button {
+  position: relative;  /* Ensures absolute positioning works for children */
+  background-color: #ffffff; /* White color for the button */
+  color: #263238; /* Dark color for the icon */
+  border-radius: 50%; /* Circle shape */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Shadow for depth */
+  width: 40px; /* Button width */
+  height: 40px; /* Button height */
+  display: flex; /* Uses flexbox for centering content */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+}
+
+.delete-widget-button mat-icon {
+  width: 21px; /* Icon width */
+  height: 21px; /* Icon height */
+  display: block; /* Ensures the icon is treated as a block-level element */
+  position: absolute; /* Absolute position relative to its nearest positioned parent */
+  top: 50%;  /* Center the icon vertically */
+  left: 50%; /* Center the icon horizontally */
+  transform: translate(-56%, -56%); /* Correct centering */
+  text-align: center; /* Center text inside the icon */
+}
+
+.delete-widget-button:hover  {
+  background-color: #bdbdbd; /* White color for the button */
+  color: #ffffff; /* Dark color for the icon */
+}
+
+.edit-mode-toolbar {
+  position: absolute;
+  top: 90px; /* Positioned below the edit button */
+  right: 800px;
+  width: 120px;
+  height : 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #455A64; /* Slightly lighter than button for contrast */
+  border-radius: 8px; /* Rounded corners for the toolbar */
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15); /* More prominent shadow */
+  z-index: 990; /* Slightly below the edit button to create layer effect */
+}
+
 
 .indicator-card {
   padding: 20px;
@@ -113,10 +187,21 @@
   position: relative; /* Provides a relative positioning context for absolute elements */
 }
 
-.widget-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.widget-controls {
+  display: flex;
+  align-items: center; /* Vertically centers the items in the container */
+  justify-content: start; /* Aligns items to the start of the container */
+  flex-wrap: nowrap;
 }
+
+.drag-handle {
+  display: flex;   /* Enable flexbox */
+  align-items: center; /* Align items vertically in the center */
+  justify-content: start; /* Align items to the start horizontally */
+}
+
+.widget-checkbox {
+  margin: 0; /* Ensures no additional space around the checkbox */
+}
+
+

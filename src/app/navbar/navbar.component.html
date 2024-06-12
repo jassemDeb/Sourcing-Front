@@ -2,6 +2,7 @@
     <mat-toolbar class="toolbar">
         <img id="additionalImage2" *ngIf="!collapsed"  src="../../assets/img/logo-sf-2.png" alt="Additional Image 1" >
         <span class="spacer"></span>
+        <mat-icon  class="home-icon" (click)="home($event)">home</mat-icon>
         <button mat-button class="white-button1" (click)="onLogout()">Log out</button>
     </mat-toolbar>
     <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : '' ">

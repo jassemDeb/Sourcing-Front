@@ -86,7 +86,7 @@
             <div *ngIf="selectedWidgetType === 'Charte'" formGroupName="chartOptions" class="conditional-section">
                 <mat-form-field appearance="fill" class="form-field">
                     <mat-label>Chart Type</mat-label>
-                    <mat-select formControlName="chartType">
+                    <mat-select formControlName="chartType" (selectionChange)="onChartTypeChange($event.value)">
                         <mat-option value="line">Line</mat-option>
                         <mat-option value="area">Area</mat-option>
                         <mat-option value="column">Column</mat-option>

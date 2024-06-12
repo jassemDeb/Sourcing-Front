@@ -7,7 +7,7 @@
 
   .main-body{
     position: fixed;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0 auto;
@@ -21,4 +21,40 @@
   .action {
     display: flex;
     gap: 5px;
+  }
+
+  .edit-mode-toolbar {
+    position: absolute;
+    top: 130px; /* Positioned below the edit button */
+    right: 660px;
+    width: 700px;
+    height : 50px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #455A64; /* Slightly lighter than button for contrast */
+    color: #f1f1f1;
+    border-radius: 8px; /* Rounded corners for the toolbar */
+    z-index: 990; /* Slightly below the edit button to create layer effect */
+  }
+
+  .reload-btn{
+    background-color: #fc9803;
+    position: absolute;
+    top: 135px; 
+    right: 1384px;
+    height : 40px;
+    width: 40px;
+    color: #f1f1f1;
+    border: none;
+    border-radius: 8px;
+  }
+
+  .reload-btn:hover{
+    background-color: #f1f1f1;
+    color: #fc9803;
+  }
+  .reload-btn:active{
+    background-color: #f1f1f1;
+    color: #fc9803;
   }

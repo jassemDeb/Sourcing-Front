@@ -75,4 +75,7 @@ export class OrgListComponent implements OnInit {
     });
   }
 
+  reloadPage(event: MouseEvent) : void {
+    window.location.reload();
+  }
 }

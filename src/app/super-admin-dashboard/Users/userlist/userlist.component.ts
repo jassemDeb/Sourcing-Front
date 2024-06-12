@@ -77,6 +77,8 @@ export class UserlistComponent implements OnInit  {
       data,
     });
   }
-  
+  reloadPage(event: MouseEvent) : void {
+    window.location.reload();
+  }
 
 }

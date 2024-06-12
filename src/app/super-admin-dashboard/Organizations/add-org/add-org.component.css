@@ -83,3 +83,40 @@ mat-form-field.mat-form-field input.mat-input-element {
       padding: 30px 20px;
   }
 }
+
+.edit-mode-toolbar {
+  position: absolute;
+  top: 130px; /* Positioned below the edit button */
+  right: 660px;
+  width: 600px;
+  height : 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 8px;
+  background-color: #455A64; /* Slightly lighter than button for contrast */
+  color: #f1f1f1;
+  border-radius: 8px; /* Rounded corners for the toolbar */
+  z-index: 990; /* Slightly below the edit button to create layer effect */
+}
+
+.reload-btn{
+  background-color: #fc9803;
+  position: absolute;
+  top: 135px; 
+  right: 1284px;
+  height : 40px;
+  width: 40px;
+  color: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+}
+
+.reload-btn:hover{
+  background-color: #f1f1f1;
+  color: #fc9803;
+}
+.reload-btn:active{
+  background-color: #f1f1f1;
+  color: #fc9803;
+}
