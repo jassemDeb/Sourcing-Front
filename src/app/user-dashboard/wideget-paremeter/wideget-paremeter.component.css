@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     padding: 10px; /* Increased padding for visual spacing between cards */
-    border: 2px solid #333; /* Darker border for better visibility */
+    border: 2px solid #9b9b9b; /* Darker border for better visibility */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
     border-radius: 10px; /* Rounded corners for a modern look */
   }

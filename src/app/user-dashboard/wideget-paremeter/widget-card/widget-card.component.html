@@ -1,19 +1,15 @@
 <!-- widget-card.component.html -->
 <div class="widget-card">
-  <div class="widget-info">
-    <p><strong>English Name:</strong> {{ widgetconfig.name_eng }}</p>
-    <p><strong>French Name:</strong> {{ widgetconfig.name_fr }}</p>
+  <div class="widget-header">
+    <h1>{{ widgetconfig.name_fr }}</h1>
   </div>
-  <div class="widget-styles">
-    <p><strong>Styles:</strong></p>
-    <ul>
-      <li *ngFor="let style of widgetconfig.wid_style">
-        {{ style.backgroundColor ? 'Background Color: ' + style.backgroundColor : '' }}
-        {{ style.textColor ? 'Text Color: ' + style.textColor : '' }}
-        {{ style.textFont ? 'Font: ' + style.textFont : '' }}
-        {{ style.textSize ? 'Text Size: ' + style.textSize : '' }}
-      </li>
-    </ul>
+  <div class="widget-details">
+    <p><strong>Widget Type:</strong> {{ dashboardWidget?.[0]?.typewid }}</p>
+    <p><strong>Widget Visibility:</strong> {{ dashboardWidget?.[0]?.wid_visi }}</p>
+    <p><strong>Color:</strong> {{ widgetconfig.wid_style[0]?.backgroundColor }}</p>
+    <p><strong>Width:</strong> {{ widgetconfig.wid_width }}</p>
+    <p><strong>Height:</strong> {{ widgetconfig.wid_height }}</p>
+    <p><strong>Text Size:</strong> {{ widgetconfig.wid_style[3]?.textSize }}</p>
   </div>
   <div class="widget-actions">
     <button mat-icon-button class="edit-button" (click)="editWidget()">

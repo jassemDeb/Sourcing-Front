@@ -29,8 +29,8 @@ mat-form-field {
 .edit-mode-toolbar {
   position: absolute;
   top: 140px;
-  right: 840px;
-  width: 500px;
+  right: 520px;
+  width: 900px;
   height: 50px;
   display: flex;
   align-items: center;
@@ -45,7 +45,7 @@ mat-form-field {
   background-color: #fc9803;
   position: absolute;
   top: 144px;
-  right: 1350px;
+  right: 1450px;
   height: 40px;
   width: 40px;
   color: #f1f1f1;
@@ -68,7 +68,7 @@ mat-form-field {
   color: #f1f1f1 !important;
   text-decoration: none;
   top: 144px;
-  left: 57%;
+  left: 74%;
   width: 120px;
   height: 40px;
   border-radius: 8px;
@@ -91,7 +91,7 @@ mat-form-field {
   background-color: #455A64;
   position: absolute;
   top: 144px;
-  left: 64%;
+  left: 81%;
   align-items: center !important;
   justify-content: center !important;
   height: 40px;

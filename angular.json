@@ -90,7 +90,10 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/flag-icons/css/flag-icons.min.css",
+              "node_modules/flag-icon-css/css/flag-icon.min.css",
+              "node_modules/country-flag-icons/3x2/flags.css"
             ],
             "scripts": []
           }

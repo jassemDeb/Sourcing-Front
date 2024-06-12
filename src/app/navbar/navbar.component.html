@@ -2,8 +2,20 @@
     <mat-toolbar class="toolbar">
         <img id="additionalImage2" *ngIf="!collapsed"  src="../../assets/img/logo-sf-2.png" alt="Additional Image 1" >
         <span class="spacer"></span>
+        <img *ngIf="currentFlag === 'us'" src="../../assets/img/united-states.png" alt="US Flag" class="flag-icon" (click)="toggleFlag()">
+        <img *ngIf="currentFlag === 'fr'" src="../../assets/img/france.png" alt="France Flag" class="flag-icon" (click)="toggleFlag()">
         <mat-icon  class="home-icon" (click)="home($event)">home</mat-icon>
-        <button mat-button class="white-button1" (click)="onLogout()">Log out</button>
+        <mat-icon  class="user-icon" [matMenuTriggerFor]="userMenu">account_circle</mat-icon>
+        <mat-menu #userMenu="matMenu">
+            <div class="menu-header">
+                <img src="../../assets/img/logo_sf.png" class="logo-company">
+              </div>
+            <button mat-menu-item>{{username}}<mat-icon>account_circle</mat-icon></button>
+            <button mat-menu-item>Paramétres<mat-icon>settings</mat-icon></button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="onLogout()">Se déconnecter<mat-icon>logout</mat-icon></button>
+            <!-- Other menu items as needed -->
+        </mat-menu>
     </mat-toolbar>
     <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : '' ">
         <div class="logo-container">

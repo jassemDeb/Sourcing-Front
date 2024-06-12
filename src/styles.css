@@ -3,7 +3,7 @@
 
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=block');
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
+@import "node_modules/country-flag-icons/3x2/flags.css";
 :root {
     --custom-primary: #263238; /* Your custom primary color */
     --custom-accent: #3f51b5; /* Your custom accent color */

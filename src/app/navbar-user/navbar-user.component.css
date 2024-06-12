@@ -105,6 +105,13 @@
     margin-right: 1rem;
 }
 
+.flag-icon {
+    cursor: pointer;
+    width: 24px;
+    height: auto;
+    margin-right: 1rem;
+  }
+
 .user-icon{
     display: flex;
     align-items: center; /* Centers content vertically */
@@ -255,3 +262,13 @@
     color: #000;
 }
 
+.logo-company{
+    width: 50%;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0; /* Add padding for spacing */
+  }

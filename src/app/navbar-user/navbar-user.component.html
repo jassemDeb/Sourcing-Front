@@ -3,11 +3,18 @@
         <img id="additionalImage2" *ngIf="!collapsed"  src="../../assets/img/logo-sf-2.png" alt="Additional Image 1" >
         <span class="spacer"></span>
         
+        <img *ngIf="currentFlag === 'us'" src="../../assets/img/united-states.png" alt="US Flag" class="flag-icon" (click)="toggleFlag()">
+        <img *ngIf="currentFlag === 'fr'" src="../../assets/img/france.png" alt="France Flag" class="flag-icon" (click)="toggleFlag()">
+        
         <mat-icon  class="home-icon" (click)="home($event)">home</mat-icon>
         <mat-icon  class="user-icon" [matMenuTriggerFor]="userMenu">account_circle</mat-icon>
 
         <mat-menu #userMenu="matMenu">
-            <button mat-menu-item>Utilisateur</button>
+            <div class="menu-header">
+                <img src="../../assets/img/small-logo.PNG" class="logo-company">
+              </div>
+            <button mat-menu-item>{{username}}<mat-icon>account_circle</mat-icon></button>
+            <button mat-menu-item>Paramétres<mat-icon>settings</mat-icon></button>
             <mat-divider></mat-divider>
             <button mat-menu-item (click)="onLogout()">Se déconnecter<mat-icon>logout</mat-icon></button>
             <!-- Other menu items as needed -->

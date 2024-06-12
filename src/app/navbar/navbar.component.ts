@@ -3,10 +3,18 @@ import { Router , ActivatedRoute, NavigationEnd} from '@angular/router';
 import { navbarData } from './nav-data';
 import { filter } from 'rxjs/operators';
 import { INavbarData } from './helper';
+import { jwtDecode } from 'jwt-decode';
+import { ApiService } from 'src/app/api.service';
 
 interface SideNavToggle {
   screenWidth : number;
   collapsed : boolean;
+}
+
+interface JwtPayload {
+  username: string;
+  exp: number;
+  iat: number;
 }
 
 @Component({
@@ -21,6 +29,8 @@ export class NavbarComponent implements OnInit {
   screenWidth = 0; 
   navData = navbarData;
   multiple: boolean = false;
+  username: string | undefined;
+  currentFlag: string = 'us';
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -32,13 +42,25 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    this.getDecodedAccessToken();
   }
 
 
   constructor(private router: Router) {
     
   }
-
+  getDecodedAccessToken(): JwtPayload | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      this.username = decoded.username;
+      return decoded;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
   
   onLogout(){
     alert("Succees to logout");
@@ -74,5 +96,10 @@ export class NavbarComponent implements OnInit {
   home(event : MouseEvent): void {
     event.preventDefault();
     this.router.navigate(['/sasp']);
+  }
+
+  toggleFlag() {
+    this.currentFlag = this.currentFlag === 'us' ? 'fr' : 'us';
+    console.log(this.currentFlag)
   }
 }

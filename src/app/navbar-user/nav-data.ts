@@ -10,6 +10,12 @@ export const navbarData: INavbarData[] = [
         routerLink : '/user/widget_paremeter',
         icon: 'edit',
         Label: 'Widget Paremeter'
+    },
+    {
+        routerLink : '/sasp/adduser',
+        icon: 'settings',
+        Label: 'Settings',
+        
     }
 
 ]
