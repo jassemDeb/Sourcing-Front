@@ -1,5 +1,10 @@
 <app-navbar-user></app-navbar-user>
-
+<button class="reload-btn" (click)="reloadPage($event)">
+  <mat-icon>replay</mat-icon>
+</button>
+<div class="edit-mode-toolbar">
+  <p>Acceuil/<strong> Liste des widgets</strong></p>
+</div>
 <div>
   <button mat-icon-button [matMenuTriggerFor]="menu" class="add-widget-button">
     <mat-icon>add</mat-icon>
@@ -17,11 +22,10 @@
 </div>
 
 <div class="main-body">
-  <div>
-    <mat-grid-list cols="3" rowHeight="300px" gutterSize="20px">
-      <mat-grid-tile *ngFor="let widgetconfig of widgetconfigs">
-        <app-widget-card [widgetconfig]="widgetconfig"></app-widget-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
+  <mat-grid-list cols="3" rowHeight="300px" gutterSize="20px">
+    <mat-grid-tile *ngFor="let widgetconfig of widgetconfigs">
+      <app-widget-card [widgetconfig]="widgetconfig"></app-widget-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
+

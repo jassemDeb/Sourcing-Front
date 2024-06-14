@@ -35,13 +35,22 @@
             <div class="form-row">
                 <mat-form-field appearance="fill" class="form-field">
                     <mat-label>Background Color</mat-label>
-                    <input matInput formControlName="backgroundColor">
+                    <input matInput formControlName="backgroundColor" [ngModel]="backgroundColor" (ngModelChange)="onBackgroundColorChange($event)" readonly>
                 </mat-form-field>
-
+        
+                <div class="color-picker-icon" (click)="toggleBackgroundColorPanel()">
+                   <input matInput [(colorPicker)]="backgroundColor" name="backgroundColor" [style.background]="backgroundColor ? backgroundColor : 'transparent'">
+                </div>
+            </div>
+            <div class="form-row">
                 <mat-form-field appearance="fill" class="form-field">
                     <mat-label>Text Color</mat-label>
-                    <input matInput formControlName="textColor">
+                    <input matInput formControlName="textColor" [ngModel]="textColor" (ngModelChange)="onTextColorChange($event)">
                 </mat-form-field>
+
+                <div class="color-picker-icon" (click)="toggleTextColorPanel()">
+                    <input matInput [(colorPicker)]="textColor" name="textColor" [style.background]="textColor ? textColor : 'transparent'">
+                  </div>
             </div>
 
             <div class="form-row">

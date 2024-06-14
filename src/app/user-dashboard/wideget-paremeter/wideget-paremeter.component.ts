@@ -20,7 +20,7 @@ interface Widget {
   desc_fr: string;
   desc_eng: string;
   wid_url: string;
-  wid_style: string[];
+  wid_style: any[];
   wid_width: string;
   wid_height: string;
   wid_rank: number;
@@ -139,25 +139,50 @@ export class WidegetParemeterComponent implements OnInit {
   }
 
   loadWidgets(): void {
+    console.log('loadWidgets called');
     if (this.orgId) {
-      this.apiService.getWidgetByOrg(this.orgId).subscribe((response: any) => {
-        this.widgets = response.data;
-        console.log('Widgets loaded:', this.widgets);
+        this.apiService.getWidgetByOrg(this.orgId).subscribe((response: any) => {
+            if (response && Array.isArray(response.data)) {
+                console.log('API response received:', response.data);
+                this.widgets = response.data;
 
-        // Fetch the dashboard configuration ID after loading the widgets
-        this.getDashConfig().then(() => {
-          if (this.dashconfigid) {
-            this.loadWidgetConfigs();
-          }
+                // Additional debug information
+                this.widgets.forEach(widget => {
+                    console.log(`Widget ${widget.id} style before filtering:`, widget.wid_style);
+                });
+
+                this.widgetconfigs = this.widgets.filter(widget =>
+                    !widget.wid_style.some((style: any) => {
+                        const hasPosition = 'position' in style;
+                        console.log(`Testing widget ${widget.id}: hasPosition = ${hasPosition}`);
+                        return hasPosition;
+                    })
+                );
+                console.log('Filtered widget configs (without position):', this.widgetconfigs);
+            } else {
+                console.error('Unexpected API response format:', response);
+                return;
+            }
+
+            this.getDashConfig().then(() => {
+                if (this.dashconfigid) {
+                    this.loadWidgetConfigs();
+                }
+            });
+        }, (error: any) => {
+            console.error('Error fetching widgets:', error);
+            alert('Error: ' + error.message);
         });
-      }, (error: any) => {
-        console.error('Error fetching widgets:', error);
-        alert('Error: ' + error.message);
-      });
     } else {
-      console.error('Org ID is not set when trying to load widgets');
+        console.error('Org ID is not set when trying to load widgets');
     }
-  }
+}
+
+
+
+  
+  
+  
 
   async getDashConfig(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -183,6 +208,13 @@ export class WidegetParemeterComponent implements OnInit {
         if (response.status && response.data.length > 0) {
           response.data.forEach((config: any) => {
             this.widgetconfigs.push(config);
+            this.widgetconfigs = this.widgetconfigs.filter(widget =>
+              !widget.wid_style.some((style: any) => {
+                  const hasPosition = 'position' in style;
+                  console.log(`Testing widget ${widget.id}: hasPosition = ${hasPosition}`);
+                  return hasPosition;
+              })
+          );
           });
           console.log("Widget configs loaded:", response.data);
         } else {
@@ -255,5 +287,9 @@ export class WidegetParemeterComponent implements OnInit {
       console.error('Error creating widget:', error);
       alert('Failed to create widget: ' + error.message);
     });
+  }
+
+  reloadPage(event: MouseEvent) : void {
+    window.location.reload();
   }
 }

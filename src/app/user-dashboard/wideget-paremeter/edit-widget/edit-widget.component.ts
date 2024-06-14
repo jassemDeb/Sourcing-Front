@@ -17,6 +17,10 @@ export class EditWidgetComponent implements OnInit {
   widgetId: any;
   ConfigForm: FormGroup;
   selectedWidgetType: string = '';
+  showBackgroundColorPanel: boolean = false;
+  backgroundColor: string = '';
+  textColor: string = '';
+  showTextColorPanel: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -185,20 +189,73 @@ export class EditWidgetComponent implements OnInit {
 
     console.log('formDataWithUpdatedStyle:', formDataWithUpdatedStyle);
 
-    this.apiService.updateWidgetConfig(this.widgetId, formDataWithUpdatedStyle).subscribe({
-        next: (response: any) => {
-            if (response.message === "Widget configuration updated") {
-                alert("Widget updated successfully");
+    // First, get all widget configurations
+    this.apiService.getAllWidgetsConfig().subscribe({
+        next: (allWidgetsResponse: any) => {
+            // Filter to find all widgets with the same 'name_fr'
+            const matchingWidgets = allWidgetsResponse.filter((widget: any) => widget.name_fr === formDataWithUpdatedStyle.name_fr);
+            
+            // Select the second match if it exists
+            const same_widget = matchingWidgets.length > 1 ? matchingWidgets[1] : null;
+            console.log('Same widget:', same_widget);
+
+            if (same_widget) {
+                // Extract position from same_widget's wid_style
+                const position = same_widget.wid_style.find((style: any) => 'position' in style)?.position;
+                
+                // Create a copy of formDataWithUpdatedStyle and add the position
+                let updatedWidStyle = [...formDataWithUpdatedStyle.wid_style];
+                if (position) {
+                    updatedWidStyle.push({ position });
+                }
+
+                // Use this updated wid_style to update the same_widget's wid_style
+                same_widget.wid_style = updatedWidStyle;
+
+                console.log('Updated same_widget with new wid_style:', same_widget);
+
+                // Proceed with the first update using formDataWithUpdatedStyle
+                this.apiService.updateWidgetConfig(this.widgetId, formDataWithUpdatedStyle).subscribe({
+                    next: (response: any) => {
+                        if (response.message === "Widget configuration updated") {
+
+                            // Proceed with the second update using same_widget
+                            this.apiService.updateWidgetConfig(same_widget.id, same_widget).subscribe({
+                                next: (response: any) => {
+                                    if (response.message === "Widget configuration updated") {
+                                      alert("Widget updated successfully");
+                                    } else {
+                                        alert(response.message);
+                                    }
+                                },
+                                error: (error: any) => {
+                                    console.error('Error updating same widget:', error);
+                                    alert('Error: ' + error.message);
+                                }
+                            });
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: (error: any) => {
+                        console.error('Error updating widget:', error);
+                        alert('Error: ' + error.message);
+                    }
+                });
             } else {
-                alert(response.message);
+                console.error('No second matching widget found with the same name_fr.');
+                alert('No second matching widget found.');
             }
         },
         error: (error: any) => {
-            console.error('Error updating widget:', error);
-            alert('Error: ' + error.message);
+            console.error('Error fetching all widgets configurations:', error);
+            alert('Error fetching all widgets configurations: ' + error.message);
         }
     });
 }
+
+
+
 
 
   goBack(): void {
@@ -222,6 +279,43 @@ export class EditWidgetComponent implements OnInit {
     this.ConfigForm.get('wid_style.chartOptions.chartType')?.setValue(chartType);
 }
 
+toggleBackgroundColorPanel(): void {
+  this.showBackgroundColorPanel = !this.showBackgroundColorPanel;
+}
+toggleTextColorPanel(): void {
+  this.showTextColorPanel = !this.showTextColorPanel;
+}
+
+onBackgroundColorChange(value: string): void {
+  this.backgroundColor = value;
+  // Update the form control directly
+  this.ConfigForm.get('wid_style.backgroundColor')!.setValue(value);
+}
+
+onTextColorChange(value: string): void {
+  this.textColor = value;
+  // Update the form control directly
+  this.ConfigForm.get('wid_style.textColor')!.setValue(value);
+}
+
+
+
+colorStringToHex(colorString: string): string {
+  colorString = colorString.trim().toLowerCase();
+  
+  if (colorString.startsWith("#")) {
+      return colorString;
+  }
+  
+  if (colorString.startsWith("rgb")) {
+      const rgbValues = colorString.match(/\d+/g)?.map(Number) || [0, 0, 0];
+      
+      const hexValue = ((1 << 24) + (rgbValues[0] << 16) + (rgbValues[1] << 8) + rgbValues[2]).toString(16).slice(1);
+      
+      return `#${hexValue}`;
+  }
+  return "#000000";
+}
 
 
 }

@@ -16,6 +16,11 @@
     border-radius: 10px; /* Rounded corners for a modern look */
   }
 
+  mat-grid-tile:hover {
+    transform: translateY(-3px); /* Slight lift effect on hover */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Deeper shadow on hover for emphasis */
+  }
+
   mat-grid-list {
     width: calc(100% - 10px); /* Adjust width to ensure it fits within parent taking account borders */
     margin: 5px; /* Optional: ensures some space around the grid list if needed */
@@ -36,4 +41,41 @@
 .add-widget-button mat-icon {
     width: 24px;
     height: 24px;
+}
+
+.edit-mode-toolbar {
+  position: absolute;
+  top: 140px;
+  right: 520px;
+  width: 900px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #455A64;
+  color: #f1f1f1;
+  border-radius: 8px;
+  z-index: 990;
+}
+
+.reload-btn {
+  background-color: #fc9803;
+  position: absolute;
+  top: 144px;
+  right: 1450px;
+  height: 40px;
+  width: 40px;
+  color: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+}
+
+.reload-btn:hover {
+  background-color: #f1f1f1;
+  color: #fc9803;
+}
+
+.reload-btn:active {
+  background-color: #f1f1f1;
+  color: #fc9803;
 }

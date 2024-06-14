@@ -85,3 +85,18 @@ form {
         margin-bottom: 10px; /* Space below each field when stacked */
     }
 }
+
+.color-picker-icon {
+    margin-left: 10px;
+  }
+  
+  
+  
+  .color-picker-icon input {
+    border: 2px solid #ccc;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+  }
