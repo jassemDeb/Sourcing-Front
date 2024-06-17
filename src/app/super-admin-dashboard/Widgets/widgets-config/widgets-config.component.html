@@ -104,15 +104,40 @@
                       [style.background-color]="ConfigForm.get('backgroundColor')?.value"
                       [style.width]="widgetWidth" [style.height]="widgetHeight">
               <mat-card-header>
-                <mat-card-title [ngStyle]="getTextStyles()">List Title</mat-card-title>
+                <mat-card-title [ngStyle]="getTextStyles()">Table Title</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                <mat-list>
-                  <mat-list-item [ngStyle]="getTextStyles()">Item 1</mat-list-item>
-                  <mat-list-item [ngStyle]="getTextStyles()">Item 2</mat-list-item>
-                  <mat-divider></mat-divider>
-                  <mat-list-item [ngStyle]="getTextStyles()">Item 3</mat-list-item>
-                </mat-list>
+                <table mat-table [dataSource]="tableData" matSort class="mat-elevation-z8">
+        
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="getTextStyles()"> No. </th>
+                    <td mat-cell *matCellDef="let element" [ngStyle]="getTextStyles()"> {{element.position}} </td>
+                  </ng-container>
+        
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="getTextStyles()"> Name </th>
+                    <td mat-cell *matCellDef="let element" [ngStyle]="getTextStyles()"> {{element.name}} </td>
+                  </ng-container>
+        
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="weight">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="getTextStyles()"> Weight </th>
+                    <td mat-cell *matCellDef="let element" [ngStyle]="getTextStyles()"> {{element.weight}} </td>
+                  </ng-container>
+        
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="symbol">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="getTextStyles()"> Symbol </th>
+                    <td mat-cell *matCellDef="let element" [ngStyle]="getTextStyles()"> {{element.symbol}} </td>
+                  </ng-container>
+        
+                  <!-- Header and Row Declarations -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+                </table>
               </mat-card-content>
             </mat-card>
           </ng-container>

@@ -1,0 +1,46 @@
+<app-navbar-user></app-navbar-user>
+<button class="reload-btn" (click)="reloadPage($event)">
+    <mat-icon>replay</mat-icon>
+  </button>
+  <div class="edit-mode-toolbar">
+    <p>Acceuil/<strong>Paramétre Utilisateur</strong></p>
+  </div>
+<div class="main-body">
+    <div class="user">
+        <mat-icon class="user-icon" style="font-size: 36px;">account_circle</mat-icon>
+        <span class="username" style="font-size: 24px;">{{username}}</span>
+        <img src="../../assets/img/small-logo.PNG" class="logo-company">
+    </div>
+    <form [formGroup]="EditForm" (ngSubmit)="onFormSubmit()">
+        <div class="content">
+            <!-- First row -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password">
+                </mat-form-field>
+            </div>
+
+            <!-- Second row -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Fullname</mat-label>
+                    <input matInput type="text" formControlName="fullname">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Username</mat-label>
+                    <input matInput type="text" formControlName="username">
+                </mat-form-field>
+            </div>
+
+            <!-- Buttons row -->
+            <div class="form-row buttons-container">
+                <button mat-raised-button class="save-button" type="submit">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

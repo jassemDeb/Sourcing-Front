@@ -1,0 +1,110 @@
+.main-body {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Adjust width as needed */
+    max-width: 1200px; /* Limit maximum width */
+    height: auto; /* Adjust height as needed */
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 2px solid rgb(209, 209, 209);
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Distribute space between fields */
+    align-items: center; /* Center align items vertically */
+    margin-bottom: 20px; /* Adds space below each row */
+}
+
+.form-field {
+    flex: 1; /* Each field takes equal space */
+    margin-right: 16px; /* Adds space between fields */
+}
+
+.form-field:last-child {
+    margin-right: 0; /* Removes margin from the last field in a row */
+}
+
+button[type="button"], button[type="submit"] {
+    margin-right: 8px; /* Add space between buttons */
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center; /* Center align buttons horizontally */
+    width: 100%; /* Full width to center align */
+}
+
+.save-button{
+    width: 100px;
+    background-color: #263238 !important;
+    color: white !important;
+}
+
+.save-button:hover{
+    background-color: #e6e6e6 !important;
+    color: rgb(58, 58, 58) !important;
+}
+
+.user {
+    margin-bottom: 100px; /* Adds space below the .user div */
+    display: flex;
+    align-items: center;
+    justify-content: center !important; /* Center align items horizontally */
+}
+
+.user .user-icon {
+    font-size: 60px !important; /* Adjust icon size as needed */
+    width: 65px;
+    height: 65px;
+    margin-right: 10px; /* Add space between icon and username */
+    color: #455A64;
+}
+
+.user .username {
+    font-size: 24px; /* Adjust username text size as needed */
+}
+
+.edit-mode-toolbar {
+    position: absolute;
+    top: 140px;
+    right: 520px;
+    width: 900px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #455A64;
+    color: #f1f1f1;
+    border-radius: 8px;
+    z-index: 990;
+  }
+  
+  .reload-btn {
+    background-color: #fc9803;
+    position: absolute;
+    top: 144px;
+    right: 1450px;
+    height: 40px;
+    width: 40px;
+    color: #f1f1f1;
+    border: none;
+    border-radius: 8px;
+  }
+  
+  .reload-btn:hover {
+    background-color: #f1f1f1;
+    color: #fc9803;
+  }
+  
+  .reload-btn:active {
+    background-color: #f1f1f1;
+    color: #fc9803;
+  }
+  .logo-company {
+    margin-left: 750px; /* Adds space between image and icon */
+}

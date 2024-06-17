@@ -14,7 +14,7 @@
                 <img src="../../assets/img/small-logo.PNG" class="logo-company">
               </div>
             <button mat-menu-item>{{username}}<mat-icon>account_circle</mat-icon></button>
-            <button mat-menu-item>Paramétres<mat-icon>settings</mat-icon></button>
+            <button mat-menu-item (click)="setting($event)">Paramétres<mat-icon>settings</mat-icon></button>
             <mat-divider></mat-divider>
             <button mat-menu-item (click)="onLogout()">Se déconnecter<mat-icon>logout</mat-icon></button>
             <!-- Other menu items as needed -->

@@ -34,6 +34,7 @@ import { WidegetParemeterComponent } from './user-dashboard/wideget-paremeter/wi
 import { DashboardComponent } from './user-dashboard/dashboard/dashboard.component';
 import { WidgetCardComponent } from './user-dashboard/wideget-paremeter/widget-card/widget-card.component';
 import { EditWidgetComponent } from './user-dashboard/wideget-paremeter/edit-widget/edit-widget.component';
+import { UserSettingComponent } from './user-dashboard/user-setting/user-setting.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { EditWidgetComponent } from './user-dashboard/wideget-paremeter/edit-wid
     WidegetParemeterComponent,
     DashboardComponent,
     WidgetCardComponent,
-    EditWidgetComponent
+    EditWidgetComponent,
+    UserSettingComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

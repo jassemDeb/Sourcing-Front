@@ -83,6 +83,90 @@ export class DashboardComponent implements OnInit {
     console.log('Chart rendered!', chart);
   };
 
+  getTableDataSource(styles: any[]): any[] {
+    const tableData = this.getStyleValue(styles, 'tableData');
+    let parsedTableData: any[] = [];
+  
+    if (typeof tableData === 'string') {
+      try {
+        parsedTableData = JSON.parse(tableData);
+      } catch (e) {
+        console.error('Error parsing tableData:', e);
+        return [];
+      }
+    } else if (Array.isArray(tableData)) {
+      parsedTableData = tableData;
+    } else {
+      console.error('Unexpected tableData type:', typeof tableData);
+      return [];
+    }
+  
+    return this.transformTableData(parsedTableData);
+  }
+  
+
+  transformTableData(tableData: any[]): any[] {
+    const dataSource: any[] = [];
+    if (Array.isArray(tableData) && tableData.length > 0) {
+      const rowCount = Array.isArray(tableData[0].data) ? tableData[0].data.length : 0;
+      for (let i = 0; i < rowCount; i++) {
+        const row: any = {};
+        for (const column of tableData) {
+          if (column.data && Array.isArray(column.data)) {
+            row[column.name] = column.data[i];
+          }
+        }
+        dataSource.push(row);
+      }
+    }
+    return dataSource;
+  }
+  
+
+  getTableColumns(styles: any[]): { name: string }[] {
+    const tableData = this.getStyleValue(styles, 'tableData');
+    let parsedTableData: any[] = [];
+  
+    if (typeof tableData === 'string') {
+      try {
+        parsedTableData = JSON.parse(tableData);
+      } catch (e) {
+        console.error('Error parsing tableData:', e);
+      }
+    } else if (Array.isArray(tableData)) {
+      parsedTableData = tableData;
+    }
+  
+    const columns: { name: string }[] = [];
+    for (const column of parsedTableData) {
+      columns.push({ name: column.name });
+    }
+    return columns;
+  }
+  
+
+  getTableColumnNames(styles: any[]): string[] {
+    const tableData = this.getStyleValue(styles, 'tableData');
+    let parsedTableData: any[] = [];
+  
+    if (typeof tableData === 'string') {
+      try {
+        parsedTableData = JSON.parse(tableData);
+      } catch (e) {
+        console.error('Error parsing tableData:', e);
+      }
+    } else if (Array.isArray(tableData)) {
+      parsedTableData = tableData;
+    }
+  
+    const columnNames: string[] = [];
+    for (const column of parsedTableData) {
+      columnNames.push(column.name);
+    }
+    return columnNames;
+  }
+  
+
   getChartOptions(widget: Widget): Highcharts.Options {
     const chartType = this.getStyleValue(widget.widStyle, 'chartType');
     const chartOptions: Highcharts.Options = {

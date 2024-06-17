@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators ,FormControl } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
 
 interface DataPoint {
@@ -40,6 +40,7 @@ export class EditWidgetComponent implements OnInit {
         textFont: ['Arial'],
         textSize: ['medium'],
         indicatorPercentage: [''],
+        tableData: this.fb.array([]),
         listItems: this.fb.array([]),
         chartOptions: this.fb.group({
           chartType: ['line', Validators.required],
@@ -48,10 +49,47 @@ export class EditWidgetComponent implements OnInit {
           yAxisTitle: [''],
           dataPoints: this.fb.array([])
         })
+       
       })
     });
   }
+  get tableData(): FormArray {
+    return this.ConfigForm.get('wid_style.tableData') as FormArray;
+  }
 
+  getColumnData(columnIndex: number): FormArray {
+    const column = this.tableData.at(columnIndex) as FormGroup;
+    return column.get('data') as FormArray;
+  }
+
+  addColumn(event: Event): void {
+    event.preventDefault();
+    const columnGroup = this.fb.group({
+      name: ['', Validators.required],
+      data: this.fb.array([], Validators.required)
+    });
+    this.tableData.push(columnGroup);
+    console.log('Column added:', this.ConfigForm.value);
+  }
+  
+  addData(columnIndex: number, event: Event): void {
+    event.preventDefault();
+    const data = this.getColumnData(columnIndex);
+    data.push(this.fb.control('', Validators.required));
+    console.log('Data added to column', columnIndex, ':', this.ConfigForm.value);
+  }
+  
+  
+
+  removeData(columnIndex: number, dataItemIndex: number): void {
+    const data = this.getColumnData(columnIndex);
+    data.removeAt(dataItemIndex);
+  }
+
+  removeColumn(columnIndex: number): void {
+    this.tableData.removeAt(columnIndex);
+  }
+ 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.widgetId = params.get('id');
@@ -87,8 +125,34 @@ export class EditWidgetComponent implements OnInit {
           wid_width: data.wid_width,
           wid_height: data.wid_height,
           wid_rank: data.wid_rank,
-          wid_style: style
+          wid_style: {
+            backgroundColor: style.backgroundColor || '',
+            textColor: style.textColor || '',
+            textFont: style.textFont || 'Arial',
+            textSize: style.textSize || 'medium',
+            indicatorPercentage: style.indicatorPercentage || ''
+          }
         });
+  
+        // Populate listItems
+        if (style.listItems) {
+          const listItems = style.listItems.map((item: any) => this.fb.group({
+            name: [item.name, Validators.required]
+          }));
+          const listItemsFormArray = this.fb.array(listItems);
+          this.ConfigForm.setControl('wid_style.listItems', listItemsFormArray);
+        }
+  
+        // Populate tableData
+        if (style.tableData) {
+          const tableData = style.tableData.map((column: any) => this.fb.group({
+            name: [column.name, Validators.required],
+            data: this.fb.array(column.data.map((d: any) => this.fb.control(d, Validators.required)))
+          }));
+          const tableDataFormArray = this.fb.array(tableData);
+          this.ConfigForm.setControl('wid_style.tableData', tableDataFormArray);
+        }
+  
         // Populate data points
         if (style.chartOptions && style.chartOptions.dataPoints) {
           const dataPoints = style.chartOptions.dataPoints.map((dp: any) => this.fb.group({
@@ -105,6 +169,8 @@ export class EditWidgetComponent implements OnInit {
       console.error('Error loading widget data:', error);
     });
   }
+  
+  
 
   get listItems(): FormArray {
     return this.ConfigForm.get('wid_style.listItems') as FormArray;
@@ -146,18 +212,27 @@ export class EditWidgetComponent implements OnInit {
 
   
   saveWidgetConfig(): void {
+    console.log(this.ConfigForm);
     if (!this.ConfigForm.valid) {
         alert('You must complete all the fields');
         return;
     }
 
     const formData = this.ConfigForm.value;
+    
+    // Handle chartOptions data
     const wid_style = formData.wid_style.chartOptions;
     const chartType = formData.wid_style.chartOptions.chartType;
     const dataPointsTransformed = formData.wid_style.chartOptions.dataPoints.map((dp: DataPoint) => {
         const xValue = chartType === 'column' || chartType === 'bar' ? dp.x?.toString() : Number(dp.x ?? 0);
         return [xValue, Number(dp.y)];
     });
+
+    // Transform tableData for saving
+    const tableDataTransformed = formData.wid_style.tableData.map((column: any) => ({
+        name: column.name,
+        data: column.data
+    }));
 
     const widStyleArray = [
         { backgroundColor: formData.wid_style.backgroundColor || '' },
@@ -174,7 +249,8 @@ export class EditWidgetComponent implements OnInit {
             xAxisTitle: wid_style.xAxisTitle,
             yAxisTitle: wid_style.yAxisTitle,
             legendEnabled: true
-        }
+        },
+        { tableData: tableDataTransformed }
     ];
 
     const formattedWidth = formData.wid_width && !formData.wid_width.endsWith('px') ? `${formData.wid_width}px` : formData.wid_width || '';
@@ -253,6 +329,7 @@ export class EditWidgetComponent implements OnInit {
         }
     });
 }
+
 
 
 

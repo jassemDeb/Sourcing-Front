@@ -31,7 +31,7 @@ export class NavbarUserComponent implements OnInit {
   navData = navbarData;
   multiple: boolean = false;
   username: string | undefined;
-  currentFlag: string = 'us';
+  currentFlag: string = 'fr';
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -104,5 +104,10 @@ export class NavbarUserComponent implements OnInit {
   toggleFlag() {
     this.currentFlag = this.currentFlag === 'us' ? 'fr' : 'us';
     console.log(this.currentFlag)
+  }
+
+  setting(event : MouseEvent): void {
+    event.preventDefault();
+    this.router.navigate(['/user/settings']);
   }
 }

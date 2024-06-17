@@ -13,6 +13,7 @@ import { DashboardComponent } from './user-dashboard/dashboard/dashboard.compone
 import { WidegetParemeterComponent } from './user-dashboard/wideget-paremeter/wideget-paremeter.component';
 import { WidgetCardComponent } from './user-dashboard/wideget-paremeter/widget-card/widget-card.component';
 import { EditWidgetComponent } from './user-dashboard/wideget-paremeter/edit-widget/edit-widget.component';
+import { UserSettingComponent } from './user-dashboard/user-setting/user-setting.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,10 @@ const routes: Routes = [
   {
     path: "user/widget_paremeter/editwidget/:id",
     component: EditWidgetComponent
+  },
+  {
+    path: "user/settings",
+    component: UserSettingComponent
   }
 ];
 

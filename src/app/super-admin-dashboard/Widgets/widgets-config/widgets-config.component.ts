@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
 import * as Highcharts from 'highcharts';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { WidgetDetails } from 'src/app/models/widget-details.model';  // Ensure the path is correct
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-widgets-config',
@@ -26,6 +28,15 @@ export class WidgetsConfigComponent implements OnInit {
   showBackgroundColorPanel: boolean = false;
   showTextColorPanel: boolean = false;
 
+  tableData = new MatTableDataSource([
+    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+    { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+    { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+    // Add more data as needed
+  ]);
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  @ViewChild(MatSort) sort!: MatSort;
+
   Highcharts: typeof Highcharts = Highcharts;
   chartConstructor: string = 'chart';
   chartOptions: Highcharts.Options = {
@@ -38,6 +49,8 @@ export class WidgetsConfigComponent implements OnInit {
   runOutsideAngular: boolean = false;
 
   listItems: string[] = ['Item 1', 'Item 2', 'Item 3'];
+
+  
 
   constructor(private apiService: ApiService, private fb: FormBuilder) { }
 
@@ -54,6 +67,7 @@ export class WidgetsConfigComponent implements OnInit {
       wid_height: '',
       wid_rank: ''
     });
+    this.tableData.sort = this.sort;
   }
 
   updateChartOptions(): void {

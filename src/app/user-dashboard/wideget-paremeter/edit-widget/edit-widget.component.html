@@ -74,16 +74,27 @@
             </div>
 
             <!-- Conditional sections -->
-            <div *ngIf="selectedWidgetType === 'Liste'" formArrayName="listItems" class="conditional-section">
-                <div *ngFor="let item of listItems.controls; let i = index" [formGroupName]="i" class="form-row">
-                    <mat-form-field appearance="fill" class="form-field">
-                        <mat-label>List Item</mat-label>
-                        <input matInput formControlName="name">
-                    </mat-form-field>
-                    <button mat-button color="warn" type="button" (click)="listItems.removeAt(i)">Remove</button>
+            <div *ngIf="selectedWidgetType === 'Liste'" formArrayName="tableData" class="conditional-section">
+                <button mat-button (click)="addColumn($event)">Add Column</button>
+                <div *ngFor="let column of tableData.controls; let columnIndex = index" [formGroupName]="columnIndex">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Column Name</mat-label>
+                    <input matInput formControlName="name">
+                  </mat-form-field>
+                  <button mat-button (click)="addData(columnIndex, $event)">Add Data</button>
+                  <div formArrayName="data">
+                    <div *ngFor="let dataItem of getColumnData(columnIndex).controls; let dataItemIndex = index">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Data</mat-label>
+                        <input matInput [formControlName]="dataItemIndex">
+                      </mat-form-field>
+                      <button mat-button color="warn" (click)="removeData(columnIndex, dataItemIndex)">Remove Data</button>
+                    </div>
+                  </div>
+                  <button mat-button color="warn" (click)="removeColumn(columnIndex)">Remove Column</button>
                 </div>
-                <button mat-button type="button" (click)="addListItem()">Add Item</button>
             </div>
+            
 
             <div *ngIf="selectedWidgetType === 'Indicateur'" class="conditional-section">
                 <mat-form-field appearance="fill">
