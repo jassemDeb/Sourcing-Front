@@ -8,7 +8,8 @@ import { MatSort } from '@angular/material/sort';
 import { EditwidgetComponent } from './editwidget/editwidget.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-
+import { ToastService } from '../../../toast.service';
+import { ConfirmationDialogComponent } from '../../../confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-dashboard-widget',
   templateUrl: './dashboard-widget.component.html',
@@ -66,7 +67,7 @@ export class DashboardWidgetComponent implements OnInit {
                   console.log('Merged JSON:', mergedWidget);
                   this.apiService.addwidget(mergedWidget).subscribe((response:any)=>{
                     if(response.message=="Widget added"){
-                      alert("Widget duplicated succefully");
+                      this.showSuccessToast()
                       this.ngOnInit();
               
                     } else {
@@ -102,8 +103,20 @@ export class DashboardWidgetComponent implements OnInit {
     this.getWidgetsList();
   }
 
-  constructor(private _dialog : MatDialog, private apiService: ApiService) {
+  constructor(private _dialog : MatDialog, private apiService: ApiService,private toastService: ToastService) {
 
+  }
+
+  openConfirmationDialog(id: number): void {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
+      data: { title: 'Confirmer', message: 'Tu es sur de supprimer?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteUser((id));
+      }
+    });
   }
 
   getWidgetsList(){
@@ -141,9 +154,10 @@ export class DashboardWidgetComponent implements OnInit {
 
   deleteUser(id : number){
     this.apiService.deleteWidgetById(id).subscribe((response : any) =>{
-      if(response.message=='Widget and their configuration deleted successfully'){
-        alert('Widget deleted successfully');
+      if(response.message){
+        this.showSuccessToast()
         this.getWidgetsList();
+        this.ngOnInit()
       } 
     },
     (error: any) => {
@@ -199,5 +213,15 @@ export class DashboardWidgetComponent implements OnInit {
 
   toggleFilterMode() {
     this.filterMode = this.filterMode === 'AND' ? 'OR' : 'AND';
+  }
+
+  
+
+  showSuccessToast() {
+    this.toastService.showSuccess('This is a success message!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('This is an error message!');
   }
 }

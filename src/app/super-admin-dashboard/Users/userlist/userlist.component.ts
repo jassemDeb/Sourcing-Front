@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ApiService } from 'src/app/api.service';
+import { ToastService } from '../../../toast.service';
 
 @Component({
   selector: 'app-userlist',
@@ -33,7 +34,8 @@ export class UserlistComponent implements OnInit  {
     this.getUsersList();
   }
 
-  constructor(private _dialog : MatDialog, private apiService: ApiService) {
+  constructor(private _dialog : MatDialog, private apiService: ApiService,private toastService: ToastService
+  ) {
 
   }
 
@@ -62,9 +64,9 @@ export class UserlistComponent implements OnInit  {
 
   deleteUser(id : number){
     this.apiService.deleteUserById(id).subscribe((response : any) =>{
-      if(response.message=='User deleted successfully'){
-        alert('User deleted successfully');
-        this.getUsersList();
+      if(response.message){
+        this.showSuccessToast()
+        this.ngOnInit()
       } 
     },
     (error: any) => {
@@ -81,4 +83,12 @@ export class UserlistComponent implements OnInit  {
     window.location.reload();
   }
 
+
+  showSuccessToast() {
+    this.toastService.showSuccess('This is a success message!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('This is an error message!');
+  }
 }

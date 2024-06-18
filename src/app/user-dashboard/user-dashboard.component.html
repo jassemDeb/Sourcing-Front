@@ -5,15 +5,57 @@
 >
 </app-body>
 <div class="welcome-section">
-        <div class="welcome-text">
-            <h1>BIENVENNUE AU SOURCING FOURCE</h1>
-            <p>SOLUTION 100% CONFIGURABLE</p>
-        </div>
-        <div class="welcome-image">
-            <img src="../../assets/img/logo_sf.png" class="logo-company">
-        </div>
-        
+    <div class="welcome-text">
+        <h1> BIENVENNUE AU SOURCING FOURCE</h1>
+        <p> SOLUTION 100% CONFIGURABLE</p>
+    </div>
+    <div class="welcome-image"> <!-- Corrected class name for consistency -->
+        <img src="../../assets/img/logo_sf.png" class="logo-company">
+    </div>
 </div>
+
+<div class="user-container">
+    <div class="header">
+        <div class="online-indicator">
+            <span class="status-circle"></span>
+            <span class="status-text">En ligne</span>
+        </div>
+        <img src="../../assets/img/small-logo.PNG" class="small-logo">
+    </div>
+    <div class="user-info">
+        <div class="user-details">
+            <h3>User Details</h3>
+            <p><strong>Email:</strong> {{ user?.email }}</p>
+            <p><strong>Nom:</strong> {{ user?.fullname }}</p>
+            <p><strong>Username:</strong> {{ user?.username }}</p>
+            <p><strong>Role:</strong> {{ user && user.roles && user.roles.length > 1 ? user.roles[0] : 'Not available' }}</p>
+            <p><strong>Compte crée:</strong> {{ user?.created_at | date:'medium' }}</p>
+            <p><strong>Dernier mise à jour:</strong> {{ user?.updated_at | date:'medium' }}</p>
+        </div>
+    </div>
+    <div class="change-details">
+        
+        <button mat-raised-button class="user-button" (click)="setting($event)">Aller</button>
+        <p>Vous pouvez consulter vos coordonnées</p>
+    </div>
+</div>
+<div class="dash-container">
+    
+    <p>Modifier votre Tableau de Bord</p>
+    <img src="../../assets/video/download.gif">
+    <button mat-raised-button class="user-button" (click)="dashboard($event)">Tableau de Bord</button>
+</div>
+<div class="widget-container">
+    
+    <p>Paramétrer vos Widgets</p>
+    <img src="../../assets/video/Design sans titre.gif">
+    <button mat-raised-button class="user-button" (click)="widget($event)">Paramétre du Widget</button>
+</div>
+
+
+
+
+
 
 
 

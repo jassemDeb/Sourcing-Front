@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewChild} from '@angular/core';
+import { Component, OnInit , ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
 import * as Highcharts from 'highcharts';
@@ -6,6 +6,8 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { WidgetDetails } from 'src/app/models/widget-details.model';  // Ensure the path is correct
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotifierService } from 'angular-notifier';
+import { ToastService } from '../../../toast.service';
 
 @Component({
   selector: 'app-widgets-config',
@@ -14,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class WidgetsConfigComponent implements OnInit {
   ConfigForm!: FormGroup;
+  private readonly notifier: NotifierService;
   widgets: { [key: string]: any[] } = {
     Fournisseur: [],
     Acheteur: [],
@@ -52,7 +55,9 @@ export class WidgetsConfigComponent implements OnInit {
 
   
 
-  constructor(private apiService: ApiService, private fb: FormBuilder) { }
+  constructor(private cd: ChangeDetectorRef,notifierService: NotifierService,private apiService: ApiService, private fb: FormBuilder,private toastService: ToastService) {
+    this.notifier = notifierService;
+   }
 
   ngOnInit(): void {
     this.loadWidgets();
@@ -248,10 +253,9 @@ onWidgetSelectionChange(widgets: any[]): void {
         alert('You must complete all the fields');
       } else {
         this.apiService.updateWidgetConfig(this.selected, formDataWithWidStyle).subscribe((response: any) => {
-          if (response.message === "Widget updated") {
-            alert("Widget updated successfully");
-          } else {
-            alert(response.message);
+          if (response.message) {
+            this.showSuccessToast()
+
           }
           this.reloadData();
         },
@@ -267,7 +271,13 @@ onWidgetSelectionChange(widgets: any[]): void {
 
   
   
-  
+  showSuccessToast() {
+    this.toastService.showSuccess('success!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('error!');
+  }
   
   
   

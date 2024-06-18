@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from 'src/app/api.service';
+import { ToastService } from '../../../../toast.service';
 
 @Component({
   selector: 'app-edituser',
@@ -16,7 +17,7 @@ export class EdituserComponent implements OnInit {
   selectedOrgId: number | null = null;
   selectedOrgTypeId: number | null = null;
 
-  constructor(
+  constructor(private toastService: ToastService,
     private _fb: FormBuilder, 
     private apiService: ApiService, 
     private _dialogRef: MatDialogRef<EdituserComponent>, 
@@ -119,7 +120,8 @@ export class EdituserComponent implements OnInit {
                this.apiService.assignUserToOrganization(this.data.id, this.selectedOrgId).subscribe((response: any) =>{
                 this.apiService.getDashConfigByUser(this.data.id).subscribe((response:any)=>{
                   this.apiService.updateDashConfig(this.data.id, this.selectedOrgId, this.selectedOrgTypeId).subscribe((response: any)=>{
-                    alert('User updated successfully');
+                    this.showSuccessToast();
+                    
                   })
                 })
                 })
@@ -139,6 +141,14 @@ export class EdituserComponent implements OnInit {
     } else {
       alert('Error: Form is invalid');
     }
+  }
+
+  showSuccessToast() {
+    this.toastService.showSuccess('This is a success message!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('This is an error message!');
   }
   
 }

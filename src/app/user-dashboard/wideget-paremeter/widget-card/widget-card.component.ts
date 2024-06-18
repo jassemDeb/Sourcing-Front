@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../../toast.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class WidgetCardComponent implements OnInit {
 
   @Input() widgetconfig: any;
   dashboardWidget: any;
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router,private toastService: ToastService) {}
 
   ngOnInit(): void {
     console.log("Widget data received in child component:", this.widgetconfig);
@@ -40,7 +41,7 @@ export class WidgetCardComponent implements OnInit {
     // Implement your logic to handle delete
     this.apiService.deleteWidgetById(widgetId).subscribe((respnse: any)=>{
       if(respnse.message=="Dashboard Configuration Widget and associated Dashboard Widget deleted successfully"){
-        alert('deleted');
+        this.showSuccessToast()
         window.location.reload();
       }
     })
@@ -48,5 +49,13 @@ export class WidgetCardComponent implements OnInit {
 
   editWidget(): void {
     this.router.navigate(['user/widget_paremeter/editwidget', this.widgetconfig.id]);  // Assuming `id` is the identifier of the widget
+  }
+
+  showSuccessToast() {
+    this.toastService.showSuccess('success!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('error!');
   }
 }

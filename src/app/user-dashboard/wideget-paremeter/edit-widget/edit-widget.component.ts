@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators ,FormControl } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
+import { ToastService } from '../../../toast.service';
 
 interface DataPoint {
   x: number | null;
@@ -22,7 +23,7 @@ export class EditWidgetComponent implements OnInit {
   textColor: string = '';
   showTextColorPanel: boolean = false;
 
-  constructor(
+  constructor(private toastService: ToastService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private apiService: ApiService,
@@ -299,9 +300,9 @@ export class EditWidgetComponent implements OnInit {
                             this.apiService.updateWidgetConfig(same_widget.id, same_widget).subscribe({
                                 next: (response: any) => {
                                     if (response.message === "Widget configuration updated") {
-                                      alert("Widget updated successfully");
+                                      this.showSuccessToast()
                                     } else {
-                                        alert(response.message);
+                                        this.showErrorToast()
                                     }
                                 },
                                 error: (error: any) => {
@@ -310,7 +311,7 @@ export class EditWidgetComponent implements OnInit {
                                 }
                             });
                         } else {
-                            alert(response.message);
+                            this.showErrorToast()
                         }
                     },
                     error: (error: any) => {
@@ -320,12 +321,12 @@ export class EditWidgetComponent implements OnInit {
                 });
             } else {
                 console.error('No second matching widget found with the same name_fr.');
-                alert('No second matching widget found.');
+                this.showErrorToast()
             }
         },
         error: (error: any) => {
             console.error('Error fetching all widgets configurations:', error);
-            alert('Error fetching all widgets configurations: ' + error.message);
+            this.showErrorToast()
         }
     });
 }
@@ -393,6 +394,12 @@ colorStringToHex(colorString: string): string {
   }
   return "#000000";
 }
+showSuccessToast() {
+  this.toastService.showSuccess('success!');
+}
 
+showErrorToast() {
+  this.toastService.showError('error!');
+}
 
 }

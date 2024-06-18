@@ -2,7 +2,7 @@ import { Component , ViewEncapsulation, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
 import { FormGroup, FormControl, FormBuilder, Validators  } from '@angular/forms';
-
+import { ToastService } from '../../../toast.service';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class AdduserComponent implements OnInit {
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
 
   constructor(
-    private apiService: ApiService, private formBuilder: FormBuilder ,private router: Router
+    private apiService: ApiService, private formBuilder: FormBuilder ,private router: Router,private toastService: ToastService
   ) { }
 
   selected= ''; 
@@ -50,7 +50,7 @@ export class AdduserComponent implements OnInit {
       this.apiService.register(formDataAsJson).subscribe((response:any)=>{
         if(response.message=="Registered successfully"){
           this.apiService.createDashConfig(response.userId).subscribe((response:any)=>{
-            alert("User added succefully");
+            this.showSuccessToast()
             console.log(formDataAsJson);
           }, (error :any)=>{
             console.log('Error: ' + error.message);
@@ -73,6 +73,12 @@ export class AdduserComponent implements OnInit {
   reloadPage(event: MouseEvent) : void {
     window.location.reload();
   }
+  showSuccessToast() {
+    this.toastService.showSuccess('This is a success message!');
+  }
 
+  showErrorToast() {
+    this.toastService.showError('This is an error message!');
+  }
 
 }

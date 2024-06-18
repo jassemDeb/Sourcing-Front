@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
 import { FormGroup, FormControl, FormBuilder, Validators  } from '@angular/forms';
+import { ToastService } from '../../../toast.service';
 
 @Component({
   selector: 'app-add-org',
@@ -14,7 +15,7 @@ export class AddOrgComponent implements OnInit {
 
 
   constructor(
-    private apiService: ApiService, private formBuilder: FormBuilder ,private router: Router
+    private apiService: ApiService, private formBuilder: FormBuilder ,private router: Router,private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -56,11 +57,12 @@ export class AddOrgComponent implements OnInit {
     } else {
       this.apiService.addorg(formDataAsJson).subscribe((response:any)=>{
         if(response.message=="Organization added"){
-          alert("Success");
+          this.showSuccessToast();
           console.log(formDataAsJson);
   
         } else {
           alert(response.message);
+          this.showErrorToast();
         }
       },
       (error: any) => {
@@ -75,4 +77,11 @@ export class AddOrgComponent implements OnInit {
   }
 
   
+  showSuccessToast() {
+    this.toastService.showSuccess('Success!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('Error!');
+  }
 }

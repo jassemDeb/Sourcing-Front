@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ApiService } from 'src/app/api.service';
 import { EditorgComponent } from './editorg/editorg.component';
+import { ToastService } from '../../../toast.service';
 
 @Component({
   selector: 'app-org-list',
@@ -32,7 +33,7 @@ export class OrgListComponent implements OnInit {
     this.getOrgsList();
   }
 
-  constructor(private _dialog : MatDialog, private apiService: ApiService) {
+  constructor(private _dialog : MatDialog, private apiService: ApiService,private toastService: ToastService) {
 
   }
 
@@ -60,7 +61,7 @@ export class OrgListComponent implements OnInit {
   deleteOrg(id : number){
     this.apiService.deleteOrgById(id).subscribe((response : any) =>{
       if(response.message=='Organization and associated entity deleted successfully'){
-        alert('Organization deleted successfully');
+        this.showSuccessToast()
         this.getOrgsList();
       } 
     },
@@ -77,5 +78,13 @@ export class OrgListComponent implements OnInit {
 
   reloadPage(event: MouseEvent) : void {
     window.location.reload();
+  }
+
+  showSuccessToast() {
+    this.toastService.showSuccess('This is a success message!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('This is an error message!');
   }
 }

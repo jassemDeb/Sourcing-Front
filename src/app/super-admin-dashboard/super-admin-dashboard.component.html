@@ -5,3 +5,71 @@
 >
 
 </app-body>
+
+<div class="welcome-section">
+    <div class="welcome-text">
+        <h1> BIENVENNUE SUPER ADMIN</h1>
+        <p> SOLUTION 100% CONFIGURABLE</p>
+    </div>
+    <div class="welcome-image"> <!-- Corrected class name for consistency -->
+        <img src="../../assets/img/logo_sf.png" class="logo-company">
+    </div>
+</div>
+
+<div class="user-container">
+    <h2>Consulter les Utilisateurs</h2>
+    <table mat-table [dataSource]="users" class="mat-elevation-z8">
+      <!-- Full Name Column -->
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef> Nom Complet </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon>account_circle</mat-icon>
+          {{ user.fullname }}
+        </td>
+      </ng-container>
+
+      <!-- Created At Column -->
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef> Date de Création </th>
+        <td mat-cell *matCellDef="let user"> {{ user.created_at | date: 'MMM dd, yyyy' }} </td>
+      </ng-container>
+
+      <!-- Header and Row Declarations -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <button mat-raised-button class="user-button"(click)="user($event)">Aller</button>
+</div>
+
+
+
+
+<div class="org-container">
+    <h2>Consulter les Organisations</h2>
+    <table mat-table [dataSource]="organizations" class="mat-elevation-z8">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nom </th>
+        <td mat-cell *matCellDef="let org"><mat-icon>work</mat-icon>  {{ org.name }} </td>
+      </ng-container>
+
+      <!-- Created At Column -->
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef> Date de Création </th>
+        <td mat-cell *matCellDef="let org"> {{ org.created_at | date:'MMM dd, yyyy' }} </td>
+      </ng-container>
+
+      <!-- Table structure -->
+      <tr mat-header-row *matHeaderRowDef="['name', 'created_at']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name', 'created_at'];"></tr>
+    </table>
+    <button mat-raised-button class="user-button"(click)="org($event)">Aller</button>
+</div>
+
+
+<div class="widget-container">
+    
+    <h2>Consulter les Widgets</h2>
+    <img src="../../assets/video/admin_widget.gif">
+    <button mat-raised-button class="user-button"(click)="widget($event)" >Aller</button>
+</div>

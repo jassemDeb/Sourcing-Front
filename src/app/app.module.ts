@@ -35,6 +35,10 @@ import { DashboardComponent } from './user-dashboard/dashboard/dashboard.compone
 import { WidgetCardComponent } from './user-dashboard/wideget-paremeter/widget-card/widget-card.component';
 import { EditWidgetComponent } from './user-dashboard/wideget-paremeter/edit-widget/edit-widget.component';
 import { UserSettingComponent } from './user-dashboard/user-setting/user-setting.component';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastComponent } from './toast/toast.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -61,7 +65,9 @@ import { UserSettingComponent } from './user-dashboard/user-setting/user-setting
     DashboardComponent,
     WidgetCardComponent,
     EditWidgetComponent,
-    UserSettingComponent
+    UserSettingComponent,
+    ToastComponent,
+    ConfirmationDialogComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -75,7 +81,13 @@ import { UserSettingComponent } from './user-dashboard/user-setting/user-setting
     NgxMatColorPickerModule,
     ColorPickerModule,
     FlexLayoutModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    NotifierModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,                // Toast disappearance delay in milliseconds
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ],
   providers: [ApiService, { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }],
   bootstrap: [AppComponent]

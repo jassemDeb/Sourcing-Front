@@ -1,0 +1,10 @@
+<div class="toast-container">
+    <div *ngFor="let toast of toasts" class="toast" [ngClass]="toast.type">
+      <span class="toast-icon" [ngClass]="toast.type">
+        <mat-icon *ngIf="toast.type === 'success'">check</mat-icon>
+        <mat-icon *ngIf="toast.type === 'error'">close</mat-icon>
+      </span>
+      {{ toast.message }}
+    </div>
+  </div>
+  

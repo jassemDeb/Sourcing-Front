@@ -3,6 +3,7 @@ import { CdkDragMove, CdkDragEnd   } from '@angular/cdk/drag-drop';
 import { jwtDecode } from 'jwt-decode';
 import { ApiService } from 'src/app/api.service';
 import * as Highcharts from 'highcharts';
+import { ToastService } from '../../toast.service';
 
 interface JwtPayload {
   username: string;
@@ -253,7 +254,7 @@ export class DashboardComponent implements OnInit {
   
   
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService,private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.getDecodedAccessToken();
@@ -404,6 +405,7 @@ export class DashboardComponent implements OnInit {
             this.createdWidgets.push(existingWidget);
             this.widgetPositions[existingWidget.id] = defaultPosition;
             this.sortCreatedWidgets();
+            this.showSuccessToast()
           }
           
         }
@@ -596,7 +598,7 @@ toggleWidgetCheck(isChecked: boolean, widgetId: number): void {
 
 deleteSelectedWidgets(): void {
   if (this.checkedWidgets.length === 0) {
-    alert('No widgets selected for deletion.');
+    this.showErrorToast()
     return;
   }
 
@@ -618,7 +620,7 @@ deleteSelectedWidgets(): void {
       complete: () => {
         // Check if this is the last widget being processed and handle accordingly
         if (this.checkedWidgets.indexOf(widgetId) === this.checkedWidgets.length - 1) {
-          alert('Completed deletion attempts.');
+          this.showSuccessToast()
           // Clear checked widgets after processing all deletions
           this.checkedWidgets = [];
         }
@@ -627,7 +629,13 @@ deleteSelectedWidgets(): void {
   });
 }
 
+showSuccessToast() {
+  this.toastService.showSuccess('success!');
+}
 
+showErrorToast() {
+  this.toastService.showError('error!');
+}
 
 }
 

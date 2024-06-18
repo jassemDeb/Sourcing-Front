@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { INavbarData } from './helper';
 import { jwtDecode } from 'jwt-decode';
 import { ApiService } from 'src/app/api.service';
+import { ToastService } from '../toast.service';
 
 interface SideNavToggle {
   screenWidth : number;
@@ -30,7 +31,7 @@ export class NavbarComponent implements OnInit {
   navData = navbarData;
   multiple: boolean = false;
   username: string | undefined;
-  currentFlag: string = 'us';
+  currentFlag: string = 'fr';
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -46,7 +47,7 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private toastService: ToastService) {
     
   }
   getDecodedAccessToken(): JwtPayload | null {
@@ -63,8 +64,9 @@ export class NavbarComponent implements OnInit {
   }
   
   onLogout(){
-    alert("Succees to logout");
+    this.showSuccessToast()
     localStorage.removeItem("token");
+    
     this.router.navigateByUrl('/');
   }
 
@@ -101,5 +103,13 @@ export class NavbarComponent implements OnInit {
   toggleFlag() {
     this.currentFlag = this.currentFlag === 'us' ? 'fr' : 'us';
     console.log(this.currentFlag)
+  }
+  
+  showSuccessToast() {
+    this.toastService.showSuccess('Logging out success!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('error!');
   }
 }

@@ -2,6 +2,7 @@
 import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-login-page',
@@ -13,7 +14,7 @@ export class LoginPageComponent implements OnDestroy {
 
    
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router,private toastService: ToastService) {}
   login_Object: any = {
     "email" : "",
     "password" : "",
@@ -23,7 +24,7 @@ export class LoginPageComponent implements OnDestroy {
   onLogin(){
     this.apiService.login(this.login_Object).subscribe((response:any)=>{
       if(response.message=="Success"){
-        alert(response.message);
+        this.showSuccessToast()
         this.check  = {
           "username" : response.username,
           "password" : this.login_Object.password,
@@ -38,6 +39,7 @@ export class LoginPageComponent implements OnDestroy {
         if (response.role.includes('SuperAdmin')) {
             this.router.navigateByUrl('/sasp');
         } else if (response.role.includes('User')) {
+          
             this.router.navigateByUrl('/user');
         } else {
             this.router.navigateByUrl('/dashboard');
@@ -58,6 +60,12 @@ export class LoginPageComponent implements OnDestroy {
     // Clear the background image (remove CSS class or reset styles)
     document.body.style.backgroundImage = 'none';
   }
-  
+  showSuccessToast() {
+    this.toastService.showSuccess('success!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('error!');
+  }
 
 }

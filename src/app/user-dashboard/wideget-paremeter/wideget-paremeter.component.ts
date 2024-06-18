@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { ApiService } from 'src/app/api.service';
+import { ToastService } from '../../toast.service';
 
 interface JwtPayload {
   username: string;
@@ -44,7 +45,7 @@ export class WidegetParemeterComponent implements OnInit {
   defaultwidgetconfigs: any[] = [];
   NewWidget: Widget | null = null;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService,private toastService: ToastService) {}
 
   getDecodedAccessToken(): JwtPayload | null {
     const token = localStorage.getItem('token');
@@ -281,7 +282,7 @@ export class WidegetParemeterComponent implements OnInit {
   // Method to create a widget using the API
   createWidget(widgetData: any): void {
     this.apiService.createWidget(widgetData).subscribe(response => {
-      console.log('Widget successfully created:', response);
+      this.showSuccessToast()
       window.location.reload();
     }, error => {
       console.error('Error creating widget:', error);
@@ -291,5 +292,13 @@ export class WidegetParemeterComponent implements OnInit {
 
   reloadPage(event: MouseEvent) : void {
     window.location.reload();
+  }
+
+  showSuccessToast() {
+    this.toastService.showSuccess('success!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('error!');
   }
 }

@@ -6,7 +6,7 @@ import { INavbarData } from './helper';
 import { jwtDecode } from 'jwt-decode';
 import { ApiService } from 'src/app/api.service';
 import { countries } from 'country-flag-icons'
-
+import { ToastService } from '../toast.service';
 interface SideNavToggle {
   screenWidth : number;
   collapsed : boolean;
@@ -47,7 +47,7 @@ export class NavbarUserComponent implements OnInit {
   }
 
 
-  constructor(private router: Router, private apiService: ApiService) {
+  constructor(private router: Router, private apiService: ApiService,private toastService: ToastService) {
     
   }
 
@@ -66,8 +66,9 @@ export class NavbarUserComponent implements OnInit {
 
   
   onLogout(){
-    alert("Succees to logout");
+    this.showSuccessToast();
     localStorage.removeItem("token");
+ 
     this.router.navigateByUrl('/');
   }
 
@@ -109,5 +110,13 @@ export class NavbarUserComponent implements OnInit {
   setting(event : MouseEvent): void {
     event.preventDefault();
     this.router.navigate(['/user/settings']);
+  }
+
+  showSuccessToast() {
+    this.toastService.showSuccess('Logging out success!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('error!');
   }
 }

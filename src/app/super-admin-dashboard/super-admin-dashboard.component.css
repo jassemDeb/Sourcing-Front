@@ -1,0 +1,196 @@
+.welcome-section {
+    display: flex;
+    justify-content: space-between; /* Changed to space-between to align items on opposite ends */
+    align-items: center;
+    position: fixed;
+    top: 10%;
+    left: 17%;
+    background: linear-gradient(-225deg, #263238 30%, rgba(255, 255, 255, 0.6) 80%);
+    width: 1500px;
+    height: 300px;
+    border-radius: 30px;
+}
+
+.logo-company {
+    height: 190px; /* Increased size for better visibility */
+    margin-right: 60px; /* Space between logo and text */
+    width: auto; /* Maintain aspect ratio */
+}
+
+.welcome-text {
+    text-align: left; /* Align text to the left */
+    flex-grow: 1; /* Ensures it takes the necessary space */
+    font-size: 30px;
+    margin-left: 60px;
+    font-weight: bold; /* Make text bold */
+    font-family: ' Dejavu Sans', serif;
+    color: white;
+}
+
+.welcome-text h1, .welcome-text p {
+    margin: 0; /* Removes default margin */
+}
+
+.cta-button {
+    background-color: #4CAF50; /* Example button color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.user-container {
+    display: flex;
+    flex-direction: column; /* Keeps children stacked vertically */
+    align-items: center;    /* Centers children horizontally */
+    justify-content: space-between; /* Distributes space, pushing children to the edges */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    position: fixed;
+    top: 67%;
+    left: 82%;
+    transform: translate(-50%, -50%);
+    width: 450px;  /* Adjusted width to fit a vertical layout */
+    height: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-container h2 {
+    align-self: flex-start; /* Aligns the title to the top */
+    width: 100%; /* Ensures the title spans the full width of the container */
+}
+
+.user-container .user-button {
+    align-self: flex-end; /* Aligns the button to the bottom */
+    width: 100%; /* Ensures the button spans the full width of the container */
+}
+
+.user-container img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;  /* Adjusted for a smaller, more appropriate size */
+    height: auto;  /* Maintains aspect ratio */
+}
+
+/* Ensure paragraphs are clearly readable and structured */
+.user-container p {
+    font-family: 'Dejavu Sans', serif;
+    font-weight: bold;
+    font-size: 16px; /* Slightly smaller font size for better text management */
+}
+
+
+.org-container {
+    display: flex;
+    flex-direction: column; /* Keeps children stacked vertically */
+    align-items: center;    /* Centers children horizontally */
+    justify-content: space-between; /* Distributes space, pushing children to the edges */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    position: fixed;
+    top: 67%;
+    left: 57%;
+    transform: translate(-50%, -50%);
+    width: 450px;  /* Adjusted width to fit a vertical layout */
+    height: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.org-container h2 {
+    align-self: flex-start; /* Aligns the title to the top */
+    width: 100%; /* Ensures the title spans the full width of the container */
+}
+
+.org-container .user-button {
+    align-self: flex-end; /* Aligns the button to the bottom */
+    width: 100%; /* Ensures the button spans the full width of the container */
+}
+
+.org-container img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;  /* Adjusted for a smaller, more appropriate size */
+    height: auto;  /* Maintains aspect ratio */
+}
+
+/* Ensure paragraphs are clearly readable and structured */
+.org-container p {
+    font-family: 'Dejavu Sans', serif;
+    font-weight: bold;
+    font-size: 16px; /* Slightly smaller font size for better text management */
+}
+.widget-container img {
+    margin-top: 10px;
+    margin-bottom: 60px;
+    width: 350px;  /* Adjust width as needed */
+    height: 200px;  /* Maintain aspect ratio */
+    margin-right: 20px;  /* Provides some space between the image and the text */
+}
+
+.user-button {
+    width: 100%; /* Makes the button extend full width of the container */
+}
+.user-button {
+    background-color: #263238 !important;
+    color: white !important;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.user-button:hover {
+    background-color: #b6b5b5 !important;
+    color: rgb(49, 49, 49) !important;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+
+
+.widget-container {
+    display: flex;
+    flex-direction: column; /* Keeps children stacked vertically */
+    align-items: center;    /* Centers children horizontally */
+    justify-content: space-between; /* Distributes space, pushing children to the edges */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    position: fixed;
+    top: 67%;
+    left: 32%;
+    transform: translate(-50%, -50%);
+    width: 450px;  /* Adjusted width to fit a vertical layout */
+    height: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.widget-container h2 {
+    align-self: flex-start; /* Aligns the title to the top */
+    width: 100%; /* Ensures the title spans the full width of the container */
+}
+
+.widget-container .user-button {
+    align-self: flex-end; /* Aligns the button to the bottom */
+    width: 100%; /* Ensures the button spans the full width of the container */
+}
+
+
+
+/* Ensure paragraphs are clearly readable and structured */
+.widget-container p {
+    font-family: 'Dejavu Sans', serif;
+    font-weight: bold;
+    font-size: 16px; /* Slightly smaller font size for better text management */
+}

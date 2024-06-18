@@ -1,0 +1,55 @@
+.dialog-wrapper {
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Adjusts vertical alignment */
+  align-items: center;     /* Adjusts horizontal alignment */
+}
+
+h1 {
+  background-color: #2c3e50;
+  color: white  !important;
+  padding: 10px;
+  width: 100%; /* Ensure it spans the full width of the dialog */
+  text-align: center; /* Center the text */
+}
+
+.mat-dialog-content {
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.yes-button {
+  background-color: #ff9800;
+  color: white;
+  margin-right: 10px;
+  border-radius: 4px;
+  padding: 8px 16px;
+}
+
+.yes-button:hover {
+  background-color: #e68a00;
+}
+
+.no-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: 4px;
+  padding: 8px 16px;
+}
+
+.no-button:hover {
+  background-color: #e0e0e0;
+}

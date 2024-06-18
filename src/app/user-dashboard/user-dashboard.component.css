@@ -1,6 +1,6 @@
 .welcome-section {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Changed to space-between to align items on opposite ends */
     align-items: center;
     position: fixed;
     top: 10%;
@@ -12,14 +12,18 @@
 }
 
 .logo-company {
-    height: 80px; /* Adjust based on your logo's aspect ratio */
-    margin-right: 20px; /* Space between logo and text */
+    height: 190px; /* Increased size for better visibility */
+    margin-right: 60px; /* Space between logo and text */
+    width: auto; /* Maintain aspect ratio */
 }
 
 .welcome-text {
-    text-align: right;
+    text-align: left; /* Align text to the left */
     flex-grow: 1; /* Ensures it takes the necessary space */
     font-size: 30px;
+    margin-left: 60px;
+    font-weight: bold; /* Make text bold */
+    font-family: ' Dejavu Sans', serif;
 }
 
 .welcome-text h1, .welcome-text p {
@@ -29,6 +33,152 @@
 .cta-button {
     background-color: #4CAF50; /* Example button color */
     color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+.widget-container {
+    display: flex;
+    flex-direction: column;  /* Aligns children vertically */
+    align-items: center;     /* Center aligns children horizontally */
+    justify-content: center; /* Center aligns children vertically */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    position: fixed;
+    top: 67%;
+    left: 82%;
+    transform: translate(-50%, -50%);
+    width: 450px;  /* Adjusted width to fit a vertical layout */
+    height: 400px;  /* Adjust height as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+}
+.widget-container p{
+    font-family: ' Dejavu Sans', serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+.widget-container img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 350px;  /* Adjust width as needed */
+    height: 250px;  /* Maintain aspect ratio */
+    margin-right: 20px;  /* Provides some space between the image and the text */
+}
+
+.dash-container {
+    display: flex;
+    flex-direction: column;  /* Aligns children vertically */
+    align-items: center;     /* Center aligns children horizontally */
+    justify-content: center; /* Center aligns children vertically */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    position: fixed;
+    top: 67%;
+    left: 57%;
+    transform: translate(-50%, -50%);
+    width: 450px;  /* Adjusted width to fit a vertical layout */
+    height: 400px;  /* Adjust height as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+}
+.dash-container p{
+    font-family: ' Dejavu Sans', serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+.dash-container img {
+    margin-top: 10px;
+    margin-bottom: 60px;
+    width: 350px;  /* Adjust width as needed */
+    height: 200px;  /* Maintain aspect ratio */
+    margin-right: 20px;  /* Provides some space between the image and the text */
+}
+ .user-button {
+    width: 100%; /* Makes the button extend full width of the container */
+}
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align items from the top */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    position: fixed;
+    top: 67%;
+    left: 32%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.online-indicator {
+    display: flex;
+    align-items: center;
+}
+
+.status-circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: green;
+    margin-right: 5px;
+}
+
+.status-text {
+    font-size: 16px;
+    color: black;
+}
+
+.small-logo {
+    width: 150px; /* Adjust size as necessary */
+}
+
+.user-info {
+    width: 100%;
+    align-self: flex-start; /* Align user details to the start */
+}
+
+.user-details {
+    text-align: left; /* Align text to the left */
+    margin-bottom: 20px;
+}
+
+.change-details {
+    text-align: center;
+    width: 100%; /* Take full width */
+    margin-top: auto; /* Push to the bottom */
+}
+
+.user-button {
+    background-color: #263238 !important;
+    color: white !important;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.user-button:hover {
+    background-color: #b6b5b5 !important;
+    color: rgb(49, 49, 49) !important;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;

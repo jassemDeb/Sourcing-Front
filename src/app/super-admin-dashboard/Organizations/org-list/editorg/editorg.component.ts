@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from 'src/app/api.service';
+import { ToastService } from '../../../../toast.service';
 
 @Component({
   selector: 'app-editorg',
@@ -12,7 +13,7 @@ export class EditorgComponent implements OnInit{
 
   EditForm: FormGroup;
 
-  constructor(
+  constructor(private toastService: ToastService,
     private _fb: FormBuilder, 
     private apiService: ApiService, 
     private _dialogRef: MatDialogRef<EditorgComponent>, 
@@ -68,9 +69,9 @@ export class EditorgComponent implements OnInit{
             .subscribe(
               (response: any) => {
                 if (response.status && response.status === true && response.message === 'Organization and associated entity updated successfully') {
-                  alert('Organization updated successfully');
+                  this.showSuccessToast();
                 } else {
-                  alert('Error: Organization update failed');
+                  this.showErrorToast();
                 }
               },
               (error: any) => {
@@ -87,6 +88,14 @@ export class EditorgComponent implements OnInit{
     } else {
       alert('Error: Invalid date format for createdAt');
     }
+  }
+
+  showSuccessToast() {
+    this.toastService.showSuccess('This is a success message!');
+  }
+
+  showErrorToast() {
+    this.toastService.showError('This is an error message!');
   }
 
 }

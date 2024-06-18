@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { ApiService } from 'src/app/api.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ToastService } from '../../toast.service';
 
 
 interface JwtPayload {
@@ -32,7 +33,7 @@ export class UserSettingComponent implements OnInit {
   EditForm: FormGroup;
 
 
-  constructor(private _fb: FormBuilder, private apiService: ApiService) {
+  constructor(private _fb: FormBuilder, private apiService: ApiService,private toastService: ToastService) {
     this.EditForm = this._fb.group({
       email: "",
       password: "",
@@ -139,10 +140,11 @@ export class UserSettingComponent implements OnInit {
         this.apiService.updateUser(this.userId! , formDataAsJson).subscribe(
           (response: any) => {
             if (response.status && response.status === true && response.message === 'User updated successfully') {
-                  alert('User updated successfully');
+               
+                  this.showSuccessToast()
                 }
               else {
-                  alert(response);
+                  this.showErrorToast()
                 }
               },
               (error: any) => {
@@ -155,5 +157,13 @@ export class UserSettingComponent implements OnInit {
  
     reloadPage(event: MouseEvent) : void {
       window.location.reload();
+    }
+
+    showSuccessToast() {
+      this.toastService.showSuccess('success!');
+    }
+  
+    showErrorToast() {
+      this.toastService.showError('error!');
     }
 }
