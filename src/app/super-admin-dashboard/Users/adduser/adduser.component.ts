@@ -74,7 +74,7 @@ export class AdduserComponent implements OnInit {
     window.location.reload();
   }
   showSuccessToast() {
-    this.toastService.showSuccess('This is a success message!');
+    this.toastService.showSuccess('success!');
   }
 
   showErrorToast() {

@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { ApiService } from 'src/app/api.service';
 import { EditorgComponent } from './editorg/editorg.component';
 import { ToastService } from '../../../toast.service';
+import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-org-list',
@@ -36,7 +37,17 @@ export class OrgListComponent implements OnInit {
   constructor(private _dialog : MatDialog, private apiService: ApiService,private toastService: ToastService) {
 
   }
+  openConfirmationDialog(id: number): void {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
+      data: { title: 'Confirmer', message: 'Tu es sur de supprimer?' }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteOrg((id));
+      }
+    });
+  }
   getOrgsList(){
     this.apiService.getAllOrgs().subscribe((response : any) =>{
       if(response){

@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ApiService } from 'src/app/api.service';
 import { ToastService } from '../../../toast.service';
+import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-userlist',
@@ -49,6 +50,18 @@ export class UserlistComponent implements OnInit  {
         alert('Error: ' + error.message);
       }
     })
+  }
+
+  openConfirmationDialog(id: number): void {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
+      data: { title: 'Confirmer', message: 'Tu es sur de supprimer?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteUser((id));
+      }
+    });
   }
 
   
